@@ -80,7 +80,7 @@ $db['default'] = array(
 	'password' => '',
 	'database' => 'crm_database',
 	'dbdriver' => 'mysqli',
-	'port' => '8111',
+	// 'port' => '8111',
 	'dbprefix' => '',
 	'pconnect' => FALSE,
 	'db_debug' => (ENVIRONMENT !== 'production'),

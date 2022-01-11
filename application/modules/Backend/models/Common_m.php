@@ -51,7 +51,8 @@ class Common_m extends CI_Model
     function delete_record($tbl, $where)
     {
         $this->db->where($where);
-        $this->db->delete($tbl);
+        $result=$this->db->delete($tbl);
+        return $result?true:false;
     }
     function exist_record($select, $tbl_name, $where = null, $data)
     {
