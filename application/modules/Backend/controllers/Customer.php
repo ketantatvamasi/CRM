@@ -1,28 +1,27 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Vendor extends BackendController
+class Customer extends BackendController
 {
 
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('Vendor_m', 'vendor_m');
+        $this->load->model('Customer_m', 'customer_m');
     }
 
     public function index()
     {
         user_is_logged_in();
-        $this->data['site_title'] = ucfirst('Vendor');
+        $this->data['site_title'] = ucfirst('customer');
         $this->data['template_css'] = $this->load_grid_css('add');
-        $this->data['template_js'] = $this->load_grid_js('vendor');
-        $this->render_page($this->data['sitename_folder'] . 'vendor_v', $this->data);
+        $this->data['template_js'] = $this->load_grid_js('customer');
+        $this->render_page($this->data['sitename_folder'] . 'customer_v', $this->data);
     }
-
-    public function vendorList()
+    public function customerList()
     {
         if ($this->input->is_ajax_request()) {
-            $records = $this->vendor_m->get_datatables();
+            $records = $this->customer_m->get_datatables();
             $data = array();
             $no = 0;
             foreach ($records as $record) {
@@ -30,31 +29,28 @@ class Vendor extends BackendController
                 $data[] = array(
                     "number" =>  $no,
                     "id" => $record->id,
-                    "company_name" => $record->company_name,
-                    "contact_person_name" => $record->contact_person_name,
+                    "customer_name" => $record->customer_name,
+                    "customer_category" => $record->customer_category,
                     "email" => $record->email,
                     "mobile_main" => $record->mobile_main,
-                    "code" => $record->code,
-                    "country" => $record->country,
-                    "status" => $record->status,
-                    "created_at" => date('d-m-Y H:i:s', strtotime($record->created_at))
+                    "gst_no" => $record->gst_no,
+                    "address" => $record->address,
                 );
             }
             $output = array(
                 // "draw" => $_POST['draw'],
-                "recordsTotal" => $this->vendor_m->count_all(),
-                "recordsFiltered" => $this->vendor_m->count_filtered(),
+                "recordsTotal" => $this->customer_m->count_all(),
+                "recordsFiltered" => $this->customer_m->count_filtered(),
                 "data" => $data,
             );
 
             //output to json format
             echo json_encode($output);
         } else {
-            redirect('backend/vendor');
+            redirect('backend/customer');
         }
     }
-
-    public function addVendor()
+    public function addCustomer()
     {
         if ($this->input->is_ajax_request()) {
             $data = $this->input->post();
@@ -66,39 +62,37 @@ class Vendor extends BackendController
                 // echo "<pre>";
                 // print_r($data);
                 // exit;
-                $result = $this->common_m->insert_record('vendors', $data);
+                $result = $this->common_m->insert_record('customers', $data);
             } else {
                 // $udata = array('name' => $data['name'], 'organization_name' => $data['organization_name'], 'email' => $data['email'], 'contact' => $data['contact'], 'address' => $data['address'], 'pincode' => $data['pincode']);
-                $result = $this->common_m->update_record('vendors', $data, array('id' => $data['id']));
+                $result = $this->common_m->update_record('customers', $data, array('id' => $data['id']));
             }
 
             $rsp['response'] = $result;
             echo json_encode($rsp);
         } else {
-            redirect('backend/vendor');
+            redirect('backend/customer');
         }
     }
-
-    public function editVendor()
+    public function editCustomer()
     {
         if ($this->input->is_ajax_request()) {
             $data = $this->input->post();
-            $result = $this->common_m->edit_id(array('*'), 'vendors', array('id' => $data['id']));
+            $result = $this->common_m->edit_id(array('*'), 'customers', array('id' => $data['id']));
             echo json_encode($result);
         } else {
-            redirect('backend/vendor');
+            redirect('backend/customer');
         }
     }
-
-    public function deleteVendor()
+    public function deleteCustomer()
     {
         if ($this->input->is_ajax_request()) {
             $data = $this->input->post();
-            $result = $this->common_m->delete_record('vendors', array('id' => $data['id']));
+            $result = $this->common_m->delete_record('customers', array('id' => $data['id']));
             $rsp['response'] = $result;
             echo json_encode($rsp);
         } else {
-            redirect('backend/vendor');
+            redirect('backend/customer');
         }
     }
 }

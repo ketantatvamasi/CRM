@@ -2,8 +2,8 @@
 -- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Jan 11, 2022 at 07:38 AM
+-- Host: 127.0.0.1:8111
+-- Generation Time: Jan 11, 2022 at 01:00 PM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 7.3.31
 
@@ -34,6 +34,42 @@ CREATE TABLE `activites_logs` (
   `property` varchar(255) NOT NULL,
   `create_at` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `customers`
+--
+
+CREATE TABLE `customers` (
+  `id` int(11) NOT NULL,
+  `user_id` int(10) NOT NULL,
+  `company_id` int(10) NOT NULL,
+  `customer_name` varchar(255) NOT NULL,
+  `customer_category` varchar(255) NOT NULL,
+  `address` varchar(255) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `mobile_main` bigint(11) NOT NULL,
+  `mobile1` bigint(11) NOT NULL,
+  `city` varchar(255) NOT NULL,
+  `state` varchar(255) NOT NULL,
+  `country` varchar(255) NOT NULL,
+  `pincode` bigint(11) NOT NULL,
+  `status` tinyint(4) NOT NULL COMMENT 'pendding',
+  `referee_name` varchar(255) NOT NULL,
+  `gst_no` varchar(100) NOT NULL,
+  `pan_no` varchar(100) NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `customers`
+--
+
+INSERT INTO `customers` (`id`, `user_id`, `company_id`, `customer_name`, `customer_category`, `address`, `email`, `mobile_main`, `mobile1`, `city`, `state`, `country`, `pincode`, `status`, `referee_name`, `gst_no`, `pan_no`, `created_at`, `updated_at`) VALUES
+(1, 1, 1, 'nayan', 'Business', 'varachha', 'nayan@gmail.com', 965874515, 0, 'surat', 'gujarat', 'IN', 0, 0, '', '96825484', '', '2022-01-11 14:26:04', '2022-01-11 17:18:57'),
+(2, 35, 35, 'hhhh', 'Business', 'hirabag', 'admin@gmail.com', 68662, 5585592, 'surat', 'gujarat', 'IN', 394170, 0, 'dqwguibiuaw', 'threredws', 'rfedsaZ', '2022-01-11 17:12:38', '2022-01-11 17:16:54');
 
 -- --------------------------------------------------------
 
@@ -128,7 +164,7 @@ INSERT INTO `users` (`user_id`, `role_id`, `parent_id`, `organization_name`, `fi
 CREATE TABLE `vendors` (
   `id` int(20) NOT NULL,
   `user_id` int(20) NOT NULL,
-  `parent_id` int(11) NOT NULL,
+  `company_id` int(11) NOT NULL,
   `company_name` varchar(250) NOT NULL,
   `code` varchar(50) NOT NULL,
   `contact_person_name` varchar(250) NOT NULL,
@@ -160,7 +196,7 @@ CREATE TABLE `vendors` (
 -- Dumping data for table `vendors`
 --
 
-INSERT INTO `vendors` (`id`, `user_id`, `parent_id`, `company_name`, `code`, `contact_person_name`, `mobile_main`, `mobile1`, `mobile2`, `email`, `status`, `address`, `city`, `state`, `country`, `pincode`, `gst_no`, `cst_no`, `pan_no`, `bank_name`, `account_name`, `bank_branch`, `acccount_no`, `ifsc_code`, `website`, `referee_name`, `created_at`, `updated_at`) VALUES
+INSERT INTO `vendors` (`id`, `user_id`, `company_id`, `company_name`, `code`, `contact_person_name`, `mobile_main`, `mobile1`, `mobile2`, `email`, `status`, `address`, `city`, `state`, `country`, `pincode`, `gst_no`, `cst_no`, `pan_no`, `bank_name`, `account_name`, `bank_branch`, `acccount_no`, `ifsc_code`, `website`, `referee_name`, `created_at`, `updated_at`) VALUES
 (1, 35, 35, 'Heaven solar energy', 'HS01', 'keyurbhai', 9584856952, 6325548658, NULL, 'keyur.tatvamasi@gmail.com', 0, 'Mota varachha', 'surat', 'gujarat', 'india', 395006, 'GJ5698856952148', 'SS54845455664', '', 'SBI', 'Heaven Solar Energy', 'Yogi chowk', 9658456236, 'SBIN0018700', 'www.heavensolarenergy.com', '', '2022-01-08 16:09:39', '2022-01-11 11:45:47'),
 (2, 54, 35, 'Heaven design', 'HS02', 'keyurbhai', 9584856952, 6325548658, NULL, 'keyur.tatvamasi@gmail.com', 0, 'Mota varachha', 'surat', 'gujarat', 'india', 395006, 'GJ5698856952148', 'SS54845455664', '', 'SBI', 'Heaven Solar Energy', 'Yogi chowk', 9658456236, 'SBIN0018700', 'www.heavensolarenergy.com', '', '2022-01-08 16:09:39', '2022-01-11 11:46:03'),
 (3, 55, 55, 'Tatvamasi Labs\r\n', 'HS03', 'keyurbhai', 9584856952, 6325548658, NULL, 'keyur.tatvamasi@gmail.com', 0, 'Mota varachha', 'surat', 'gujarat', 'india', 395006, 'GJ5698856952148', 'SS54845455664', '', 'SBI', 'Heaven Solar Energy', 'Yogi chowk', 9658456236, 'SBIN0018700', 'www.heavensolarenergy.com', '', '2022-01-08 16:09:39', '2022-01-11 11:46:26'),
@@ -177,6 +213,12 @@ INSERT INTO `vendors` (`id`, `user_id`, `parent_id`, `company_name`, `code`, `co
 ALTER TABLE `activites_logs`
   ADD PRIMARY KEY (`id`),
   ADD KEY `use` (`user_id`);
+
+--
+-- Indexes for table `customers`
+--
+ALTER TABLE `customers`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `permission_menus`
@@ -220,6 +262,12 @@ ALTER TABLE `vendors`
 --
 ALTER TABLE `activites_logs`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `customers`
+--
+ALTER TABLE `customers`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `permission_menus`

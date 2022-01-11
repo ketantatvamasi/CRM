@@ -13,6 +13,11 @@ class Login_m extends CI_Model
         $this->db->where($where);
         $this->db->from('users');
         $query = $this->db->get();
-        return $query;
+        if($query->num_rows() > 0)
+        {
+            return $query->result();
+        }else{
+            return false;
+        }
     }
 }
