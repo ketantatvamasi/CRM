@@ -430,122 +430,122 @@ jQuery(document).ready(function () {
 });
 
 
-// $('#vendor_form_submit_button').on('click', function () {
+$('#vendor_form_submit_button').on('click', function () {
 	
-// 	var data = $('#vendor_form').serialize();
+	var data = $('#vendor_form').serialize();
 
-// 	$.ajax({
-// 		method: 'post',
-// 		url: baseFolder + 'Vendor/addVendor',
-// 		data: data,
-// 		dataType: "json",
-// 		beforeSend: function () {
-// 			$("#vendor_form_submit_button").prop('disabled', true);
-// 		},
-// 		success: function (data) {
-// 			if (data.response == true) {
-// 				setTimeout(function () {
-// 					window.location.href = baseFolder + "Vendor";
-// 				}, 1000);
-// 				toastr.success('Successfully save');
-// 			} else {
-// 				toastr.error("Enter Proper Data!!!!");
-// 			}
-// 			$("#vendor_form_submit_button").prop('disabled', false);
-// 		},
-// 		error: function (xhr, status, error) {
-// 			var errorMessage = xhr.status + ': ' + xhr.statusText
-// 			switch (xhr.status) {
-// 				case 401:
-// 					toastr.error('Authontication fail...');
-// 					break;
-// 				case 422:
-// 					toastr.info('The user is invalid.');
-// 					break;
-// 				default:
-// 					toastr.error('Error - ' + errorMessage);
-// 			}
-// 			$("#vendor_form_submit_button").prop('disabled', false);
-// 		}
-// 	});
-// });
+	$.ajax({
+		method: 'post',
+		url: baseFolder + 'Vendor/addVendor',
+		data: data,
+		dataType: "json",
+		beforeSend: function () {
+			$("#vendor_form_submit_button").prop('disabled', true);
+		},
+		success: function (data) {
+			if (data.response == true) {
+				setTimeout(function () {
+					window.location.href = baseFolder + "Vendor";
+				}, 1000);
+				toastr.success('Successfully save');
+			} else {
+				toastr.error("Enter Proper Data!!!!");
+			}
+			$("#vendor_form_submit_button").prop('disabled', false);
+		},
+		error: function (xhr, status, error) {
+			var errorMessage = xhr.status + ': ' + xhr.statusText
+			switch (xhr.status) {
+				case 401:
+					toastr.error('Authontication fail...');
+					break;
+				case 422:
+					toastr.info('The user is invalid.');
+					break;
+				default:
+					toastr.error('Error - ' + errorMessage);
+			}
+			$("#vendor_form_submit_button").prop('disabled', false);
+		}
+	});
+});
 
 
-// function edit_vendor(id) {
-// 	$('#vendor_datatable').hide();
-// 	$('#vendor_form_model').removeClass('d-none');
-// 	$('#add_vendor_button').hide();
-// 	$('#vendor_list_button').removeClass('d-none');
+function edit_vendor(id) {
+	$('#vendor_datatable').hide();
+	$('#vendor_form_model').removeClass('d-none');
+	$('#add_vendor_button').hide();
+	$('#vendor_list_button').removeClass('d-none');
 
-// 	$('#vendor_dynamic_title').text('Edit Vendor');
-// 	$('#vendor_dynamic_subtitle_span').text('Correct information lead to great business!');
+	$('#vendor_dynamic_title').text('Edit Vendor');
+	$('#vendor_dynamic_subtitle_span').text('Correct information lead to great business!');
 
-// 	$('#vendor_form').attr('action', baseFolder + 'vendor/addVendor');
+	$('#vendor_form').attr('action', baseFolder + 'vendor/addVendor');
 	
-// 	$.ajax({
-// 		type: "POST",
-// 		url: baseFolder + 'vendor/editVendor',
-// 		data: { id: id },
-// 		dataType: "json",
-// 		success: function (data) {
-// 			$('#id').val(data.id);
-// 			$('#company_name').val(data.company_name);
-// 			$('#code').val(data.code);
-// 			$('#contact_person_name').val(data.contact_person_name);
-// 			$('#email').val(data.email);
-// 			$('#mobile_main').val(data.mobile_main);
-// 			$('#mobile1').val(data.mobile1);
-// 			$('#mobile2').val(data.mobile2);
-// 			$('#website').val(data.website);
-// 			$('#referee_name').val(data.referee_name);
+	$.ajax({
+		type: "POST",
+		url: baseFolder + 'vendor/editVendor',
+		data: { id: id },
+		dataType: "json",
+		success: function (data) {
+			$('#id').val(data.id);
+			$('#company_name').val(data.company_name);
+			$('#code').val(data.code);
+			$('#contact_person_name').val(data.contact_person_name);
+			$('#email').val(data.email);
+			$('#mobile_main').val(data.mobile_main);
+			$('#mobile1').val(data.mobile1);
+			$('#mobile2').val(data.mobile2);
+			$('#website').val(data.website);
+			$('#referee_name').val(data.referee_name);
 
-// 			$('#address').val(data.address);
-// 			$('#city').val(data.city);
-// 			$('#state').val(data.state);
-// 			$('#pincode').val(data.pincode);
-// 			$('#country').val(data.country);
+			$('#address').val(data.address);
+			$('#city').val(data.city);
+			$('#state').val(data.state);
+			$('#pincode').val(data.pincode);
+			$('#country').val(data.country);
 
-// 			$('#bank_name').val(data.bank_name);
-// 			$('#bank_branch').val(data.bank_branch);
-// 			$('#acccount_no').val(data.acccount_no);
-// 			$('#ifsc_code').val(data.ifsc_code);
-// 			$('#account_name').val(data.account_name);
-// 			$('#gst_no').val(data.gst_no);
-// 			$('#cst_no').val(data.cst_no);
-// 			$('#cst_no').val(data.cst_no);
-// 		}
-// 	});
+			$('#bank_name').val(data.bank_name);
+			$('#bank_branch').val(data.bank_branch);
+			$('#acccount_no').val(data.acccount_no);
+			$('#ifsc_code').val(data.ifsc_code);
+			$('#account_name').val(data.account_name);
+			$('#gst_no').val(data.gst_no);
+			$('#cst_no').val(data.cst_no);
+			$('#cst_no').val(data.cst_no);
+		}
+	});
 
-// }
+}
 
 
-// function delete_vendor(id) {
-// 	Swal.fire({
-// 		title: "Are you sure?",
-// 		text: "You won't be able to revert this!",
-// 		icon: "warning",
-// 		showCancelButton: true,
-// 		confirmButtonColor: "#d33",
-// 		confirmButtonText: "Yes, delete it!",
-// 		cancelButtonText: "No, cancel!",
-// 		reverseButtons: true
-// 	}).then(function (result) {
-// 		if (result.value) {
-// 			$.ajax({
-// 				type: "POST",
-// 				url: baseFolder + 'vendor/deleteVendor',
-// 				data: { id: id },
-// 				dataType: "json",
-// 				success: function (data) {
-// 					if (data.response == true) {
-// 						toastr.success('Successfully Deleted');
-// 						setTimeout(function () {
-// 							window.location.href = baseFolder + "Vendor";
-// 						}, 1000);
-// 					}
-// 				}
+function delete_vendor(id) {
+	Swal.fire({
+		title: "Are you sure?",
+		text: "You won't be able to revert this!",
+		icon: "warning",
+		showCancelButton: true,
+		confirmButtonColor: "#d33",
+		confirmButtonText: "Yes, delete it!",
+		cancelButtonText: "No, cancel!",
+		reverseButtons: true
+	}).then(function (result) {
+		if (result.value) {
+			$.ajax({
+				type: "POST",
+				url: baseFolder + 'vendor/deleteVendor',
+				data: { id: id },
+				dataType: "json",
+				success: function (data) {
+					if (data.response == true) {
+						toastr.success('Successfully Deleted');
+						setTimeout(function () {
+							window.location.href = baseFolder + "Vendor";
+						}, 1000);
+					}
+				}
 
-// 			});
-// 		}
-// 	});
-// }
+			});
+		}
+	});
+}
