@@ -11,11 +11,6 @@ class User_m extends CI_Model
     var $select_column = array("users.*","c.Name as role_name");
     var $column_search = array('organization_name', 'firstname', 'email', 'phone'); //set column field database for datatable searchable
     var $order = array('user_id' => 'asc'); // default order
-
-
-
-
-
     
     private function _get_datatables_query()
     {
