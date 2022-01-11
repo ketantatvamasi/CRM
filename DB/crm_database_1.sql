@@ -2,8 +2,8 @@
 -- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1:8111
--- Generation Time: Jan 10, 2022 at 12:56 PM
+-- Host: 127.0.0.1
+-- Generation Time: Jan 11, 2022 at 07:38 AM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 7.3.31
 
@@ -113,9 +113,59 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `role_id`, `parent_id`, `organization_name`, `firstname`, `lastname`, `email`, `status`, `password`, `phone`, `address`, `pincode`, `city`, `state`, `country`, `create_date`, `update_date`) VALUES
-(1, 1, 1, 'Tatvamasi Labs', 'super Admin', 'Super Admin', 'admin@gmail.com', 1, '123456', 9658478596, '310- Heaven solar design, Surat', 346714, 'surat', 'gujarat', 'India', '2022-01-07 10:55:21', '2022-01-08 10:11:33'),
+(1, 1, 1, 'Tatvamasi Labs', 'super Admin', 'Super Admin', 'admin@gmail.com', 1, '123456', 9658478596, '310- Heaven solar design, Surat', 0, 'surat', 'gujarat', 'India', '2022-01-07 10:55:21', '2022-01-07 12:43:11'),
 (35, 2, 1, 'test company', 'test', 'first', 'test@gmail.com', 1, 'test', 695846165, '9 geeta nager soc', 394170, 'surat', 'gujarat', 'IN', '2022-01-10 11:33:18', '2022-01-10 12:58:11'),
-(54, 3, 35, 'test', 'test', 'first', 'test@gmail.com', 1, 'test', 652658585985, 'surat', 394170, 'surat', 'gujarat', 'IN', '2022-01-10 16:32:37', '2022-01-10 16:32:37');
+(54, 3, 35, 'test', 'test', 'first', 'testim@gmail.com', 1, 'test', 652658585985, 'surat', 394170, 'surat', 'gujarat', 'IN', '2022-01-10 16:32:37', '2022-01-11 11:55:47'),
+(55, 2, 1, 'tatvamasi nayan', 'nayan', 'sorathiya', 'nayan@gmail.com', 1, '123456', 564654654, 'varachha', 395010, 'surat', 'gujarat', 'IN', '2022-01-11 11:39:07', '2022-01-11 11:39:07'),
+(57, 3, 55, 'tatvamasi nayan', 'IM 001', 'kjshjdfjs', 'IM001@gmail.com', 1, '123456', 4234242424, 'sddf', 0, 'sdf', 'sdf', 'IQ', '2022-01-11 11:42:04', '2022-01-11 11:42:04');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `vendors`
+--
+
+CREATE TABLE `vendors` (
+  `id` int(20) NOT NULL,
+  `user_id` int(20) NOT NULL,
+  `parent_id` int(11) NOT NULL,
+  `company_name` varchar(250) NOT NULL,
+  `code` varchar(50) NOT NULL,
+  `contact_person_name` varchar(250) NOT NULL,
+  `mobile_main` bigint(11) NOT NULL,
+  `mobile1` bigint(11) DEFAULT NULL,
+  `mobile2` bigint(11) DEFAULT NULL,
+  `email` varchar(250) NOT NULL,
+  `status` tinyint(4) NOT NULL COMMENT '0-active, 1-deactive',
+  `address` varchar(500) NOT NULL,
+  `city` varchar(250) NOT NULL,
+  `state` varchar(250) NOT NULL,
+  `country` varchar(250) NOT NULL,
+  `pincode` bigint(11) NOT NULL,
+  `gst_no` varchar(250) NOT NULL,
+  `cst_no` varchar(250) NOT NULL,
+  `pan_no` varchar(250) NOT NULL,
+  `bank_name` varchar(250) NOT NULL,
+  `account_name` varchar(250) NOT NULL,
+  `bank_branch` varchar(250) NOT NULL,
+  `acccount_no` bigint(20) NOT NULL,
+  `ifsc_code` varchar(250) NOT NULL,
+  `website` varchar(1000) NOT NULL,
+  `referee_name` varchar(250) NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `vendors`
+--
+
+INSERT INTO `vendors` (`id`, `user_id`, `parent_id`, `company_name`, `code`, `contact_person_name`, `mobile_main`, `mobile1`, `mobile2`, `email`, `status`, `address`, `city`, `state`, `country`, `pincode`, `gst_no`, `cst_no`, `pan_no`, `bank_name`, `account_name`, `bank_branch`, `acccount_no`, `ifsc_code`, `website`, `referee_name`, `created_at`, `updated_at`) VALUES
+(1, 35, 35, 'Heaven solar energy', 'HS01', 'keyurbhai', 9584856952, 6325548658, NULL, 'keyur.tatvamasi@gmail.com', 0, 'Mota varachha', 'surat', 'gujarat', 'india', 395006, 'GJ5698856952148', 'SS54845455664', '', 'SBI', 'Heaven Solar Energy', 'Yogi chowk', 9658456236, 'SBIN0018700', 'www.heavensolarenergy.com', '', '2022-01-08 16:09:39', '2022-01-11 11:45:47'),
+(2, 54, 35, 'Heaven design', 'HS02', 'keyurbhai', 9584856952, 6325548658, NULL, 'keyur.tatvamasi@gmail.com', 0, 'Mota varachha', 'surat', 'gujarat', 'india', 395006, 'GJ5698856952148', 'SS54845455664', '', 'SBI', 'Heaven Solar Energy', 'Yogi chowk', 9658456236, 'SBIN0018700', 'www.heavensolarenergy.com', '', '2022-01-08 16:09:39', '2022-01-11 11:46:03'),
+(3, 55, 55, 'Tatvamasi Labs\r\n', 'HS03', 'keyurbhai', 9584856952, 6325548658, NULL, 'keyur.tatvamasi@gmail.com', 0, 'Mota varachha', 'surat', 'gujarat', 'india', 395006, 'GJ5698856952148', 'SS54845455664', '', 'SBI', 'Heaven Solar Energy', 'Yogi chowk', 9658456236, 'SBIN0018700', 'www.heavensolarenergy.com', '', '2022-01-08 16:09:39', '2022-01-11 11:46:26'),
+(5, 57, 55, 'dddd', 'df', 'kjsdfh', 34534, 0, 0, 'jhsdf', 1, '345345', '34534', 'bbjb', 'BD', 35, '345', '345', '', '345', '345', '345', 345, '345', '', '', '2022-01-10 16:43:58', '2022-01-11 11:46:30'),
+(9, 54, 35, 'sdas', 'asdas', 'asd', 34234234, 234234, 0, 'sdasd', 1, 'sdf', 'ftg', 'gdfgdf', 'BY', 43353, '', '', '', 'sddfkjj', 'sdhfir47ueyfjisihd', 'hjs', 3427342746, '322427', '', '', '2022-01-11 12:01:08', '2022-01-11 12:01:08');
 
 --
 -- Indexes for dumped tables
@@ -156,6 +206,12 @@ ALTER TABLE `users`
   ADD KEY `Test` (`role_id`);
 
 --
+-- Indexes for table `vendors`
+--
+ALTER TABLE `vendors`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -187,7 +243,13 @@ ALTER TABLE `role_permission`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
+
+--
+-- AUTO_INCREMENT for table `vendors`
+--
+ALTER TABLE `vendors`
+  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- Constraints for dumped tables

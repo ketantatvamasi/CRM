@@ -153,6 +153,11 @@ class BackendController extends MY_Controller
                     'assets/backend/js/user.js'
                 );
                 break;
+            case 'vendor':
+                return array(
+                    'assets/backend/js/vendor.js'
+                );
+                break;
             default:
                 return array();
                 break;

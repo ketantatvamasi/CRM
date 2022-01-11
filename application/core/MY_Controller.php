@@ -34,7 +34,7 @@ class MY_Controller extends MX_Controller
     {
         // To inherit directly the attributes of the parent class.
         parent::__construct();
-
+        $this->load->model('Common_m','common_m');
         // This function returns the main CodeIgniter object.
         // Normally, to call any of the available CodeIgniter object or pre defined library classes then you need to declare.
         $CI =& get_instance();
