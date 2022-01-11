@@ -6,7 +6,7 @@
         <!--begin::Container-->
         <div class=" container ">
 
-            <!--begin::VendorList-->
+            <!--begin::CustomerList-->
             <div class="card card-custom ">
                 <!--begin::Header-->
                 <div class="card-header flex-wrap border-0 pt-6 pb-0">
@@ -558,7 +558,7 @@
                 </div>
                 <!--end::Body-->
             </div>
-            <!--end::VendorList-->
+            <!--end::CustomerList-->
 
         </div>
         <!--end::Container-->
