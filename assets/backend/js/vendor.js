@@ -432,6 +432,7 @@ jQuery(document).ready(function () {
 	});
 });
 
+
 // submit button
 $('#vendor_form_submit_button').on('click', function () {
 	
@@ -482,7 +483,6 @@ function edit_vendor(id) {
 
 	$('#vendor_dynamic_title').text('Edit Vendor');
 	$('#vendor_dynamic_subtitle_span').text('Correct information lead to great business!');
-
 	
 	$.ajax({
 		type: "POST",
@@ -515,6 +515,7 @@ function edit_vendor(id) {
 			$('#gst_no').val(data.gst_no);
 			$('#cst_no').val(data.cst_no);
 			$('#pan_no').val(data.pan_no);
+
 		}
 	});
 
@@ -550,4 +551,5 @@ function delete_vendor(id) {
 			});
 		}
 	});
+
 }
