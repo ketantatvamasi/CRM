@@ -1,24 +1,16 @@
 <?php
-class Vendor_m extends CI_Model {
+class Customer_m extends CI_Model {
     function __construct(){
         parent::__construct();
     }
-    var $table = 'vendors';
-    var $select_column = array("id", "company_name", "contact_person_name", "code", "mobile_main", "vendors.email", "vendors.country", "created_at", "u.firstname as vendor_creator");
-    var $column_search = array('company_name', 'contact_person_name', 'code', 'email', 'mobile_main'); //set column field database for datatable searchable
+    var $table = 'customers';
+    var $select_column = array("id","customer_name","customer_category","email","address","mobile_main","gst_no");
+    var $column_search = array( "customer_name","customer_category","email","address","mobile_main","gst_no"); //set column field database for datatable searchable
     var $order = array('id' => 'asc'); // default order
     private function _get_datatables_query()
     {
         $this->db->select($this->select_column);
         $this->db->from($this->table);
-        $this->db->join('users as u', 'u.user_id=vendors.user_id');
-        if ($this->session->userdata('role_id') == 2) {
-            $this->db->where('vendors.company_id', $this->session->userdata['user_id']);
-        } else if ($this->session->userdata('role_id') == 3) {
-            $this->db->where('vendors.user_id', $this->session->userdata['user_id']);
-        }
-
-
         $i = 0;
         foreach ($this->column_search as $item) // loop column
         {
