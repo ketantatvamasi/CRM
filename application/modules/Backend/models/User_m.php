@@ -12,6 +12,11 @@ class User_m extends CI_Model
     var $column_search = array('organization_name', 'firstname', 'email', 'phone'); //set column field database for datatable searchable
     var $order = array('user_id' => 'asc'); // default order
 
+
+
+
+
+    
     private function _get_datatables_query()
     {
         if ($this->session->userdata['role_id'] == 1) {
