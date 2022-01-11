@@ -39,24 +39,17 @@ var KTWizard3 = function () {
 			_formEl,
 			{
 				fields: {
-					company_name: {
+					customer_name: {
 						validators: {
 							notEmpty: {
-								message: 'Company name is required'
+								message: 'Customer name is required'
 							}
 						}
 					},
-					code: {
+					customer_category: {
 						validators: {
 							notEmpty: {
-								message: 'Company code is required'
-							}
-						}
-					},
-					contact_person_name: {
-						validators: {
-							notEmpty: {
-								message: 'Contact person name is required'
+								message: 'Customer category  is required'
 							}
 						}
 					},
@@ -64,9 +57,6 @@ var KTWizard3 = function () {
 						validators: {
 							notEmpty: {
 								message: 'Email is required'
-							},
-							emailAddress:{
-								message: 'Entered Email is not valid email address'
 							}
 						}
 					},
@@ -171,13 +161,13 @@ var KTWizard3 = function () {
 							}
 						}
 					},
-					gst_no: {
-						validators: {
-							notEmpty: {
-								message: 'GST number is required'
-							}
-						}
-					}
+					// gst_no: {
+					// 	validators: {
+					// 		notEmpty: {
+					// 			message: 'GST number is required'
+					// 		}
+					// 	}
+					// }
 				},
 				plugins: {
 					trigger: new FormValidation.plugins.Trigger(),
@@ -189,14 +179,13 @@ var KTWizard3 = function () {
 	var getFormSignup = function () {
 		// var x= $('#fullName').attr('value',$('.firstname').value);
 		// document.getElementById('fullName').remove();
-		var x = $('input[name=company_name]').val();
-		var y = $('input[name=code]').val();
-		var z = $('input[name=contact_person_name]').val();
+		var x = $('input[name=customer_name]').val();
+		var y = $('input[name=customer_category]').val();
 		var p = $('input[name=email]').val();
 		var q = $('input[name=mobile_main]').val();
 		var r = $('input[name=mobile1]').val();
-		var s = $('input[name=mobile2]').val();
-		var t = $('input[name=website]').val();
+		var s = $('input[name=gst_no]').val();
+		var t = $('input[name=pan_no]').val();
 		var u = $('input[name=referee_name]').val();
 
 		var a = $('input[name=address]').val();
@@ -205,31 +194,20 @@ var KTWizard3 = function () {
 		var d = $('input[name=pincode]').val();
 		var e = $('select[name=country] option:selected').val();
 
-		var f = $('input[name=bank_name]').val();
-		var g = $('input[name=bank_branch]').val();
-		var h = $('input[name=acccount_no]').val();
-		var i = $('input[name=ifsc_code]').val();
-		var j = $('input[name=account_name]').val();
-		var k = $('input[name=gst_no]').val();
-		var l = $('input[name=cst_no]').val();
-		var m = $('input[name=pan_no]').val();
-
-		document.getElementById('company_information').innerHTML = `<h5>${x + " " + y} <br> ${z} <br> ${p} <br> ${q} <br> ${r}<br> ${s}<br> ${t}<br> ${u}</h5>`;
+		document.getElementById('customer_information').innerHTML = `<h5>${x} <br>${y} <br> ${p} <br> ${q} <br> ${r}<br> ${s}<br> ${t}<br> ${u}</h5>`;
 		document.getElementById('address_details').innerHTML = `<h5>${a} <br> ${b}, ${c} <br> ${e}<br> ${d}</h5>`;
-		document.getElementById('bank_details').innerHTML = `<h5>${f} , ${g} <br> ${h} <br> ${i}<br> ${j}</h5>`;
-		document.getElementById('document_details').innerHTML = `<h5>${k} <br> ${l} <br> ${m}</h5>`;
 	}
 	return {
 		// public functions
 		init: function () {
-			_wizardEl = KTUtil.getById('vendor_form_model');
-			_formEl = KTUtil.getById('vendor_form');
+			_wizardEl = KTUtil.getById('customer_form_model');
+			_formEl = KTUtil.getById('customer_form');
 			initWizard();
 			initValidation();
 			$('#next_button').on('click', function () {
 				getFormSignup();
 			});
-			$('#vendor_menu_button').on('click', function () {
+			$('#customer_menu_button').on('click', function () {
 				getFormSignup();
 			});
 		}
@@ -241,13 +219,13 @@ var KTAppsUsersListDatatable = function () {
 
 	// basic demo
 	var _demo = function () {
-		var datatable = $('#vendor_datatable').KTDatatable({
+		var datatable = $('#customer_datatable').KTDatatable({
 			// datasource definition
 			data: {
 				type: 'remote',
 				source: {
 					read: {
-						url: baseFolder + 'vendor/vendorList',
+						url: baseFolder + 'customer/customerList',
 					},
 				},
 				pageSize: 10, // display 20 records per page
@@ -276,7 +254,7 @@ var KTAppsUsersListDatatable = function () {
 			columns: [
 				{
 					field: 'id',
-					title: '#',
+					title: 'id',
 					sortable: false,
 					width: 50,
 					type: 'number',
@@ -287,26 +265,25 @@ var KTAppsUsersListDatatable = function () {
 					}
 				},
 				{
-					field: 'company_name',
-					title: 'Company Name',
+					field: 'customer_name',
+					title: 'Customer Name',
 					sortable: 'asc',
 					width: 150,
 					template: function (data) {
 						var output = '';
-						output += '<span class="font-weight-bolder">' + data.company_name + '</span>';
-						output += '<div class="font-weight-bold text-muted">Code: ' + data.code + '</div>';
+						output += '<span class="font-weight-bolder">' + data.customer_name + '</span>';
 
 						return output;
 					}
 				},
 				{
-					field: 'contact_person_name',
-					title: 'Company Person Name',
+					field: 'customer_category',
+					title: 'Customer category',
 					width: 150,
 					template: function (row) {
 						var output = '';
 
-						output += '<div class="font-weight ">' + row.contact_person_name + '</div>';
+						output += '<div class="font-weight ">' + row.customer_category + '</div>';
 
 						return output;
 					}
@@ -314,39 +291,35 @@ var KTAppsUsersListDatatable = function () {
 				{
 					field: 'email',
 					title: 'Email',
-					width: 220,
+					width: 200,
 					template: function (row) {
 						var output = '';
 
 						output += '<div class="font-weight font-size-lg mb-0">' + row.email + '</div>';
-						output += '<div class="font-weight-bold text-muted">Phone: ' + row.mobile_main + '</div>';
-
+                        output += '<div class="font-weight-bold text-muted">Phone: ' + row.mobile_main + '</div>';
 						return output;
 					}
 				}, {
-					field: 'Country',
-					title: 'Country',
+					field: 'gst_no',
+					title: 'GST_no',
 					width: 80,
 					template: function (row) {
 						var output = '';
 
-						output += '<div class="font-weight font-size-lg mb-0">' + (row.country) + '</div>';
+						output += '<div class="font-weight font-size-lg mb-0">' + row.gst_no + '</div>';
 						return output;
 					}
 				}, {
-					field: 'created_at',
-					title: 'Created Date & Time',
-					type: 'date',
-					width: 90,
-					format: 'MM/DD/YYYY',
+					field: 'address',
+					title: 'address',
+					width: 80,
 					template: function (row) {
 						var output = '';
 
-						output += '<div class="font-weight text-primary mb-0">' + row.created_at + '<div class="font-weight-bold text-muted" style="font-size:11px;">' + row.vendor_creator + '</div></div>';
-
+						output += '<div class="font-weight font-size-lg mb-0">' + (row.address) + '</div>';
 						return output;
-					},
-				},
+					}
+				}, 
 				// {
 				// 	field: 'Status',
 				// 	title: 'Status',
@@ -374,10 +347,10 @@ var KTAppsUsersListDatatable = function () {
 					template: function (data) {
 						return '\
 	                        <div class="dropdown dropdown-inline">\
-	                        <a href="javascript:;" title="Edit" onclick="edit_vendor('+ data.id + ')">\
+	                        <a href="javascript:;" title="Edit" onclick="edit_customer('+ data.id + ')">\
 							<i class="far fa-edit text-success mr-3"></i>\
 	                        </a>\
-	                        <a href="javascript:;" title="Delete" onclick="delete_vendor('+ data.id + ')">\
+	                        <a href="javascript:;" title="Delete" onclick="delete_customer('+ data.id + ')">\
 							<i class="fas fa-trash text-danger"></i>\
 	                        </a>\
 	                    ';
@@ -406,55 +379,53 @@ var KTAppsUsersListDatatable = function () {
 }();
 
 jQuery(document).ready(function () {
-
+    KTWizard3.init();
 	KTAppsUsersListDatatable.init();
-	KTWizard3.init();
-	var title = $('#vendor_dynamic_title').text();
-	var subtitle = $('#vendor_dynamic_subtitle_span').text();
+	var title = $('#customer_dynamic_title').text();
+	var subtitle = $('#customer_dynamic_subtitle_span').text();
 
-	$('#add_vendor_button').on('click', function () {
-		$('#vendor_datatable').hide();
-		$('#vendor_form_model').removeClass('d-none');
+	$('#add_customer_button').on('click', function () {
+		$('#customer_datatable').hide();
+		$('#customer_form_model').removeClass('d-none');
 
-		$('#add_vendor_button').hide();
-		$('#vendor_list_button').removeClass('d-none');
-		$('#vendor_dynamic_title').text('Vendor Signup');
-		$('#vendor_dynamic_subtitle_span').text('Great work ahead');
+		$('#add_customer_button').hide();
+		$('#customer_list_button').removeClass('d-none');
+		$('#customer_dynamic_title').text('Add customer');
+		$('#customer_dynamic_subtitle_span').text('Great work ahead');
 
 	});
-	$('#vendor_list_button').on('click', function () {
-		$('#vendor_form_model').addClass('d-none');
-		$('#vendor_datatable').show();
-		$('#add_vendor_button').show();
-		$('#vendor_list_button').addClass('d-none');
-		$('#vendor_dynamic_title').text(title);
-		$('#vendor_dynamic_subtitle_span').text('subtitle');
+	$('#customer_list_button').on('click', function () {
+		$('#customer_form_model').addClass('d-none');
+		$('#customer_datatable').show();
+		$('#add_customer_button').show();
+		$('#customer_list_button').addClass('d-none');
+		$('#customer_dynamic_title').text(title);
+		$('#customer_dynamic_subtitle_span').text('subtitle');
 	});
 });
 
-// submit button
-$('#vendor_form_submit_button').on('click', function () {
-	
-	var data = $('#vendor_form').serialize();
+
+$('#customer_form_submit_button').on('click', function () {
+	var data = $('#customer_form').serialize();
 
 	$.ajax({
 		method: 'post',
-		url: baseFolder + 'Vendor/addVendor',
+		url: baseFolder + 'Customer/addCustomer',
 		data: data,
 		dataType: "json",
 		beforeSend: function () {
-			$("#vendor_form_submit_button").prop('disabled', true);
+			$("#customer_form_submit_button").prop('disabled', true);
 		},
 		success: function (data) {
 			if (data.response == true) {
 				setTimeout(function () {
-					window.location.href = baseFolder + "Vendor";
+					window.location.href = baseFolder + "Customer";
 				}, 1000);
 				toastr.success('Successfully save');
 			} else {
 				toastr.error("Enter Proper Data!!!!");
 			}
-			$("#vendor_form_submit_button").prop('disabled', false);
+			$("#customer_form_submit_button").prop('disabled', false);
 		},
 		error: function (xhr, status, error) {
 			var errorMessage = xhr.status + ': ' + xhr.statusText
@@ -468,37 +439,37 @@ $('#vendor_form_submit_button').on('click', function () {
 				default:
 					toastr.error('Error - ' + errorMessage);
 			}
-			$("#vendor_form_submit_button").prop('disabled', false);
+			$("#customer_form_submit_button").prop('disabled', false);
 		}
 	});
 });
 
 
-function edit_vendor(id) {
-	$('#vendor_datatable').hide();
-	$('#vendor_form_model').removeClass('d-none');
-	$('#add_vendor_button').hide();
-	$('#vendor_list_button').removeClass('d-none');
+function edit_customer(id) {
+	$('#customer_datatable').hide();
+	$('#customer_form_model').removeClass('d-none');
+	$('#add_customer_button').hide();
+	$('#customer_list_button').removeClass('d-none');
 
-	$('#vendor_dynamic_title').text('Edit Vendor');
-	$('#vendor_dynamic_subtitle_span').text('Correct information lead to great business!');
+	$('#customer_dynamic_title').text('Edit Customer');
+	$('#customer_dynamic_subtitle_span').text('Correct information lead to great business!');
 
+	// $('#customer_form').attr('action', baseFolder + 'Customer/addCustomer');
 	
 	$.ajax({
 		type: "POST",
-		url: baseFolder + 'vendor/editVendor',
+		url: baseFolder + 'customer/editCustomer',
 		data: { id: id },
 		dataType: "json",
 		success: function (data) {
 			$('#id').val(data.id);
-			$('#company_name').val(data.company_name);
-			$('#code').val(data.code);
-			$('#contact_person_name').val(data.contact_person_name);
+			$('#customer_name').val(data.customer_name);
+			$('#customer_category').val(data.customer_category);
 			$('#email').val(data.email);
 			$('#mobile_main').val(data.mobile_main);
 			$('#mobile1').val(data.mobile1);
-			$('#mobile2').val(data.mobile2);
-			$('#website').val(data.website);
+            $('#gst_no').val(data.gst_no);
+            $('#pan_no').val(data.pan_no);
 			$('#referee_name').val(data.referee_name);
 
 			$('#address').val(data.address);
@@ -506,22 +477,13 @@ function edit_vendor(id) {
 			$('#state').val(data.state);
 			$('#pincode').val(data.pincode);
 			$('#country').val(data.country);
-
-			$('#bank_name').val(data.bank_name);
-			$('#bank_branch').val(data.bank_branch);
-			$('#acccount_no').val(data.acccount_no);
-			$('#ifsc_code').val(data.ifsc_code);
-			$('#account_name').val(data.account_name);
-			$('#gst_no').val(data.gst_no);
-			$('#cst_no').val(data.cst_no);
-			$('#pan_no').val(data.pan_no);
 		}
 	});
 
 }
 
 
-function delete_vendor(id) {
+function delete_customer(id) {
 	Swal.fire({
 		title: "Are you sure?",
 		text: "You won't be able to revert this!",
@@ -535,14 +497,14 @@ function delete_vendor(id) {
 		if (result.value) {
 			$.ajax({
 				type: "POST",
-				url: baseFolder + 'vendor/deleteVendor',
+				url: baseFolder + 'customer/deleteCustomer',
 				data: { id: id },
 				dataType: "json",
 				success: function (data) {
 					if (data.response == true) {
 						toastr.success('Successfully Deleted');
 						setTimeout(function () {
-							window.location.href = baseFolder + "Vendor";
+							window.location.href = baseFolder + "Customer";
 						}, 1000);
 					}
 				}

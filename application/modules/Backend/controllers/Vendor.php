@@ -50,6 +50,8 @@ class Vendor extends BackendController
 
             //output to json format
             echo json_encode($output);
+        } else {
+            redirect('backend/vendor');
         }
     }
 

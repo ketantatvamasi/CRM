@@ -14,12 +14,10 @@ class Vendor_m extends CI_Model
         $this->db->select($this->select_column);
         $this->db->from($this->table);
         $this->db->join('users as u', 'u.user_id=vendors.user_id');
-        
         if ($this->session->userdata('role_id') == 2) {
             $this->db->where('vendors.company_id', $this->session->userdata['user_id']);
         } else if ($this->session->userdata('role_id') == 3) {
             $this->db->where('vendors.user_id', $this->session->userdata['user_id']);
-           
         }
 
 
