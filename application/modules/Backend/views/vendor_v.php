@@ -589,7 +589,7 @@
                                             <div class="col-xl-6">
                                                 <!--begin::Input-->
                                                 <div class="form-group">
-                                                    <label>GST no.</label>
+                                                    <label>GST no.</label><span class="text-danger">*</span>
                                                     <input type="text" class="form-control" name="gst_no" id="gst_no" placeholder="Enter GST number" />
                                                 </div>
                                                 <!--end::Input-->

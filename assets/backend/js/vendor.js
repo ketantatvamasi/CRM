@@ -64,6 +64,9 @@ var KTWizard3 = function () {
 						validators: {
 							notEmpty: {
 								message: 'Email is required'
+							},
+							emailAddress:{
+								message: 'Entered Email is not valid email address'
 							}
 						}
 					},
@@ -168,13 +171,13 @@ var KTWizard3 = function () {
 							}
 						}
 					},
-					// gst_no: {
-					// 	validators: {
-					// 		notEmpty: {
-					// 			message: 'GST number is required'
-					// 		}
-					// 	}
-					// }
+					gst_no: {
+						validators: {
+							notEmpty: {
+								message: 'GST number is required'
+							}
+						}
+					}
 				},
 				plugins: {
 					trigger: new FormValidation.plugins.Trigger(),
@@ -339,7 +342,7 @@ var KTAppsUsersListDatatable = function () {
 					template: function (row) {
 						var output = '';
 
-						output += '<div class="font-weight text-primary mb-0">' + row.created_at + '</div>';
+						output += '<div class="font-weight text-primary mb-0">' + row.created_at + '<div class="font-weight-bold text-muted" style="font-size:11px;">' + row.vendor_creator + '</div></div>';
 
 						return output;
 					},
@@ -430,6 +433,7 @@ jQuery(document).ready(function () {
 });
 
 
+// submit button
 $('#vendor_form_submit_button').on('click', function () {
 	
 	var data = $('#vendor_form').serialize();
@@ -479,8 +483,6 @@ function edit_vendor(id) {
 
 	$('#vendor_dynamic_title').text('Edit Vendor');
 	$('#vendor_dynamic_subtitle_span').text('Correct information lead to great business!');
-
-	$('#vendor_form').attr('action', baseFolder + 'vendor/addVendor');
 	
 	$.ajax({
 		type: "POST",
@@ -512,7 +514,8 @@ function edit_vendor(id) {
 			$('#account_name').val(data.account_name);
 			$('#gst_no').val(data.gst_no);
 			$('#cst_no').val(data.cst_no);
-			$('#cst_no').val(data.cst_no);
+			$('#pan_no').val(data.pan_no);
+
 		}
 	});
 
@@ -548,4 +551,5 @@ function delete_vendor(id) {
 			});
 		}
 	});
+
 }
