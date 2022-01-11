@@ -42,21 +42,28 @@ class Login extends BackendController
 
 
 			$query = $this->login_m->login($data);
-		
-			if ($query->num_rows() > 0) {
-				$query = $query->result();
+
+
+			if ($query) {
+
+				if ($query[0]->role_id == 2) {
+					$company_id = $query[0]->user_id;
+				} else {
+					$company_id = $query[0]->parent_id;
+				}
+
 				$user = array(
 					'response' => 'success',
 					'user_id' => $query[0]->user_id,
 					'parent_id' => $query[0]->parent_id,
+					'company_id' => $company_id,
 					'user_name' => $query[0]->firstname,
 					'email' => $query[0]->email,
 					'role_id' => $query[0]->role_id
 				);
-				
+
 				$this->session->set_userdata($user);
 				echo json_encode($user);
-
 			} else {
 				$data_e['token'] = 'false';
 				return $this->output
