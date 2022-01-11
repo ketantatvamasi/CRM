@@ -14,14 +14,12 @@ class User_m extends CI_Model
     
     private function _get_datatables_query()
     {
-        if ($this->session->userdata['role_id'] == 1) {
             $this->db->select($this->select_column);
             $this->db->from($this->table);
+        if ($this->session->userdata['role_id'] == 1) {
             $this->db->join('role as c', 'c.id = users.role_id');
             $this->db->where('role_id',2);
         }else{
-            $this->db->select($this->select_column);
-            $this->db->from($this->table);
             $this->db->join('role as c', 'c.id = users.role_id');
             $this->db->where('role_id',3);
             $this->db->where('parent_id',$this->session->userdata['user_id']);
@@ -78,4 +76,3 @@ class User_m extends CI_Model
         return $this->db->count_all_results();
     }
 }
-?>
