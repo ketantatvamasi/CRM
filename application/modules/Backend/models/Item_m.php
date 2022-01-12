@@ -4,8 +4,8 @@ class Item_m extends CI_Model {
         parent::__construct();
     }
     var $table = 'items';
-    var $select_column = array("id","item_name","item_code","sale_price","total_quantity");
-    var $column_search = array( "item_name","item_code","sale_price","total_quantity"); //set column field database for datatable searchable
+    var $select_column = array("id","item_name","item_code","sale_price","opening_quantity","total_quantity");
+    var $column_search = array( "item_name","item_code","sale_price","opening_quantity","total_quantity"); //set column field database for datatable searchable
     var $order = array('id' => 'asc'); // default order
     private function _get_datatables_query()
     {

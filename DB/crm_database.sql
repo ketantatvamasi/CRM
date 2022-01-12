@@ -2,8 +2,8 @@
 -- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1:8111
--- Generation Time: Jan 11, 2022 at 01:00 PM
+-- Host: 127.0.0.1
+-- Generation Time: Jan 12, 2022 at 05:46 AM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 7.3.31
 
@@ -70,6 +70,37 @@ CREATE TABLE `customers` (
 INSERT INTO `customers` (`id`, `user_id`, `company_id`, `customer_name`, `customer_category`, `address`, `email`, `mobile_main`, `mobile1`, `city`, `state`, `country`, `pincode`, `status`, `referee_name`, `gst_no`, `pan_no`, `created_at`, `updated_at`) VALUES
 (1, 1, 1, 'nayan', 'Business', 'varachha', 'nayan@gmail.com', 965874515, 0, 'surat', 'gujarat', 'IN', 0, 0, '', '96825484', '', '2022-01-11 14:26:04', '2022-01-11 17:18:57'),
 (2, 35, 35, 'hhhh', 'Business', 'hirabag', 'admin@gmail.com', 68662, 5585592, 'surat', 'gujarat', 'IN', 394170, 0, 'dqwguibiuaw', 'threredws', 'rfedsaZ', '2022-01-11 17:12:38', '2022-01-11 17:16:54');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `items`
+--
+
+CREATE TABLE `items` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `company_id` int(11) NOT NULL,
+  `item_code` varchar(25) NOT NULL,
+  `item_name` varchar(255) NOT NULL,
+  `sale_price` float NOT NULL,
+  `purchase_price` float NOT NULL,
+  `total_quantity` int(11) NOT NULL,
+  `opening_quantity` int(11) NOT NULL,
+  `cgst` float NOT NULL,
+  `sgst` float NOT NULL,
+  `igst` float NOT NULL,
+  `note` varchar(255) NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `items`
+--
+
+INSERT INTO `items` (`id`, `user_id`, `company_id`, `item_code`, `item_name`, `sale_price`, `purchase_price`, `total_quantity`, `opening_quantity`, `cgst`, `sgst`, `igst`, `note`, `created_at`, `updated_at`) VALUES
+(1, 2, 2, 'HZ', 'solar panel', 12000, 8000, 10, 2, 9, 9, 18, '', '2022-01-12 00:11:23', '2022-01-12 00:11:23');
 
 -- --------------------------------------------------------
 
@@ -150,7 +181,7 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`user_id`, `role_id`, `parent_id`, `organization_name`, `firstname`, `lastname`, `email`, `status`, `password`, `phone`, `address`, `pincode`, `city`, `state`, `country`, `create_date`, `update_date`) VALUES
 (1, 1, 1, 'Tatvamasi Labs', 'super Admin', 'Super Admin', 'admin@gmail.com', 1, '123456', 9658478596, '310- Heaven solar design, Surat', 0, 'surat', 'gujarat', 'India', '2022-01-07 10:55:21', '2022-01-07 12:43:11'),
-(35, 2, 1, 'test company', 'test', 'first', 'test@gmail.com', 1, 'test', 695846165, '9 geeta nager soc', 394170, 'surat', 'gujarat', 'IN', '2022-01-10 11:33:18', '2022-01-10 12:58:11'),
+(35, 2, 1, 'test company', 'test admin', 'first', 'test@gmail.com', 1, 'test', 695846165, '9 geeta nager soc', 394170, 'surat', 'gujarat', 'IN', '2022-01-10 11:33:18', '2022-01-11 12:28:44'),
 (54, 3, 35, 'test', 'test', 'first', 'testim@gmail.com', 1, 'test', 652658585985, 'surat', 394170, 'surat', 'gujarat', 'IN', '2022-01-10 16:32:37', '2022-01-11 11:55:47'),
 (55, 2, 1, 'tatvamasi nayan', 'nayan', 'sorathiya', 'nayan@gmail.com', 1, '123456', 564654654, 'varachha', 395010, 'surat', 'gujarat', 'IN', '2022-01-11 11:39:07', '2022-01-11 11:39:07'),
 (57, 3, 55, 'tatvamasi nayan', 'IM 001', 'kjshjdfjs', 'IM001@gmail.com', 1, '123456', 4234242424, 'sddf', 0, 'sdf', 'sdf', 'IQ', '2022-01-11 11:42:04', '2022-01-11 11:42:04');
@@ -201,7 +232,12 @@ INSERT INTO `vendors` (`id`, `user_id`, `company_id`, `company_name`, `code`, `c
 (2, 54, 35, 'Heaven design', 'HS02', 'keyurbhai', 9584856952, 6325548658, NULL, 'keyur.tatvamasi@gmail.com', 0, 'Mota varachha', 'surat', 'gujarat', 'india', 395006, 'GJ5698856952148', 'SS54845455664', '', 'SBI', 'Heaven Solar Energy', 'Yogi chowk', 9658456236, 'SBIN0018700', 'www.heavensolarenergy.com', '', '2022-01-08 16:09:39', '2022-01-11 11:46:03'),
 (3, 55, 55, 'Tatvamasi Labs\r\n', 'HS03', 'keyurbhai', 9584856952, 6325548658, NULL, 'keyur.tatvamasi@gmail.com', 0, 'Mota varachha', 'surat', 'gujarat', 'india', 395006, 'GJ5698856952148', 'SS54845455664', '', 'SBI', 'Heaven Solar Energy', 'Yogi chowk', 9658456236, 'SBIN0018700', 'www.heavensolarenergy.com', '', '2022-01-08 16:09:39', '2022-01-11 11:46:26'),
 (5, 57, 55, 'dddd', 'df', 'kjsdfh', 34534, 0, 0, 'jhsdf', 1, '345345', '34534', 'bbjb', 'BD', 35, '345', '345', '', '345', '345', '345', 345, '345', '', '', '2022-01-10 16:43:58', '2022-01-11 11:46:30'),
-(9, 54, 35, 'sdas', 'asdas', 'asd', 34234234, 234234, 0, 'sdasd', 1, 'sdf', 'ftg', 'gdfgdf', 'BY', 43353, '', '', '', 'sddfkjj', 'sdhfir47ueyfjisihd', 'hjs', 3427342746, '322427', '', '', '2022-01-11 12:01:08', '2022-01-11 12:01:08');
+(9, 54, 35, 'sdas', 'asdas', 'asd', 34234234, 234234, 0, 'sdasd', 1, 'sdf', 'ftg', 'gdfgdf', 'BY', 43353, '', '', '', 'sddfkjj', 'sdhfir47ueyfjisihd', 'hjs', 3427342746, '322427', '', '', '2022-01-11 12:01:08', '2022-01-11 12:01:08'),
+(11, 35, 35, 'gdfg', 'fhjtyyhg', 'erg ', 453535, 0, 0, 'grgg@xfgd', 1, 'sdf', 'sdf', 'dsf', 'BS', 4324, '32442344234', '', '', 'sdf', 'sfsdf', 'sdfsd', 32423, '23423', '', '', '2022-01-11 15:43:26', '2022-01-11 15:43:26'),
+(12, 35, 35, 'sdfsd', 'sdf', 'sdfsd', 4234234, 0, 0, 'fsdf@dsdfs', 0, '234fwr3', '2r32r', 'r23r23r32r', 'BH', 2434234, '234234', '', '', '2343rer3r', '242f323', 'r2343', 24324234, '34234', '', '', '2022-01-11 16:39:02', '2022-01-11 16:39:02'),
+(13, 35, 35, 'sfd', 'jhsfkj', 'skdfh', 28374938479, 0, 0, 'skhdfsddhf@kjdjfdh', 0, 'sdfsdf', 'dfdfdsf', 'sdfs', 'BS', 234234, '233423adfdds', '', '', 'sdfs', 'dsfsdf', 'dsfs', 34234, '23423', '', '', '2022-01-11 16:45:41', '2022-01-11 16:45:41'),
+(14, 54, 35, 'sdajfhhf bfiui', 'kaah', 'kahah', 34273743284279387, 0, 0, 'sdsjdfhj@dhfjh', 0, 'asda', 'hassdhhh', 'ahgfhg', 'KZ', 8374, 'jhddfjj8w887', '', '', 'asdajk', 'jhdfjhsfh', 'djjdfhjh', 384827, '873847jhfdh', '', '', '2022-01-11 16:50:50', '2022-01-11 16:50:50'),
+(15, 1, 1, 'sfsdf', 'efew', 'wef', 34234234, 0, 0, 'hasdhah@kshfhd', 0, '324234', '2342', '234234', 'BD', 34243, '3423effew', '', '', '23424', 'ewewr3242', '234', 2343432, '234234', '', '', '2022-01-11 16:53:19', '2022-01-11 16:53:19');
 
 --
 -- Indexes for dumped tables
@@ -218,6 +254,12 @@ ALTER TABLE `activites_logs`
 -- Indexes for table `customers`
 --
 ALTER TABLE `customers`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `items`
+--
+ALTER TABLE `items`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -267,7 +309,13 @@ ALTER TABLE `activites_logs`
 -- AUTO_INCREMENT for table `customers`
 --
 ALTER TABLE `customers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `items`
+--
+ALTER TABLE `items`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `permission_menus`
@@ -297,7 +345,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `vendors`
 --
 ALTER TABLE `vendors`
-  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- Constraints for dumped tables

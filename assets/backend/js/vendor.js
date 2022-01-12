@@ -428,7 +428,7 @@ jQuery(document).ready(function () {
 		$('#add_vendor_button').show();
 		$('#vendor_list_button').addClass('d-none');
 		$('#vendor_dynamic_title').text(title);
-		$('#vendor_dynamic_subtitle_span').text('subtitle');
+		$('#vendor_dynamic_subtitle_span').text(subtitle);
 	});
 });
 

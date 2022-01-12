@@ -55,7 +55,7 @@ var KTAppsUsersListDatatable = function () {
 					field: 'item_name',
 					title: 'Item Name',
 					sortable: 'asc',
-					width: 170,
+					width: 130,
 					template: function (data) {
 						var output = '';
 						output += '<span class="font-weight-bolder">' + data.item_name + '</span>';
@@ -67,7 +67,7 @@ var KTAppsUsersListDatatable = function () {
 				{
 					field: 'sale_price',
 					title: 'Price',
-					width: 100,
+					width: 70,
 					template: function (row) {
 						var output = '';
 
@@ -77,9 +77,21 @@ var KTAppsUsersListDatatable = function () {
 					}
 				},
 				{
+					field: 'opening_quantity',
+					title: 'Openinig Qty.',
+					width: 70,
+                    textAlign:'center',
+					template: function (row) {
+						var output = '';
+
+						output += '<div class="font-weight font-size-lg mb-0">' + row.opening_quantity + '</div>';
+						return output;
+					}
+				}, 
+				{
 					field: 'total_quantity',
 					title: 'Total Qty.',
-					width: 100,
+					width: 70,
                     textAlign:'center',
 					template: function (row) {
 						var output = '';
@@ -158,8 +170,8 @@ jQuery(document).ready(function () {
 
 		$('#add_item_button').hide();
 		$('#item_list_button').removeClass('d-none');
-		$('#item_dynamic_title').text('Add item');
-		$('#item_dynamic_subtitle_span').text('Great work ahead');
+		$('#item_dynamic_title').text('Add Item');
+		$('#item_dynamic_subtitle_span').text('More items More business!');
 
 	});
 	$('#item_list_button').on('click', function () {
@@ -168,6 +180,6 @@ jQuery(document).ready(function () {
 		$('#add_item_button').show();
 		$('#item_list_button').addClass('d-none');
 		$('#item_dynamic_title').text(title);
-		$('#item_dynamic_subtitle_span').text('subtitle');
+		$('#item_dynamic_subtitle_span').text('More items More business!');
 	});
 });

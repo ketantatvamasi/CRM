@@ -32,6 +32,7 @@ class Item extends BackendController
                     "item_name" => $record->item_name,
                     "item_code" => $record->item_code,
                     "sale_price" => $record->sale_price,
+                    "opening_quantity" => $record->opening_quantity,                    
                     "total_quantity" => $record->total_quantity                    
                 );
             }
