@@ -236,245 +236,221 @@ var KTWizard3 = function () {
 	};
 }();
 
-var KTAppsUsersListDatatable = function () {
-	// Private functions
-
-	// basic demo
-	var _demo = function () {
-		var datatable = $('#vendor_datatable').KTDatatable({
-			// datasource definition
-			data: {
-				type: 'remote',
-				source: {
-					read: {
-						url: baseFolder + 'vendor/vendorList',
-					},
-				},
-				pageSize: 10, // display 20 records per page
-				serverPaging: true,
-				serverFiltering: true,
-				serverSorting: true,
-			},
-			// layout definition
-			layout: {
-				scroll: false, // enable/disable datatable scroll both horizontal and vertical when needed.
-				footer: false, // display/hide footer
-			},
-
-			// column sorting
-			sortable: true,
-
-			pagination: true,
-
-			search: {
-				input: $('#kt_subheader_search_form'),
-				delay: 400,
-				key: 'generalSearch'
-			},
-
-			// columns definition
-			columns: [
-				{
-					field: 'id',
-					title: '#',
-					sortable: false,
-					width: 50,
-					type: 'number',
-					selector: false,
-					textAlign: 'left',
-					template: function (data) {
-						return '<span class="font-weight-bolder">' + data.number + '</span>';
-					}
-				},
-				{
-					field: 'company_name',
-					title: 'Company Name',
-					sortable: 'asc',
-					width: 150,
-					template: function (data) {
-						var output = '';
-						output += '<span class="font-weight-bolder">' + data.company_name + '</span>';
-						output += '<div class="font-weight-bold text-muted">Code: ' + data.code + '</div>';
-
-						return output;
-					}
-				},
-				{
-					field: 'contact_person_name',
-					title: 'Company Person Name',
-					width: 150,
-					template: function (row) {
-						var output = '';
-
-						output += '<div class="font-weight ">' + row.contact_person_name + '</div>';
-
-						return output;
-					}
-				},
-				{
-					field: 'email',
-					title: 'Email',
-					width: 220,
-					template: function (row) {
-						var output = '';
-
-						output += '<div class="font-weight font-size-lg mb-0">' + row.email + '</div>';
-						output += '<div class="font-weight-bold text-muted">Phone: ' + row.mobile_main + '</div>';
-
-						return output;
-					}
-				}, {
-					field: 'Country',
-					title: 'Country',
-					width: 80,
-					template: function (row) {
-						var output = '';
-
-						output += '<div class="font-weight font-size-lg mb-0">' + (row.country) + '</div>';
-						return output;
-					}
-				}, {
-					field: 'created_at',
-					title: 'Created Date & Time',
-					type: 'date',
-					width: 90,
-					format: 'MM/DD/YYYY',
-					template: function (row) {
-						var output = '';
-
-						output += '<div class="font-weight text-primary mb-0">' + row.created_at + '<div class="font-weight-bold text-muted" style="font-size:11px;">' + row.vendor_creator + '</div></div>';
-
-						return output;
-					},
-				},
-				// {
-				// 	field: 'Status',
-				// 	title: 'Status',
-				// 	// callback function support for column rendering
-				// 	template: function(row) {
-				// 		var status = {
-				// 			1: {'title': 'Pending', 'class': ' label-light-primary'},
-				// 			2: {'title': 'Delivered', 'class': ' label-light-danger'},
-				// 			3: {'title': 'Canceled', 'class': ' label-light-primary'},
-				// 			4: {'title': 'Success', 'class': ' label-light-success'},
-				// 			5: {'title': 'Info', 'class': ' label-light-info'},
-				// 			6: {'title': 'Danger', 'class': ' label-light-danger'},
-				// 			7: {'title': 'Warning', 'class': ' label-light-warning'},
-				// 		};
-				// 		return '<span class="label label-lg font-weight-bold ' + status[row.Status].class + ' label-inline">' + status[row.Status].title + '</span>';
-				// 	},
-				// }, 
-				{
-					field: 'Action',
-					title: 'Action',
-					sortable: false,
-					width: 60,
-					overflow: 'visible',
-					autoHide: false,
-					template: function (data) {
-						return '\
-	                        <div class="dropdown dropdown-inline">\
-	                        <a href="javascript:;" title="Edit" onclick="edit_vendor('+ data.id + ')">\
-							<i class="far fa-edit text-success mr-3"></i>\
-	                        </a>\
-	                        <a href="javascript:;" title="Delete" onclick="delete_vendor('+ data.id + ')">\
-							<i class="fas fa-trash text-danger"></i>\
-	                        </a>\
-	                    ';
-					},
-				}],
-		});
-
-		$('#kt_datatable_search_status').on('change', function () {
-			datatable.search($(this).val().toLowerCase(), 'Status');
-		});
-
-		$('#kt_datatable_search_type').on('change', function () {
-			datatable.search($(this).val().toLowerCase(), 'Type');
-		});
-
-		$('#kt_datatable_search_status, #kt_datatable_search_type').selectpicker();
-	};
-
-	return {
-		// public functions
-		init: function () {
-			_demo();
-
-		},
-	};
-}();
-
-jQuery(document).ready(function () {
-
-	KTAppsUsersListDatatable.init();
+jQuery(document).ready(function () {	
 	KTWizard3.init();
+	var datatable = $('#vendor_datatable').KTDatatable({
+		// datasource definition
+		data: {
+			type: 'remote',
+			source: {
+				read: {
+					url: baseFolder + 'vendor/vendorList',
+				},
+			},
+			pageSize: 10, // display 20 records per page
+			serverPaging: true,
+			serverFiltering: true,
+			serverSorting: true,
+		},
+		// layout definition
+		layout: {
+			scroll: false, // enable/disable datatable scroll both horizontal and vertical when needed.
+			footer: false, // display/hide footer
+		},
+
+		// column sorting
+		sortable: true,
+
+		pagination: true,
+
+		search: {
+			input: $('#kt_subheader_search_form'),
+			delay: 400,
+			key: 'generalSearch'
+		},
+
+		// columns definition
+		columns: [
+			{
+				field: 'id',
+				title: '#',
+				sortable: false,
+				width: 50,
+				type: 'number',
+				selector: false,
+				textAlign: 'left',
+				template: function (data) {
+					return '<span class="font-weight-bolder">' + data.number + '</span>';
+				}
+			},
+			{
+				field: 'company_name',
+				title: 'Company Name',
+				sortable: 'asc',
+				width: 150,
+				template: function (data) {
+					var output = '';
+					output += '<span class="font-weight-bolder">' + data.company_name + '</span>';
+					output += '<div class="font-weight-bold text-muted">Code: ' + data.code + '</div>';
+
+					return output;
+				}
+			},
+			{
+				field: 'contact_person_name',
+				title: 'Company Person Name',
+				width: 150,
+				template: function (row) {
+					var output = '';
+
+					output += '<div class="font-weight ">' + row.contact_person_name + '</div>';
+
+					return output;
+				}
+			},
+			{
+				field: 'email',
+				title: 'Email',
+				width: 220,
+				template: function (row) {
+					var output = '';
+
+					output += '<div class="font-weight font-size-lg mb-0">' + row.email + '</div>';
+					output += '<div class="font-weight-bold text-muted">Phone: ' + row.mobile_main + '</div>';
+
+					return output;
+				}
+			}, {
+				field: 'Country',
+				title: 'Country',
+				width: 80,
+				template: function (row) {
+					var output = '';
+
+					output += '<div class="font-weight font-size-lg mb-0">' + (row.country) + '</div>';
+					return output;
+				}
+			}, {
+				field: 'created_at',
+				title: 'Created Date & Time',
+				type: 'date',
+				width: 90,
+				format: 'MM/DD/YYYY',
+				template: function (row) {
+					var output = '';
+
+					output += '<div class="font-weight text-primary mb-0">' + row.created_at + '<div class="font-weight-bold text-muted" style="font-size:11px;">' + row.vendor_creator + '</div></div>';
+
+					return output;
+				},
+			},
+			// {
+			// 	field: 'Status',
+			// 	title: 'Status',
+			// 	// callback function support for column rendering
+			// 	template: function(row) {
+			// 		var status = {
+			// 			1: {'title': 'Pending', 'class': ' label-light-primary'},
+			// 			2: {'title': 'Delivered', 'class': ' label-light-danger'},
+			// 			3: {'title': 'Canceled', 'class': ' label-light-primary'},
+			// 			4: {'title': 'Success', 'class': ' label-light-success'},
+			// 			5: {'title': 'Info', 'class': ' label-light-info'},
+			// 			6: {'title': 'Danger', 'class': ' label-light-danger'},
+			// 			7: {'title': 'Warning', 'class': ' label-light-warning'},
+			// 		};
+			// 		return '<span class="label label-lg font-weight-bold ' + status[row.Status].class + ' label-inline">' + status[row.Status].title + '</span>';
+			// 	},
+			// }, 
+			{
+				field: 'Action',
+				title: 'Action',
+				sortable: false,
+				width: 60,
+				overflow: 'visible',
+				autoHide: false,
+				template: function (data) {
+					return '\
+						<div class="dropdown dropdown-inline">\
+						<a href="javascript:;" title="Edit" onclick="edit_vendor('+ data.id + ')">\
+						<i class="far fa-edit text-success mr-3"></i>\
+						</a>\
+						<a href="javascript:;" title="Delete" onclick="delete_vendor('+ data.id + ')">\
+						<i class="fas fa-trash text-danger"></i>\
+						</a>\
+					';
+				},
+			}],
+	});
 	var title = $('#vendor_dynamic_title').text();
 	var subtitle = $('#vendor_dynamic_subtitle_span').text();
 
 	$('#add_vendor_button').on('click', function () {
-		$('#vendor_datatable').hide();
-		$('#vendor_form_model').removeClass('d-none');
-
-		$('#add_vendor_button').hide();
-		$('#vendor_list_button').removeClass('d-none');
-		$('#vendor_dynamic_title').text('Vendor Signup');
-		$('#vendor_dynamic_subtitle_span').text('Great work ahead');
-
+		modelshow();
 	});
 	$('#vendor_list_button').on('click', function () {
-		$('#vendor_form_model').addClass('d-none');
+		datatableshow(title ,subtitle);
+	});
+
+	$('#vendor_form_submit_button').on('click', function () {
+	
+		var data = $('#vendor_form').serialize();
+	
+		$.ajax({
+			method: 'post',
+			url: baseFolder + 'Vendor/addVendor',
+			data: data,
+			dataType: "json",
+			beforeSend: function () {
+				$("#vendor_form_submit_button").prop('disabled', true);
+			},
+			success: function (data) {
+				if (data.response == true) {
+					toastr.success('Successfully save');
+					datatableshow(title ,subtitle);
+					$('#vendor_datatable').KTDatatable('reload');
+				} else {
+					toastr.error("Enter Proper Data!!!!");
+				}
+				$("#vendor_form_submit_button").prop('disabled', false);
+			},
+			error: function (xhr, status, error) {
+				var errorMessage = xhr.status + ': ' + xhr.statusText
+				switch (xhr.status) {
+					case 401:
+						toastr.error('Authontication fail...');
+						break;
+					case 422:
+						toastr.info('The user is invalid.');
+						break;
+					default:
+						toastr.error('Error - ' + errorMessage);
+				}
+				$("#vendor_form_submit_button").prop('disabled', false);
+			}
+		});
+	});
+
+	
+
+
+});
+
+function modelshow() {
+	$('#vendor_datatable').hide();
+	$('#vendor_form_model').removeClass('d-none');
+	$('#add_vendor_button').hide();
+	$('#vendor_list_button').removeClass('d-none');
+	$('#vendor_dynamic_title').text('Vendor Signup');
+	$('#vendor_dynamic_subtitle_span').text('Great work ahead');
+}
+function datatableshow(title ,subtitle) {
+	$('#vendor_form_model').addClass('d-none');
 		$('#vendor_datatable').show();
 		$('#add_vendor_button').show();
 		$('#vendor_list_button').addClass('d-none');
 		$('#vendor_dynamic_title').text(title);
-		$('#vendor_dynamic_subtitle_span').text('subtitle');
-	});
-});
-
-
-// submit button
-$('#vendor_form_submit_button').on('click', function () {
-	
-	var data = $('#vendor_form').serialize();
-
-	$.ajax({
-		method: 'post',
-		url: baseFolder + 'Vendor/addVendor',
-		data: data,
-		dataType: "json",
-		beforeSend: function () {
-			$("#vendor_form_submit_button").prop('disabled', true);
-		},
-		success: function (data) {
-			if (data.response == true) {
-				setTimeout(function () {
-					window.location.href = baseFolder + "Vendor";
-				}, 1000);
-				toastr.success('Successfully save');
-			} else {
-				toastr.error("Enter Proper Data!!!!");
-			}
-			$("#vendor_form_submit_button").prop('disabled', false);
-		},
-		error: function (xhr, status, error) {
-			var errorMessage = xhr.status + ': ' + xhr.statusText
-			switch (xhr.status) {
-				case 401:
-					toastr.error('Authontication fail...');
-					break;
-				case 422:
-					toastr.info('The user is invalid.');
-					break;
-				default:
-					toastr.error('Error - ' + errorMessage);
-			}
-			$("#vendor_form_submit_button").prop('disabled', false);
-		}
-	});
-});
-
-
+		$('#vendor_dynamic_subtitle_span').text(subtitle);
+}
 function edit_vendor(id) {
 	$('#vendor_datatable').hide();
 	$('#vendor_form_model').removeClass('d-none');
@@ -521,7 +497,6 @@ function edit_vendor(id) {
 
 }
 
-
 function delete_vendor(id) {
 	Swal.fire({
 		title: "Are you sure?",
@@ -542,9 +517,7 @@ function delete_vendor(id) {
 				success: function (data) {
 					if (data.response == true) {
 						toastr.success('Successfully Deleted');
-						setTimeout(function () {
-							window.location.href = baseFolder + "Vendor";
-						}, 1000);
+						$('#vendor_datatable').KTDatatable('reload');
 					}
 				}
 
