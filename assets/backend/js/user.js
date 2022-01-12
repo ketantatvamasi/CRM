@@ -1,124 +1,6 @@
 "use strict";
 // Class definition
 
-var KTAppsUsersListDatatable = function () {
-	// Private functions
-	// basic demo
-	var _demo = function () {
-		var datatable = $('#userlist').KTDatatable({
-			// datasource definition
-			data: {
-				type: 'remote',
-				source: {
-					read: {
-						url: baseFolder + 'Users/UserList',
-					},
-				},
-				pageSize: 5, // display 20 records per page
-				serverPaging: true,
-				serverFiltering: true,
-				serverSorting: true,
-			},
-
-			// layout definition
-			layout: {
-				scroll: false, // enable/disable datatable scroll both horizontal and vertical when needed.
-				footer: false, // display/hide footer
-			},
-
-			// column sorting
-			sortable: true,
-
-			pagination: true,
-
-			search: {
-				input: $('#kt_subheader_search_form'),
-				delay: 400,
-				key: 'generalSearch'
-			},
-
-			// columns definition
-			columns: [
-				{
-					field: 'user_id',
-					title: 'id',
-					sortable: false,
-					width: 40,
-					type: 'number',
-					selector: false,
-					textAlign: 'left',
-					template: function (data) {
-						return data.id;
-
-					}
-				}, {
-					field: 'firstname',
-					title: 'Name',
-					template: function (row) {
-						var output = '';
-						output += '<span class="font-weight-bolder">' + row.firstname + '</span>';
-						output += '<div class="font-weight-bold text-muted" style="font-size:11px;">(' + row.role_name + ')</div>';
-						return output;
-						// return row.firstname;
-					}
-				}, {
-					field: 'organization_name',
-					title: 'Orgazation name',
-					width: 170,
-					template: function (data) {
-						return data.organization_name;
-					}
-				}, {
-					field: 'email',
-					title: 'Email',
-					width: 250,
-					template: function (row) {
-						return row.email;
-					},
-				}, {
-					field: 'phone',
-					title: 'Phone no',
-					template: function (row) {
-
-						return row.phone;
-					}
-				}, {
-					field: 'Action',
-					title: 'Action',
-					sortable: false,
-					width: 60,
-					overflow: 'visible',
-					autoHide: false,
-					template: function (row) {
-						return '\
-	                        <a href="javascript:;" title="Edit" onclick="user_edit(' + row.user_id + ')"><i class="far fa-edit text-success mr-3"></i></a>\
-	                        <a href="javascript:;" title="Delete" onclick="user_delete(' + row.user_id + ')"><i class="fas fa-trash text-danger"></i></a>\
-	                    ';
-					},
-				}
-			],
-
-		});
-
-		$('#kt_datatable_search_status').on('change', function () {
-			datatable.search($(this).val().toLowerCase(), 'Status');
-		});
-
-		$('#kt_datatable_search_type').on('change', function () {
-			datatable.search($(this).val().toLowerCase(), 'Type');
-		});
-
-		$('#kt_datatable_search_status, #kt_datatable_search_type').selectpicker();
-	};
-
-	return {
-		// public functions
-		init: function () {
-			_demo();
-		},
-	};
-}();
-
 var KTWizard3 = function () {
 	// Base elements
 	var _wizardEl;
@@ -293,66 +175,171 @@ var KTWizard3 = function () {
 	};
 }();
 
-$('#users_form_submit_button').on('click', function () {
-	var data = $('#user_add_form').serialize();
 
-	$.ajax({
-		method: 'post',
-		url: baseFolder + 'Users/adduser',
-		data: data,
-		dataType: "json",
-		beforeSend: function () {
-			$("#users_form_submit_button").prop('disabled', true);
-		},
-		success: function (data) {
-			if (data.response == true) {
-				setTimeout(function () {
-					window.location.href = baseFolder + "Users";
-				}, 2000);
-				toastr.success('Successfully save');
-			} else {
-				toastr.error("Enter Proper Data!!!!");
-			}
-		},
-		error: function (xhr, status, error) {
-			var errorMessage = xhr.status + ': ' + xhr.statusText
-			switch (xhr.status) {
-				case 401:
-					toastr.error('Authontication fail...');
-					break;
-				case 422:
-					toastr.info('The user is invalid.');
-					break;
-				default:
-					toastr.error('Error - ' + errorMessage);
-			}
-			$("#users_form_submit_button").prop('disabled', false);
-		}
-	});
-});
 
 jQuery(document).ready(function () {
 	KTWizard3.init();
-	KTAppsUsersListDatatable.init();
+
+
+	var datatable = $('#userlist').KTDatatable({
+		// datasource definition
+		data: {
+			type: 'remote',
+			source: {
+				read: {
+					url: baseFolder + 'Users/UserList',
+				},
+			},
+			pageSize: 5, // display 20 records per page
+			serverPaging: true,
+			serverFiltering: true,
+			serverSorting: true,
+		},
+
+		// layout definition
+		layout: {
+			scroll: false, // enable/disable datatable scroll both horizontal and vertical when needed.
+			footer: false, // display/hide footer
+		},
+
+		// column sorting
+		sortable: true,
+
+		pagination: true,
+
+		search: {
+			input: $('#kt_subheader_search_form'),
+			delay: 400,
+			key: 'generalSearch'
+		},
+
+		// columns definition
+		columns: [
+			{
+				field: 'user_id',
+				title: 'id',
+				sortable: false,
+				width: 40,
+				type: 'number',
+				selector: false,
+				textAlign: 'left',
+				template: function (data) {
+					return data.id;
+
+				}
+			}, {
+				field: 'firstname',
+				title: 'Name',
+				template: function (row) {
+					var output = '';
+					output += '<span class="font-weight-bolder">' + row.firstname + '</span>';
+					output += '<div class="font-weight-bold text-muted" style="font-size:11px;">(' + row.role_name + ')</div>';
+					return output;
+					// return row.firstname;
+				}
+			}, {
+				field: 'organization_name',
+				title: 'Orgazation name',
+				width: 170,
+				template: function (data) {
+					return data.organization_name;
+				}
+			}, {
+				field: 'email',
+				title: 'Email',
+				width: 250,
+				template: function (row) {
+					return row.email;
+				},
+			}, {
+				field: 'phone',
+				title: 'Phone no',
+				template: function (row) {
+
+					return row.phone;
+				}
+			}, {
+				field: 'Action',
+				title: 'Action',
+				sortable: false,
+				width: 60,
+				overflow: 'visible',
+				autoHide: false,
+				template: function (row) {
+					return '\
+						<a href="javascript:;" title="Edit" onclick="user_edit(' + row.user_id + ')"><i class="far fa-edit text-success mr-3"></i></a>\
+						<a href="javascript:;" title="Delete" onclick="user_delete(' + row.user_id + ')"><i class="fas fa-trash text-danger"></i></a>\
+					';
+				},
+			}
+		],
+
+	});
+
+
 	var title = $('#user_dynamic_title').text();
 	var subtitle = $('#user_dynamic_subtitle_span').text();
 	$('#adduser').on('click', function () {
-		$("#kt_wizard_v3").removeClass("d-none");
-		$("#listuser").removeClass("d-none");
-		$('#userlist').hide();
-		$('#adduser').hide();
-		$('#user_dynamic_title').text('Add User');
-		$('#user_dynamic_subtitle_span').text(subtitle);
+		modelshow(subtitle);
 	});
 	$('#listuser').on('click', function () {
-		$("#kt_wizard_v3").addClass("d-none");
-		$("#listuser").addClass("d-none");
-		$('#userlist').show();
-		$('#adduser').show();
-		$('#user_dynamic_title').text(title);
+		datatableshow(title);
+	});
+
+
+	$('#users_form_submit_button').on('click', function () {
+		var data = $('#user_add_form').serialize();
+
+		$.ajax({
+			method: 'post',
+			url: baseFolder + 'Users/adduser',
+			data: data,
+			dataType: "json",
+			beforeSend: function () {
+				$("#users_form_submit_button").prop('disabled', true);
+			},
+			success: function (data) {
+				if (data.response == true) {
+					datatableshow(title);
+					toastr.success('Successfully save');
+					$('#userlist').KTDatatable('reload');
+				} else {
+					toastr.error("Enter Proper Data!!!!");
+				}
+			},
+			error: function (xhr, status, error) {
+				var errorMessage = xhr.status + ': ' + xhr.statusText
+				switch (xhr.status) {
+					case 401:
+						toastr.error('Authontication fail...');
+						break;
+					case 422:
+						toastr.info('The user is invalid.');
+						break;
+					default:
+						toastr.error('Error - ' + errorMessage);
+				}
+				$("#users_form_submit_button").prop('disabled', false);
+			}
+		});
 	});
 });
 
+function modelshow(subtitle) {
+	$("#kt_wizard_v3").removeClass("d-none");
+	$("#listuser").removeClass("d-none");
+	$('#userlist').hide();
+	$('#adduser').hide();
+	$('#user_dynamic_title').text('Add User');
+	$('#user_dynamic_subtitle_span').text(subtitle);
+}
+function datatableshow(title) {
+	$("#kt_wizard_v3").addClass("d-none");
+	$("#listuser").addClass("d-none");
+	$('#userlist').show();
+	$('#adduser').show();
+	$('#user_dynamic_title').text(title);
+}
 function user_edit(user_id) {
 	var subtitle = $('#user_dynamic_subtitle_span').text();
 	$("#listuser").removeClass("d-none");
@@ -362,7 +349,7 @@ function user_edit(user_id) {
 	$('#adduser').hide();
 	$('#user_dynamic_title').text('Edit User');
 	$('#user_dynamic_subtitle_span').text(subtitle);
-	
+
 	$.ajax({
 		type: "POST",
 		url: baseFolder + 'Users/edituser',
@@ -409,7 +396,7 @@ function user_delete(user_id) {
 					// console.log(data);
 					if (data.response == 'success') {
 						toastr.success('Successfully Deleted');
-						setInterval(function () { window.location.href = baseFolder + "users"; }, 1000);
+						$('#userlist').KTDatatable('reload');
 					}
 				}
 			});

@@ -32,7 +32,7 @@ class Item extends BackendController
                     "item_name" => $record->item_name,
                     "item_code" => $record->item_code,
                     "sale_price" => $record->sale_price,
-                    "opening_quantity" => $record->opening_quantity,                    
+                    "opening_quantity" => $record->opening_quantity,
                     "total_quantity" => $record->total_quantity                    
                 );
             }
@@ -57,12 +57,17 @@ class Item extends BackendController
             if ($data['id'] == "") {
                 $data['user_id'] = $_SESSION['user_id'];
                 $data['company_id'] = $_SESSION['company_id'];
+                $data['total_quantity'] = $data['opening_quantity'];
                 $data['status'] = 0;
                 // echo "<pre>";
                 // print_r($data);
                 // exit;
                 $result = $this->common_m->insert_record('items', $data);
             } else {
+                $data['quantity'] = $data['total_quantity'] + $data['opening_quantity'];
+                print_r($data);
+                print_r( $data['quantity']);
+                exit;
                 // $udata = array('name' => $data['name'], 'organization_name' => $data['organization_name'], 'email' => $data['email'], 'contact' => $data['contact'], 'address' => $data['address'], 'pincode' => $data['pincode']);
                 $result = $this->common_m->update_record('items', $data, array('id' => $data['id']));
             }
@@ -78,6 +83,7 @@ class Item extends BackendController
         if ($this->input->is_ajax_request()) {
             $data = $this->input->post();
             $result = $this->common_m->edit_id(array('*'), 'items', array('id' => $data['id']));
+            $result->total_quantity = $result->total_quantity - $result->opening_quantity;
             echo json_encode($result);
         } else {
             redirect('backend/item');

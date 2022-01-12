@@ -151,6 +151,7 @@ class BackendController extends MY_Controller
             case 'item':
                 return array(
                     'assets/backend/js/item.js'
+                    // 'assets/backend/js/validation/parsley.min.js'
                 );
                 break;
             case 'purchase':
