@@ -11,6 +11,11 @@ class Customer_m extends CI_Model {
     {
         $this->db->select($this->select_column);
         $this->db->from($this->table);
+        if ($this->session->userdata('role_id') == 2) {
+            $this->db->where('company_id', $this->session->userdata['user_id']);
+        } else if ($this->session->userdata('role_id') == 3) {
+            $this->db->where('user_id', $this->session->userdata['user_id']);
+        }
         $i = 0;
         foreach ($this->column_search as $item) // loop column
         {
