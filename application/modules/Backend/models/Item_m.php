@@ -1,11 +1,11 @@
 <?php
-class Customer_m extends CI_Model {
+class Item_m extends CI_Model {
     function __construct(){
         parent::__construct();
     }
-    var $table = 'customers';
-    var $select_column = array("id","customer_name","customer_category","email","address","mobile_main","gst_no");
-    var $column_search = array( "customer_name","customer_category","email","address","mobile_main","gst_no"); //set column field database for datatable searchable
+    var $table = 'items';
+    var $select_column = array("id","item_name","item_code","sale_price","opening_quantity","total_quantity");
+    var $column_search = array( "item_name","item_code","sale_price","opening_quantity","total_quantity"); //set column field database for datatable searchable
     var $order = array('id' => 'asc'); // default order
     private function _get_datatables_query()
     {

@@ -33,8 +33,8 @@ class Common_m extends CI_Model
     function update_record($tbl_name, $data, $where)
     {
         $update = $this->db->update($tbl_name, $data, $where);
-        // print_r($this->db->last_query());
-        // exit;
+            // print_r($this->db->last_query());
+            // exit;
         return $update ? true : false;
         // if ($this->db->affected_rows() > 0) {
         //     return true;
