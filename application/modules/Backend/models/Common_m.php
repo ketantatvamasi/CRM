@@ -12,6 +12,7 @@ class Common_m extends CI_Model
             $this->db->where($where);
         $this->db->from($common_table);
         return $this->db->count_all_results();
+        
     }
     function insert_record($tbl_name, $data)
     {
@@ -27,7 +28,6 @@ class Common_m extends CI_Model
         $insert = $this->db->insert_batch($table_name, $data);
         return $insert ? true : false;
     }
-
     function updateQty ($table,$where,$column_name,$qty){
         $this->db->set($column_name, $column_name.' +'. $qty, FALSE);
         $this->db->where($where);
@@ -35,7 +35,7 @@ class Common_m extends CI_Model
     }
     function update_record($tbl_name, $data, $where)
     {
-        $update = $this->db->update($tbl_name, $data, $where);
+        $update = $this->db->update($tbl_name, $data, $where); 
         return $update ? true : false;
     }
     //delete single record
@@ -72,6 +72,12 @@ class Common_m extends CI_Model
         return $query_result;
     }
    
+    function delete_subrecord($tbl_name, $id)
+    {
+        $this->db->where($id);
+        $this->db->delete($tbl_name);
+        // echo $this->db->last_query();
+    }
     //single record
     public function edit_id($column_name, $tbl_name, $where)
     {
@@ -81,6 +87,5 @@ class Common_m extends CI_Model
         $query = $this->db->get();
         return $query->row();
     }
-    // return $this->db->insert_id();
 }
 ?>

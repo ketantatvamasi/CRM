@@ -187,7 +187,7 @@ function edit_item(id) {
 			$('#purchase_price').val(res.purchase_price);
 			$('#sale_price').val(res.sale_price);
 			$('#opening_quantity').val(res.opening_quantity);
-			
+	
 			$('#cgst').val(res.cgst);
 			$('#sgst').val(res.sgst);
 			$('#igst').val(res.igst);
