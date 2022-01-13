@@ -170,12 +170,6 @@ jQuery(document).ready(function () {
 			}
 		});
 	});
-	$('#opening_quantity').keyup(function () {
-		var oq = $('#opening_quantity').val();
-		// var tq = $('#total_quantity').val();
-		// alert(val);
-		$('#total_quantity').val(oq);
-	});
 
 });
 
@@ -188,7 +182,6 @@ function edit_item(id) {
 		success: function (res) {
 			// console.log(res.total_quantity);	
 			$('#id').val(res.id);
-			$('#total_quantity').val(res.total_quantity);
 			$('#item_name').val(res.item_name)
 			$('#item_code').val(res.item_code);
 			$('#purchase_price').val(res.purchase_price);
