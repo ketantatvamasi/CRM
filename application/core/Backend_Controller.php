@@ -179,4 +179,8 @@ class BackendController extends MY_Controller
                 break;
         }
     }
+    public function error()
+    {
+        $this->load->view('backend/template/error');
+    }
 }

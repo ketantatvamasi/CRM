@@ -30,11 +30,13 @@ class Purchase extends BackendController
                 $data[] = array(
                     "number" =>  $no,
                     "id" => $record->id,
-                    "item_name" => $record->item_name,
-                    "item_code" => $record->item_code,
-                    "sale_price" => $record->sale_price,
-                    "opening_quantity" => $record->opening_quantity,                    
-                    "total_quantity" => $record->total_quantity                    
+                    // "item_name" => $record->item_name,
+                    // "item_code" => $record->item_code,
+                    "vendor_name" => $record->vendor_name,
+                    "total_quantity" => $record->total_quantity,                    
+                    "total_price" => $record->total_price,                    
+                    "total_gst_amount" => $record->total_gst_amount,                    
+                    "total_amount" => $record->total_amount                    
                 );
             }
             $output = array(
