@@ -50,7 +50,6 @@
                             <div class="modal-body">
                                 <form class="form items_form" id="items_form" method="post">
                                     <input type="hidden" name="id" id="id">
-                                    <input type="hidden" name="total_quantity" id="total_quantity">
                                     <div class="row">
                                         <div class="col-xl-6">
                                             <div class="form-group">

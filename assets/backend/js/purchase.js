@@ -42,7 +42,7 @@ jQuery(document).ready(function () {
 				field: 'id',
 				title: 'id',
 				sortable: false,
-				width: 50,
+				width: 20,
 				type: 'number',
 				selector: false,
 				textAlign: 'left',
@@ -51,39 +51,14 @@ jQuery(document).ready(function () {
 				}
 			},
 			{
-				field: 'purchase_name',
-				title: 'purchase Name',
+				field: 'vendor_id',
+				title: 'Vendor Name',
 				sortable: 'asc',
-				width: 130,
+				width: 100,
 				template: function (data) {
 					var output = '';
-					output += '<span class="font-weight-bolder">' + data.purchase_name + '</span>';
-					output += '<div class="font-weight-bold text-muted">code: ' + data.purchase_code + '</div>';
+					output += '<span class="font-weight-bolder">' + data.vendor_name + '</span>';
 
-					return output;
-				}
-			},
-			{
-				field: 'sale_price',
-				title: 'Price',
-				width: 70,
-				template: function (row) {
-					var output = '';
-
-					output += '<div class="font-weight ">' + row.sale_price + '</div>';
-
-					return output;
-				}
-			},
-			{
-				field: 'opening_quantity',
-				title: 'Openinig Qty.',
-				width: 70,
-				textAlign: 'center',
-				template: function (row) {
-					var output = '';
-
-					output += '<div class="font-weight font-size-lg mb-0">' + row.opening_quantity + '</div>';
 					return output;
 				}
 			},
@@ -96,6 +71,42 @@ jQuery(document).ready(function () {
 					var output = '';
 
 					output += '<div class="font-weight font-size-lg mb-0">' + row.total_quantity + '</div>';
+					return output;
+				}
+			},
+			{
+				field: 'total_price',
+				title: 'Total price',
+				width: 70,
+				textAlign: 'center',
+				template: function (row) {
+					var output = '';
+
+					output += '<div class="font-weight font-size-lg mb-0">' + row.total_price + '</div>';
+					return output;
+				}
+			},
+			{
+				field: 'total_gst_amount',
+				title: 'GST amonut',
+				width: 70,
+				textAlign: 'center',
+				template: function (row) {
+					var output = '';
+
+					output += '<div class="font-weight font-size-lg mb-0">' + row.total_gst_amount + '</div>';
+					return output;
+				}
+			},
+			{
+				field: 'total_amount',
+				title: 'Total amount',
+				width: 70,
+				textAlign: 'center',
+				template: function (row) {
+					var output = '';
+
+					output += '<div class="font-weight font-size-lg mb-0">' + row.total_amount + '</div>';
 					return output;
 				}
 			},
@@ -137,33 +148,31 @@ jQuery(document).ready(function () {
 			}],
 	});
 
-	var title = $('#purchase_dynamic_title').text();
-	var subtitle = $('#purchase_dynamic_subtitle_span').text();
+// 	var title = $('#purchase_dynamic_title').text();
+// 	var subtitle = $('#purchase_dynamic_subtitle_span').text();
 
-	$('#add_purchase_button').on('click', function () {
-		modelshow(subtitle);
-
-	});
-	$('#purchase_list_button').on('click', function () {
-		datatableshow(title);
-	});
+// 	$('#add_purchase_button').on('click', function () {
+// 		modelshow(subtitle);
+// 	});
+// 	$('#purchase_list_button').on('click', function () {
+// 		datatableshow(title);
+// 	});
 });
 
-function modelshow(subtitle){
-	$('#purchase_datatable').hide();
-	$('#purchase_form_model').removeClass('d-none');
+// function modelshow(subtitle){
+// 	$('#purchase_datatable').hide();
+// 	$('#purchase_form_model').removeClass('d-none');
+// 	$('#add_purchase_button').hide();
+// 	$('#purchase_list_button').removeClass('d-none');
+// 	$('#purchase_dynamic_title').text('Add purchase');
+// 	$('#purchase_dynamic_subtitle_span').text(subtitle);
+// }
 
-	$('#add_purchase_button').hide();
-	$('#purchase_list_button').removeClass('d-none');
-	$('#purchase_dynamic_title').text('Add purchase');
-	$('#purchase_dynamic_subtitle_span').text(subtitle);
-}
-
-function datatableshow(title,subtitle){
-	$('#purchase_form_model').addClass('d-none');
-	$('#purchase_datatable').show();
-	$('#add_purchase_button').show();
-	$('#purchase_list_button').addClass('d-none');
-	$('#purchase_dynamic_title').text(title);
-	$('#purchase_dynamic_subtitle_span').text(subtitle);
-}
+// function datatableshow(title,subtitle){
+// 	$('#purchase_form_model').addClass('d-none');
+// 	$('#purchase_datatable').show();
+// 	$('#add_purchase_button').show();
+// 	$('#purchase_list_button').addClass('d-none');
+// 	$('#purchase_dynamic_title').text(title);
+// 	$('#purchase_dynamic_subtitle_span').text(subtitle);
+// }

@@ -19,14 +19,8 @@
 
                     <div class="card-toolbar">
                         <!--begin::Button-->
-                        <button type="button" class="btn btn-primary font-weight-bolder " id="add_purchase_button">
+                        <button type="button" class="btn btn-primary font-weight-bolder " id="add_purchase_button"  data-toggle="modal" data-target="#purchase_Modal">
                             <i class="fas fa-user-plus"></i> Add <?= ucfirst($load_data['site_title']) ?>
-                        </button>
-                        <!--end::Button-->
-
-                        <!--begin::Button-->
-                        <button type="button" class="btn btn-primary font-weight-bolder d-none" id="purchase_list_button">
-                            <i class="ki ki-long-arrow-back"></i> Back
                         </button>
                         <!--end::Button-->
                     </div>
@@ -39,10 +33,29 @@
                     <div class="datatable datatable-bordered datatable-head-custom" id="purchase_datatable">
                     </div>
                     <!--end: Datatable-->
-
-                    
                 </div>
                 <!--end::Body-->
+                <!-- Modal-->
+                <div class="modal fade " id="purchase_Modal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="itemsModal" aria-hidden="true">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Add <?= ucfirst($load_data['site_title']) ?></h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <i aria-hidden="true" class="ki ki-close"></i>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                 ...............
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Close</button>
+                                <input type="submit" class="btn btn-primary font-weight-bold" id="purchase_button" form="purchase_form" value="Save">
+                                <!-- <input type="submit" class="btn btn-primary font-weight-bold" form="items_form" value="Save"/> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <!--end::Purchase-->
 
