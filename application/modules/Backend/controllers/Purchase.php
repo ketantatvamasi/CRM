@@ -33,10 +33,10 @@ class Purchase extends BackendController
                     // "item_name" => $record->item_name,
                     // "item_code" => $record->item_code,
                     "vendor_name" => $record->vendor_name,
-                    "total_quantity" => $record->total_quantity,                    
-                    "total_price" => $record->total_price,                    
-                    "total_gst_amount" => $record->total_gst_amount,                    
-                    "total_amount" => $record->total_amount                    
+                    "total_quantity" => $record->total_quantity,
+                    "total_price" => $record->total_price,
+                    "total_gst_amount" => $record->total_gst_amount,
+                    "total_amount" => $record->total_amount
                 );
             }
             $output = array(
@@ -52,6 +52,14 @@ class Purchase extends BackendController
             redirect('backend/purchase');
         }
     }
-
-    
+    public function addpurchase()
+    {
+        user_is_logged_in();
+        $this->data['site_title'] = ucfirst('Purchase');
+        $this->data['template_css'] = $this->load_grid_css('add');   //wizard3
+        $this->data['template_js'] = $this->load_grid_js('purchase');
+        $this->data['record']['vendor_list'] = $this->common_m->get_common_master('vendors', array("id", "contact_person_name"), null, "id ASC");
+        $this->data['record']['item_list'] = $this->common_m->get_common_master('items', array("id","item_name"), null, "id ASC");
+        $this->render_page($this->data['sitename_folder'] . 'addpurchase_v', $this->data);
+    }
 }
