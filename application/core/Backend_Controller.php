@@ -159,6 +159,11 @@ class BackendController extends MY_Controller
                     'assets/backend/js/purchase.js'
                 );
                 break;
+            case 'sale':
+                return array(
+                    'assets/backend/js/sale.js'
+                );
+                break;
             case 'user':
                 return array(
                     'assets/backend/js/user.js'

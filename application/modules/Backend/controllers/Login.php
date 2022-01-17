@@ -44,10 +44,10 @@ class Login extends BackendController
 			$query = $this->login_m->login($data);
 		
 			if ($query) {
-                if ($query[0]->role_id == 2) {
-                    $company_id = $query[0]->user_id;
-                } else {
+                if ($query[0]->role_id == 3) {
                     $company_id = $query[0]->parent_id;
+                } else {
+                    $company_id = $query[0]->user_id;
                 }
                 $user = array(
                     'response' => 'success',
