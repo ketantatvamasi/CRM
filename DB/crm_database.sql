@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 12, 2022 at 05:46 AM
+-- Generation Time: Jan 18, 2022 at 01:09 PM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 7.3.31
 
@@ -69,7 +69,8 @@ CREATE TABLE `customers` (
 
 INSERT INTO `customers` (`id`, `user_id`, `company_id`, `customer_name`, `customer_category`, `address`, `email`, `mobile_main`, `mobile1`, `city`, `state`, `country`, `pincode`, `status`, `referee_name`, `gst_no`, `pan_no`, `created_at`, `updated_at`) VALUES
 (1, 1, 1, 'nayan', 'Business', 'varachha', 'nayan@gmail.com', 965874515, 0, 'surat', 'gujarat', 'IN', 0, 0, '', '96825484', '', '2022-01-11 14:26:04', '2022-01-11 17:18:57'),
-(2, 35, 35, 'hhhh', 'Business', 'hirabag', 'admin@gmail.com', 68662, 5585592, 'surat', 'gujarat', 'IN', 394170, 0, 'dqwguibiuaw', 'threredws', 'rfedsaZ', '2022-01-11 17:12:38', '2022-01-11 17:16:54');
+(2, 35, 35, 'Test user1', 'Business', 'hirabag', 'admin@gmail.com', 68662, 5585592, 'surat', 'gujarat', 'IN', 394170, 0, 'dqwguibiuaw', 'threredws', 'rfedsaZ', '2022-01-11 17:12:38', '2022-01-17 12:06:29'),
+(3, 35, 35, 'Test user2', 'Business', 'hirabag', 'admin@gmail.com', 68662, 5585592, 'surat', 'gujarat', 'IN', 394170, 0, 'dqwguibiuaw', 'threredws', 'rfedsaZ', '2022-01-11 17:12:38', '2022-01-17 12:06:29');
 
 -- --------------------------------------------------------
 
@@ -91,6 +92,7 @@ CREATE TABLE `items` (
   `sgst` float NOT NULL,
   `igst` float NOT NULL,
   `note` varchar(255) NOT NULL,
+  `status` tinyint(4) NOT NULL DEFAULT 0,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_at` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -99,8 +101,10 @@ CREATE TABLE `items` (
 -- Dumping data for table `items`
 --
 
-INSERT INTO `items` (`id`, `user_id`, `company_id`, `item_code`, `item_name`, `sale_price`, `purchase_price`, `total_quantity`, `opening_quantity`, `cgst`, `sgst`, `igst`, `note`, `created_at`, `updated_at`) VALUES
-(1, 2, 2, 'HZ', 'solar panel', 12000, 8000, 10, 2, 9, 9, 18, '', '2022-01-12 00:11:23', '2022-01-12 00:11:23');
+INSERT INTO `items` (`id`, `user_id`, `company_id`, `item_code`, `item_name`, `sale_price`, `purchase_price`, `total_quantity`, `opening_quantity`, `cgst`, `sgst`, `igst`, `note`, `status`, `created_at`, `updated_at`) VALUES
+(1, 2, 2, 'HZ', 'solar panel', 12000, 8000, 10, 2, 9, 9, 18, '', 0, '2022-01-12 00:11:23', '2022-01-12 00:11:23'),
+(2, 35, 35, 'HZs', 'screw', 150, 100, 10, 2, 9, 9, 18, '', 0, '2022-01-12 00:11:23', '2022-01-18 17:37:05'),
+(3, 54, 35, 'testIM', 'solar panels', 1200, 800, 10, 2, 9, 9, 18, '', 0, '2022-01-12 00:11:23', '2022-01-18 17:36:22');
 
 -- --------------------------------------------------------
 
@@ -112,6 +116,72 @@ CREATE TABLE `permission_menus` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `purchase`
+--
+
+CREATE TABLE `purchase` (
+  `id` int(11) NOT NULL,
+  `vendor_id` int(20) NOT NULL,
+  `vendor_invoice_id` int(20) NOT NULL,
+  `user_id` int(20) NOT NULL,
+  `company_id` int(20) NOT NULL,
+  `purchse_date` date NOT NULL,
+  `total_quantity` int(50) NOT NULL,
+  `total_price` int(50) NOT NULL,
+  `cgst_price` int(50) NOT NULL,
+  `sgst_price` int(50) NOT NULL,
+  `igst_price` int(50) NOT NULL,
+  `total_gst_amount` int(50) NOT NULL,
+  `round_of` int(50) NOT NULL,
+  `total_amount` int(50) NOT NULL,
+  `status` tinyint(4) NOT NULL DEFAULT 0 COMMENT 'padding',
+  `create_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `update_at` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `purchase`
+--
+
+INSERT INTO `purchase` (`id`, `vendor_id`, `vendor_invoice_id`, `user_id`, `company_id`, `purchse_date`, `total_quantity`, `total_price`, `cgst_price`, `sgst_price`, `igst_price`, `total_gst_amount`, `round_of`, `total_amount`, `status`, `create_at`, `update_at`) VALUES
+(1, 1, 11, 54, 35, '2022-01-11', 8, 8000, 720, 720, 0, 1440, 0, 9440, 0, '2022-01-13 16:05:16', '2022-01-13 16:55:09'),
+(2, 2, 12, 35, 35, '2022-01-11', 9, 9000, 810, 810, 0, 1620, 0, 10620, 0, '2022-01-13 16:05:16', '2022-01-13 17:00:06');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `purchase_item`
+--
+
+CREATE TABLE `purchase_item` (
+  `id` int(11) NOT NULL,
+  `purchase_id` int(20) NOT NULL,
+  `item_name` varchar(255) NOT NULL,
+  `item_code` varchar(100) NOT NULL,
+  `quantity` int(50) NOT NULL,
+  `rate` int(50) NOT NULL,
+  `amount` int(50) NOT NULL,
+  `discount` int(50) NOT NULL,
+  `cgst_tax` int(50) NOT NULL,
+  `sgst_tax` int(50) NOT NULL,
+  `igst_tax` int(50) NOT NULL,
+  `total_amount` int(50) NOT NULL,
+  `create_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `update_at` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `purchase_item`
+--
+
+INSERT INTO `purchase_item` (`id`, `purchase_id`, `item_name`, `item_code`, `quantity`, `rate`, `amount`, `discount`, `cgst_tax`, `sgst_tax`, `igst_tax`, `total_amount`, `create_at`, `update_at`) VALUES
+(1, 1, 'toy', 'T001', 8, 1000, 8000, 0, 720, 720, 0, 9440, '2022-01-13 16:30:53', '2022-01-13 16:30:53'),
+(2, 2, 'agdfuygzy', 'T001', 8, 1000, 8000, 0, 720, 720, 0, 9440, '2022-01-13 16:30:53', '2022-01-13 17:02:31'),
+(3, 1, 'toy2', 'T002', 8, 1000, 8000, 0, 720, 720, 0, 9440, '2022-01-13 16:30:53', '2022-01-13 16:30:53');
 
 -- --------------------------------------------------------
 
@@ -147,6 +217,54 @@ CREATE TABLE `role_permission` (
   `read` tinyint(4) NOT NULL,
   `update` tinyint(4) NOT NULL,
   `delete` tinyint(4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sale`
+--
+
+CREATE TABLE `sale` (
+  `id` int(11) NOT NULL,
+  `customer_id` int(20) NOT NULL,
+  `customer_invoice_id` int(20) NOT NULL,
+  `bill_date` date NOT NULL,
+  `user_id` int(20) NOT NULL,
+  `company_id` int(20) NOT NULL,
+  `total_quantity` int(50) NOT NULL,
+  `total_price` float NOT NULL,
+  `cgst_price` float NOT NULL,
+  `sgst_price` float NOT NULL,
+  `igst_price` float NOT NULL,
+  `total_gst_amount` float NOT NULL,
+  `round_of` float NOT NULL,
+  `total_amount` float NOT NULL,
+  `status` tinyint(4) NOT NULL DEFAULT 0 COMMENT 'padding',
+  `create_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `update_at` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sale_item`
+--
+
+CREATE TABLE `sale_item` (
+  `id` int(11) NOT NULL,
+  `sale_id` int(20) NOT NULL,
+  `item_id` int(50) NOT NULL,
+  `quantity` int(50) NOT NULL,
+  `price` float NOT NULL,
+  `total` float NOT NULL,
+  `discount` float NOT NULL,
+  `cgst` float NOT NULL,
+  `sgst` float NOT NULL,
+  `igst` float NOT NULL,
+  `total_amount` float NOT NULL,
+  `create_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `update_at` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -234,7 +352,7 @@ INSERT INTO `vendors` (`id`, `user_id`, `company_id`, `company_name`, `code`, `c
 (5, 57, 55, 'dddd', 'df', 'kjsdfh', 34534, 0, 0, 'jhsdf', 1, '345345', '34534', 'bbjb', 'BD', 35, '345', '345', '', '345', '345', '345', 345, '345', '', '', '2022-01-10 16:43:58', '2022-01-11 11:46:30'),
 (9, 54, 35, 'sdas', 'asdas', 'asd', 34234234, 234234, 0, 'sdasd', 1, 'sdf', 'ftg', 'gdfgdf', 'BY', 43353, '', '', '', 'sddfkjj', 'sdhfir47ueyfjisihd', 'hjs', 3427342746, '322427', '', '', '2022-01-11 12:01:08', '2022-01-11 12:01:08'),
 (11, 35, 35, 'gdfg', 'fhjtyyhg', 'erg ', 453535, 0, 0, 'grgg@xfgd', 1, 'sdf', 'sdf', 'dsf', 'BS', 4324, '32442344234', '', '', 'sdf', 'sfsdf', 'sdfsd', 32423, '23423', '', '', '2022-01-11 15:43:26', '2022-01-11 15:43:26'),
-(12, 35, 35, 'sdfsd', 'sdf', 'sdfsd', 4234234, 0, 0, 'fsdf@dsdfs', 0, '234fwr3', '2r32r', 'r23r23r32r', 'BH', 2434234, '234234', '', '', '2343rer3r', '242f323', 'r2343', 24324234, '34234', '', '', '2022-01-11 16:39:02', '2022-01-11 16:39:02'),
+(12, 35, 35, 'sdfsd', 'sdf', 'sdfsd', 4234234, 0, 0, 'jay@gmail.com', 0, '234fwr3', '2r32r', 'r23r23r32r', 'BH', 2434234, '234234', '', '', '2343rer3r', '242f323', 'r2343', 24324234, '34234', '', '', '2022-01-11 16:39:02', '2022-01-12 11:29:51'),
 (13, 35, 35, 'sfd', 'jhsfkj', 'skdfh', 28374938479, 0, 0, 'skhdfsddhf@kjdjfdh', 0, 'sdfsdf', 'dfdfdsf', 'sdfs', 'BS', 234234, '233423adfdds', '', '', 'sdfs', 'dsfsdf', 'dsfs', 34234, '23423', '', '', '2022-01-11 16:45:41', '2022-01-11 16:45:41'),
 (14, 54, 35, 'sdajfhhf bfiui', 'kaah', 'kahah', 34273743284279387, 0, 0, 'sdsjdfhj@dhfjh', 0, 'asda', 'hassdhhh', 'ahgfhg', 'KZ', 8374, 'jhddfjj8w887', '', '', 'asdajk', 'jhdfjhsfh', 'djjdfhjh', 384827, '873847jhfdh', '', '', '2022-01-11 16:50:50', '2022-01-11 16:50:50'),
 (15, 1, 1, 'sfsdf', 'efew', 'wef', 34234234, 0, 0, 'hasdhah@kshfhd', 0, '324234', '2342', '234234', 'BD', 34243, '3423effew', '', '', '23424', 'ewewr3242', '234', 2343432, '234234', '', '', '2022-01-11 16:53:19', '2022-01-11 16:53:19');
@@ -269,6 +387,18 @@ ALTER TABLE `permission_menus`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `purchase`
+--
+ALTER TABLE `purchase`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `purchase_item`
+--
+ALTER TABLE `purchase_item`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `role`
 --
 ALTER TABLE `role`
@@ -281,6 +411,18 @@ ALTER TABLE `role_permission`
   ADD PRIMARY KEY (`id`),
   ADD KEY `p_m_id_fk` (`permission_menus_id`),
   ADD KEY `use_id_fk` (`user_id`);
+
+--
+-- Indexes for table `sale`
+--
+ALTER TABLE `sale`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `sale_item`
+--
+ALTER TABLE `sale_item`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `users`
@@ -309,19 +451,31 @@ ALTER TABLE `activites_logs`
 -- AUTO_INCREMENT for table `customers`
 --
 ALTER TABLE `customers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `items`
 --
 ALTER TABLE `items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `permission_menus`
 --
 ALTER TABLE `permission_menus`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `purchase`
+--
+ALTER TABLE `purchase`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `purchase_item`
+--
+ALTER TABLE `purchase_item`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `role`
@@ -334,6 +488,18 @@ ALTER TABLE `role`
 --
 ALTER TABLE `role_permission`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `sale`
+--
+ALTER TABLE `sale`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `sale_item`
+--
+ALTER TABLE `sale_item`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `users`

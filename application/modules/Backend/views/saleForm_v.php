@@ -36,16 +36,26 @@
 
                         <form id="sale_form">
 
+                            <input type="hidden" name="id" id="id">
+                            <input type="hidden" name="total_quantity" id="total_quantity">
+                            <input type="hidden" name="total_price" id="total_price">
+                            <input type="hidden" name="cgst_price" id="cgst_price">
+                            <input type="hidden" name="sgst_price" id="sgst_price">
+                            <input type="hidden" name="igst_price" id="igst_price">
+                            <input type="hidden" name="total_gst_amount" id="total_gst_amount">
+                            <!-- <input type="hidden" name="round_of" id="round_of"> -->
+                            <input type="hidden" name="total_amount" id="total_amount">
+
                             <div class="row">
                                 <div class="col-xl-6">
                                     <div class="form-group">
                                         <label for="exampleSelect1">Customer <span class="text-danger">*</span></label>
-                                        <select class="form-control" name="studentid" id="exampleSelect1">
+                                        <select class="form-control" name="customer_id" id="customer_id">
                                             <option value="">Select Customer</option>
 
                                             <?php if (!($load_data['customers'] == '')) { ?>
                                                 <?php foreach ($load_data['customers'] as $value) : ?>
-                                                    <?php echo "<option value='" . $value->customer_id . "'>" . $value->customer_name . " </option>" ?>
+                                                    <?php echo "<option value='" . $value->id . "'>" . $value->customer_name . " </option>" ?>
                                             <?php endforeach;
                                             } ?>
 
@@ -57,18 +67,18 @@
                                 <div class="col-xl-3">
                                     <div class="form-group">
                                         <label>Bill no. <span class="text-danger">*</span></label>
-                                        <input type="number" class="form-control" placeholder="Invoice Number" />
+                                        <input type="number" class="form-control" name="customer_invoice_id" id="customer_invoice_id" placeholder="Invoice Number" />
                                     </div>
                                 </div>
                                 <div class="col-xl-3">
                                     <div class="form-group">
                                         <label>Bill Date <span class="text-danger">*</span></label>
-                                        <input type="date" class="form-control" />
+                                        <input type="date" class="form-control" name="bill_date" id="bill_date" />
                                     </div>
                                 </div>
 
                             </div>
-
+                      
                             <div class="row">
                                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                     <table class="table table-separate table-head-custom table-checkable table-responsive" id="invoiceItem">
@@ -91,7 +101,7 @@
                                             <tr>
                                                 <td><input class="itemRow" type="checkbox"></td>
                                                 <td>
-                                                    <select class="form-control" name="productName" id="productName_1" autocomplete="off">
+                                                    <select class="form-control" name="data[1][item_id]" id="productName_1" autocomplete="off">
                                                         <option value="">Select Item</option>
 
                                                         <?php if (!($load_data['items'] == '')) { ?>
@@ -102,15 +112,19 @@
 
                                                     </select>
                                                 </td>
-                                                <td><input type="number" name="quantity" id="quantity_1" class="form-control quantity" autocomplete="off"></td>
+                                                <td>
+                                                    <input type="number" name="data[1][quantity]" id="quantity_1" class="form-control " autocomplete="off">
+                                                    <div class="font-weight-bold text-muted text-right" id="stock_1"></div>
+                                                    <!-- <span class="label label-rounded label-success" id="stock_1"></span> -->
+                                                </td>
 
 
-                                                <td><input type="number" name="price" id="price_1" class="form-control price" autocomplete="off" readonly></td>
-                                                <td><input type="number" name="total" id="total_1" class="form-control total" autocomplete="off" readonly></td>
-                                                <td><input type="number" name="sgst" id="sgst_1" class="form-control total" autocomplete="off" readonly></td>
-                                                <td><input type="number" name="cgst" id="cgst_1" class="form-control total" autocomplete="off" readonly></td>
-                                                <td><input type="number" name="igst" id="igst_1" class="form-control total" autocomplete="off" readonly></td>
-                                                <td><input type="number" name="amount" id="amount_1" class="form-control total" autocomplete="off" readonly></td>
+                                                <td><input type="number" name="data[1][price]" id="price_1" class="form-control " autocomplete="off" readonly></td>
+                                                <td><input type="number" name="data[1][total]" id="total_1" class="form-control " autocomplete="off" readonly></td>
+                                                <td><input type="number" name="data[1][sgst]" id="sgst_1" class="form-control " autocomplete="off" readonly></td>
+                                                <td><input type="number" name="data[1][cgst]" id="cgst_1" class="form-control " autocomplete="off" readonly></td>
+                                                <td><input type="number" name="data[1][igst]" id="igst_1" class="form-control " autocomplete="off" readonly></td>
+                                                <td><input type="number" name="data[1][total_amount]" id="amount_1" class="form-control " autocomplete="off" readonly></td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -142,26 +156,31 @@
 
                                         <div class="d-flex flex-column text-md-right">
                                             <div class="d-flex justify-content-between mb-3">
+                                                <span class="mr-15 font-weight-bold">Total Qty:</span>
+                                                <span class="text-right" id="total_quantityShow">0</span>
+                                            </div>
+                                            <div class="d-flex justify-content-between mb-3">
                                                 <span class="mr-15 font-weight-bold">Total:</span>
-                                                <span class="text-right" id="total_amount">₹0</span></span>
+                                                <span class="text-right" id="total_amountShow">₹0</span>
                                             </div>
 
 
-                                            <!-- <div class="d-flex justify-content-between">
+
+                                            <div class="d-flex justify-content-between">
                                                 <span class="mr-15 font-weight-bold">SGST:</span>
-                                                <span class="text-right" id="total_sgst">₹0</span></span>
+                                                <span class="text-right" id="total_sgst">₹0</span>
                                             </div>
                                             <div class="d-flex justify-content-between">
                                                 <span class="mr-15 font-weight-bold">CGST:</span>
-                                                <span class="text-right" id="total_cgst">₹0</span></span>
+                                                <span class="text-right" id="total_cgst">₹0</span>
                                             </div>
                                             <div class="d-flex justify-content-between">
                                                 <span class="mr-15 font-weight-bold">IGST:</span>
-                                                <span class="text-right" id="total_igst">₹0</span></span>
-                                            </div> -->
+                                                <span class="text-right" id="total_igst">₹0</span>
+                                            </div>
                                             <div class="d-flex justify-content-between">
                                                 <span class="mr-15 font-weight-bold">Total Tax:</span>
-                                                <span class="text-right" id="total_tax">₹0</span></span>
+                                                <span class="text-right" id="total_tax">₹0</span>
                                             </div>
                                             <span class="font-size-lg font-weight-bolder mt-10 mb-1">TOTAL
                                                 AMOUNT</span>
@@ -175,11 +194,10 @@
                             <!-- end: Invoice footer-->
 
                             <div class="card-footer">
-                                <button type="reset" class="btn btn-primary mr-2">Submit</button>
+                                <button type="button" class="btn btn-primary mr-2" id="sale_form_submit_button">Submit</button>
                                 <button type="reset" class="btn btn-secondary mr-2">Cancel</button>
                                 <button type="button" class="btn btn-light-primary font-weight-bold" onclick="window.print();">Download Invoice</button>
                             </div>
-
                         </form>
                         <!--end::Form-->
                     </div>

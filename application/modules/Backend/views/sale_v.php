@@ -19,7 +19,7 @@
 
                     <div class="card-toolbar">
                         <!--begin::Button-->
-                        <a href="<?= base_url('backend/sale/addSale'); ?>">
+                        <a href="<?= base_url('backend/sale/addSale_Page'); ?>">
                             <button type="button" class="btn btn-primary font-weight-bolder">
                                 <i class="menu-icon flaticon2-shopping-cart-1 icon-lg"></i> <?= $load_data['site_title']; ?>
                             </button>
