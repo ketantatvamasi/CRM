@@ -26,7 +26,7 @@
 
                         <!--begin::Button-->
                         <button type="button" class="btn btn-primary font-weight-bolder d-none" id="customer_list_button">
-                            <i class="ki ki-long-arrow-back"></i> Back
+                            <i class="far fa-user"></i> <?= ucfirst($load_data['site_title']) ?> List
                         </button>
                         <!--end::Button-->
                     </div>
@@ -107,7 +107,7 @@
                                                 <div class="form-group">
                                                     <label>Customer category</label><span class="text-danger">*</span>
                                                     <!-- <input type="text" class="form-control" name="customer_category" id="customer_category" placeholder="Enter customer category" /> -->
-                                                    <select  class="form-control" name="customer_category" id="customer_category" placeholder="Enter customer category" >
+                                                    <select class="form-control" name="customer_category" id="customer_category" placeholder="Enter customer category">
                                                         <option value="">Select category</option>
                                                         <option value="Business">Business</option>
                                                         <option value="Individual">Individual</option>

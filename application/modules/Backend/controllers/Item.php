@@ -28,7 +28,7 @@ class Item extends BackendController
         $data = array();
         $no = 0;
         foreach ($records as $record) {
-            $no++;
+            $no++;  
             $data[] = array(
                 "number" =>  $no,
                 "id" => $record->id,

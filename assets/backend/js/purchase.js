@@ -88,7 +88,7 @@ jQuery(document).ready(function () {
 			},
 			{
 				field: 'total_gst_amount',
-				title: 'GST amonut',
+				title: 'GST amount',
 				width: 70,
 				textAlign: 'center',
 				template: function (row) {
@@ -148,31 +148,6 @@ jQuery(document).ready(function () {
 			}],
 	});
 
-// 	var title = $('#purchase_dynamic_title').text();
-// 	var subtitle = $('#purchase_dynamic_subtitle_span').text();
-
-// 	$('#add_purchase_button').on('click', function () {
-// 		modelshow(subtitle);
-// 	});
-// 	$('#purchase_list_button').on('click', function () {
-// 		datatableshow(title);
-// 	});
+	
 });
 
-// function modelshow(subtitle){
-// 	$('#purchase_datatable').hide();
-// 	$('#purchase_form_model').removeClass('d-none');
-// 	$('#add_purchase_button').hide();
-// 	$('#purchase_list_button').removeClass('d-none');
-// 	$('#purchase_dynamic_title').text('Add purchase');
-// 	$('#purchase_dynamic_subtitle_span').text(subtitle);
-// }
-
-// function datatableshow(title,subtitle){
-// 	$('#purchase_form_model').addClass('d-none');
-// 	$('#purchase_datatable').show();
-// 	$('#add_purchase_button').show();
-// 	$('#purchase_list_button').addClass('d-none');
-// 	$('#purchase_dynamic_title').text(title);
-// 	$('#purchase_dynamic_subtitle_span').text(subtitle);
-// }

@@ -26,7 +26,7 @@
 
                         <!--begin::Button-->
                         <button type="button" class="btn btn-primary font-weight-bolder d-none" id="vendor_list_button">
-                            <i class="ki ki-long-arrow-back"></i> Back
+                             <i class="far fa-user"></i></i> <?= ucfirst($load_data['site_title']) ?> List
                         </button>
                         <!--end::Button-->
                     </div>
