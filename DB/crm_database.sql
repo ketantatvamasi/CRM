@@ -2,8 +2,8 @@
 -- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Jan 12, 2022 at 05:46 AM
+-- Host: 127.0.0.1:8111
+-- Generation Time: Jan 18, 2022 at 01:09 PM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 7.3.31
 
@@ -91,6 +91,7 @@ CREATE TABLE `items` (
   `sgst` float NOT NULL,
   `igst` float NOT NULL,
   `note` varchar(255) NOT NULL,
+  `status` tinyint(4) NOT NULL COMMENT 'padding',
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_at` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -99,8 +100,11 @@ CREATE TABLE `items` (
 -- Dumping data for table `items`
 --
 
-INSERT INTO `items` (`id`, `user_id`, `company_id`, `item_code`, `item_name`, `sale_price`, `purchase_price`, `total_quantity`, `opening_quantity`, `cgst`, `sgst`, `igst`, `note`, `created_at`, `updated_at`) VALUES
-(1, 2, 2, 'HZ', 'solar panel', 12000, 8000, 10, 2, 9, 9, 18, '', '2022-01-12 00:11:23', '2022-01-12 00:11:23');
+INSERT INTO `items` (`id`, `user_id`, `company_id`, `item_code`, `item_name`, `sale_price`, `purchase_price`, `total_quantity`, `opening_quantity`, `cgst`, `sgst`, `igst`, `note`, `status`, `created_at`, `updated_at`) VALUES
+(1, 2, 2, 'HZ', 'solar panel', 12000, 8000, 10, 10, 9, 9, 18, '', 0, '2022-01-12 00:11:23', '2022-01-12 16:55:30'),
+(2, 1, 1, 'P001', 'penal', 12000, 8000, 10, 10, 10, 10, 10, 'this is penal', 0, '2022-01-12 14:15:08', '2022-01-12 14:15:08'),
+(20, 35, 35, 'T001', 'toy', 500, 150, 22, 5, 10, 9, 0, 'this is best toy', 0, '2022-01-12 16:56:36', '2022-01-18 17:28:36'),
+(21, 1, 35, 'S001', 'screw', 20, 10, 12, 5, 9, 9, 0, '', 0, '2022-01-12 17:25:46', '2022-01-18 17:28:36');
 
 -- --------------------------------------------------------
 
@@ -112,6 +116,73 @@ CREATE TABLE `permission_menus` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `purchase`
+--
+
+CREATE TABLE `purchase` (
+  `id` int(11) NOT NULL,
+  `vendor_id` int(20) NOT NULL,
+  `vendor_invoice_no` int(20) NOT NULL,
+  `user_id` int(20) NOT NULL,
+  `company_id` int(20) NOT NULL,
+  `purchse_date` date NOT NULL,
+  `total_quantity` int(50) NOT NULL,
+  `total_price` float NOT NULL,
+  `cgst_price` float NOT NULL,
+  `sgst_price` float NOT NULL,
+  `igst_price` float NOT NULL,
+  `total_gst_amount` float NOT NULL,
+  `round_of` float NOT NULL,
+  `total_amount` float NOT NULL,
+  `status` tinyint(4) NOT NULL DEFAULT 0 COMMENT 'padding',
+  `create_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `update_at` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `purchase`
+--
+
+INSERT INTO `purchase` (`id`, `vendor_id`, `vendor_invoice_no`, `user_id`, `company_id`, `purchse_date`, `total_quantity`, `total_price`, `cgst_price`, `sgst_price`, `igst_price`, `total_gst_amount`, `round_of`, `total_amount`, `status`, `create_at`, `update_at`) VALUES
+(1, 1, 123, 35, 35, '2022-01-12', 4, 1040, 103.6, 93.6, 0, 197.2, 0, 1237.2, 0, '2022-01-18 16:59:11', '2022-01-18 16:59:11'),
+(2, 4, 123, 35, 35, '2022-01-19', 1, 500, 50, 45, 0, 95, 0, 595, 0, '2022-01-18 17:00:58', '2022-01-18 17:00:58'),
+(3, 1, 987, 35, 35, '2022-01-19', 1, 20, 1.8, 1.8, 0, 3.6, 0, 23.6, 0, '2022-01-18 17:03:52', '2022-01-18 17:03:52');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `purchase_item`
+--
+
+CREATE TABLE `purchase_item` (
+  `id` int(11) NOT NULL,
+  `purchase_id` int(20) NOT NULL,
+  `item_id` int(10) NOT NULL,
+  `quantity` int(50) NOT NULL,
+  `rate` int(50) NOT NULL,
+  `amount` int(50) NOT NULL,
+  `discount` int(50) NOT NULL,
+  `cgst_tax` int(50) NOT NULL,
+  `sgst_tax` int(50) NOT NULL,
+  `igst_tax` int(50) NOT NULL,
+  `total_amount` int(50) NOT NULL,
+  `create_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `update_at` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `purchase_item`
+--
+
+INSERT INTO `purchase_item` (`id`, `purchase_id`, `item_id`, `quantity`, `rate`, `amount`, `discount`, `cgst_tax`, `sgst_tax`, `igst_tax`, `total_amount`, `create_at`, `update_at`) VALUES
+(1, 1, 20, 2, 500, 0, 0, 10, 9, 0, 1000, '2022-01-18 16:59:11', '2022-01-18 16:59:11'),
+(2, 1, 21, 2, 20, 0, 0, 9, 9, 0, 40, '2022-01-18 16:59:11', '2022-01-18 16:59:11'),
+(3, 2, 20, 1, 500, 0, 0, 10, 9, 0, 500, '2022-01-18 17:00:58', '2022-01-18 17:00:58'),
+(4, 3, 21, 1, 20, 0, 0, 9, 9, 0, 20, '2022-01-18 17:03:52', '2022-01-18 17:03:52');
 
 -- --------------------------------------------------------
 
@@ -181,7 +252,7 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`user_id`, `role_id`, `parent_id`, `organization_name`, `firstname`, `lastname`, `email`, `status`, `password`, `phone`, `address`, `pincode`, `city`, `state`, `country`, `create_date`, `update_date`) VALUES
 (1, 1, 1, 'Tatvamasi Labs', 'super Admin', 'Super Admin', 'admin@gmail.com', 1, '123456', 9658478596, '310- Heaven solar design, Surat', 0, 'surat', 'gujarat', 'India', '2022-01-07 10:55:21', '2022-01-07 12:43:11'),
-(35, 2, 1, 'test company', 'test admin', 'first', 'test@gmail.com', 1, 'test', 695846165, '9 geeta nager soc', 394170, 'surat', 'gujarat', 'IN', '2022-01-10 11:33:18', '2022-01-11 12:28:44'),
+(35, 2, 1, 'test company', 'test admin', 'first', 'test@gmail.com', 1, 'test', 695846165, '9 geeta nager soc', 394170, 'surat', 'gujarat', 'IN', '2022-01-10 11:33:18', '2022-01-11 18:04:39'),
 (54, 3, 35, 'test', 'test', 'first', 'testim@gmail.com', 1, 'test', 652658585985, 'surat', 394170, 'surat', 'gujarat', 'IN', '2022-01-10 16:32:37', '2022-01-11 11:55:47'),
 (55, 2, 1, 'tatvamasi nayan', 'nayan', 'sorathiya', 'nayan@gmail.com', 1, '123456', 564654654, 'varachha', 395010, 'surat', 'gujarat', 'IN', '2022-01-11 11:39:07', '2022-01-11 11:39:07'),
 (57, 3, 55, 'tatvamasi nayan', 'IM 001', 'kjshjdfjs', 'IM001@gmail.com', 1, '123456', 4234242424, 'sddf', 0, 'sdf', 'sdf', 'IQ', '2022-01-11 11:42:04', '2022-01-11 11:42:04');
@@ -228,16 +299,9 @@ CREATE TABLE `vendors` (
 --
 
 INSERT INTO `vendors` (`id`, `user_id`, `company_id`, `company_name`, `code`, `contact_person_name`, `mobile_main`, `mobile1`, `mobile2`, `email`, `status`, `address`, `city`, `state`, `country`, `pincode`, `gst_no`, `cst_no`, `pan_no`, `bank_name`, `account_name`, `bank_branch`, `acccount_no`, `ifsc_code`, `website`, `referee_name`, `created_at`, `updated_at`) VALUES
-(1, 35, 35, 'Heaven solar energy', 'HS01', 'keyurbhai', 9584856952, 6325548658, NULL, 'keyur.tatvamasi@gmail.com', 0, 'Mota varachha', 'surat', 'gujarat', 'india', 395006, 'GJ5698856952148', 'SS54845455664', '', 'SBI', 'Heaven Solar Energy', 'Yogi chowk', 9658456236, 'SBIN0018700', 'www.heavensolarenergy.com', '', '2022-01-08 16:09:39', '2022-01-11 11:45:47'),
-(2, 54, 35, 'Heaven design', 'HS02', 'keyurbhai', 9584856952, 6325548658, NULL, 'keyur.tatvamasi@gmail.com', 0, 'Mota varachha', 'surat', 'gujarat', 'india', 395006, 'GJ5698856952148', 'SS54845455664', '', 'SBI', 'Heaven Solar Energy', 'Yogi chowk', 9658456236, 'SBIN0018700', 'www.heavensolarenergy.com', '', '2022-01-08 16:09:39', '2022-01-11 11:46:03'),
-(3, 55, 55, 'Tatvamasi Labs\r\n', 'HS03', 'keyurbhai', 9584856952, 6325548658, NULL, 'keyur.tatvamasi@gmail.com', 0, 'Mota varachha', 'surat', 'gujarat', 'india', 395006, 'GJ5698856952148', 'SS54845455664', '', 'SBI', 'Heaven Solar Energy', 'Yogi chowk', 9658456236, 'SBIN0018700', 'www.heavensolarenergy.com', '', '2022-01-08 16:09:39', '2022-01-11 11:46:26'),
-(5, 57, 55, 'dddd', 'df', 'kjsdfh', 34534, 0, 0, 'jhsdf', 1, '345345', '34534', 'bbjb', 'BD', 35, '345', '345', '', '345', '345', '345', 345, '345', '', '', '2022-01-10 16:43:58', '2022-01-11 11:46:30'),
-(9, 54, 35, 'sdas', 'asdas', 'asd', 34234234, 234234, 0, 'sdasd', 1, 'sdf', 'ftg', 'gdfgdf', 'BY', 43353, '', '', '', 'sddfkjj', 'sdhfir47ueyfjisihd', 'hjs', 3427342746, '322427', '', '', '2022-01-11 12:01:08', '2022-01-11 12:01:08'),
-(11, 35, 35, 'gdfg', 'fhjtyyhg', 'erg ', 453535, 0, 0, 'grgg@xfgd', 1, 'sdf', 'sdf', 'dsf', 'BS', 4324, '32442344234', '', '', 'sdf', 'sfsdf', 'sdfsd', 32423, '23423', '', '', '2022-01-11 15:43:26', '2022-01-11 15:43:26'),
-(12, 35, 35, 'sdfsd', 'sdf', 'sdfsd', 4234234, 0, 0, 'fsdf@dsdfs', 0, '234fwr3', '2r32r', 'r23r23r32r', 'BH', 2434234, '234234', '', '', '2343rer3r', '242f323', 'r2343', 24324234, '34234', '', '', '2022-01-11 16:39:02', '2022-01-11 16:39:02'),
-(13, 35, 35, 'sfd', 'jhsfkj', 'skdfh', 28374938479, 0, 0, 'skhdfsddhf@kjdjfdh', 0, 'sdfsdf', 'dfdfdsf', 'sdfs', 'BS', 234234, '233423adfdds', '', '', 'sdfs', 'dsfsdf', 'dsfs', 34234, '23423', '', '', '2022-01-11 16:45:41', '2022-01-11 16:45:41'),
-(14, 54, 35, 'sdajfhhf bfiui', 'kaah', 'kahah', 34273743284279387, 0, 0, 'sdsjdfhj@dhfjh', 0, 'asda', 'hassdhhh', 'ahgfhg', 'KZ', 8374, 'jhddfjj8w887', '', '', 'asdajk', 'jhdfjhsfh', 'djjdfhjh', 384827, '873847jhfdh', '', '', '2022-01-11 16:50:50', '2022-01-11 16:50:50'),
-(15, 1, 1, 'sfsdf', 'efew', 'wef', 34234234, 0, 0, 'hasdhah@kshfhd', 0, '324234', '2342', '234234', 'BD', 34243, '3423effew', '', '', '23424', 'ewewr3242', '234', 2343432, '234234', '', '', '2022-01-11 16:53:19', '2022-01-11 16:53:19');
+(1, 35, 35, 'Heaven solar energy', 'HS01', 'keyurbhai', 9584856952, 6325548658, 0, 'keyur.tatvamasi@gmail.com', 0, 'Mota varachha', 'surat', 'gujarat', 'ID', 395006, 'GJ5698856952148', 'SS54845455664', '', 'SBI', 'Heaven Solar Energy', 'Yogi chowk', 9658456236, 'SBIN0018700', 'www.heavensolarenergy.com', '', '2022-01-08 16:09:39', '2022-01-12 14:49:51'),
+(2, 55, 55, 'Tatvamasi Labs\r\n', 'HS03', 'maganbhai', 9584856952, 6325548658, NULL, 'keyur.tatvamasi@gmail.com', 0, 'Mota varachha', 'surat', 'gujarat', 'india', 395006, 'GJ5698856952148', 'SS54845455664', '', 'SBI', 'Heaven Solar Energy', 'Yogi chowk', 9658456236, 'SBIN0018700', 'www.heavensolarenergy.com', '', '2022-01-08 16:09:39', '2022-01-18 13:57:07'),
+(4, 54, 35, 'Heaven design', 'HS02', 'nayanbhai', 9584856952, 6325548658, NULL, 'keyur.tatvamasi@gmail.com', 0, 'Mota varachha', 'surat', 'gujarat', 'india', 395006, 'GJ5698856952148', 'SS54845455664', '', 'SBI', 'Heaven Solar Energy', 'Yogi chowk', 9658456236, 'SBIN0018700', 'www.heavensolarenergy.com', '', '2022-01-08 16:09:39', '2022-01-18 12:05:50');
 
 --
 -- Indexes for dumped tables
@@ -266,6 +330,18 @@ ALTER TABLE `items`
 -- Indexes for table `permission_menus`
 --
 ALTER TABLE `permission_menus`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `purchase`
+--
+ALTER TABLE `purchase`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `purchase_item`
+--
+ALTER TABLE `purchase_item`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -309,19 +385,31 @@ ALTER TABLE `activites_logs`
 -- AUTO_INCREMENT for table `customers`
 --
 ALTER TABLE `customers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `items`
 --
 ALTER TABLE `items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `permission_menus`
 --
 ALTER TABLE `permission_menus`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `purchase`
+--
+ALTER TABLE `purchase`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+
+--
+-- AUTO_INCREMENT for table `purchase_item`
+--
+ALTER TABLE `purchase_item`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `role`
@@ -339,13 +427,13 @@ ALTER TABLE `role_permission`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
 
 --
 -- AUTO_INCREMENT for table `vendors`
 --
 ALTER TABLE `vendors`
-  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- Constraints for dumped tables

@@ -127,7 +127,6 @@ class BackendController extends MY_Controller
                     'assets/Backend/app-assets/vendors/js/extensions/unslider-min.js',
                     'assets/Backend/app-assets/vendors/js/timeline/horizontal-timeline.js',
                     'assets/Backend/app-assets/js/scripts/pages/dashboard-ecommerce.min.js'
-
                 );
 
                 break;
