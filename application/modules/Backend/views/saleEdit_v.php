@@ -81,7 +81,7 @@
 
                             <div class="row">
                                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                    <table class="table table-separate table-head-custom table-checkable table-responsive" id="invoiceItem">
+                                    <table class="table table-separate table-head-custom table-checkable table-responsive" id="editinvoiceItem">
                                         <thead>
                                             <tr>
                                                 <th width="2px"><input id="checkAll" class="formcontrol" type="checkbox"></th>
@@ -98,34 +98,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td><input class="itemRow" type="checkbox"></td>
-                                                <td>
-                                                    <select class="form-control" name="data[1][item_id]" id="productId_1" autocomplete="off">
-                                                        <option value="">Select Item</option>
 
-                                                        <?php if (!($load_data['items'] == '')) { ?>
-                                                            <?php foreach ($load_data['items'] as $value) : ?>
-                                                                <?php echo "<option value='" . $value->id . "'>" . $value->item_name . " </option>" ?>
-                                                        <?php endforeach;
-                                                        } ?>
-
-                                                    </select>
-                                                </td>
-                                                <td>
-                                                    <input type="number" name="data[1][quantity]" id="quantity_1" class="form-control " autocomplete="off">
-                                                    <div class="font-weight-bold text-muted text-right" id="stock_1"></div>
-                                                    <!-- <span class="label label-rounded label-success" id="stock_1"></span> -->
-                                                </td>
-
-
-                                                <td><input type="number" name="data[1][price]" id="price_1" class="form-control " autocomplete="off" readonly></td>
-                                                <td><input type="number" name="data[1][total]" id="total_1" class="form-control " autocomplete="off" readonly></td>
-                                                <td><input type="number" name="data[1][sgst]" id="sgst_1" class="form-control " autocomplete="off" readonly></td>
-                                                <td><input type="number" name="data[1][cgst]" id="cgst_1" class="form-control " autocomplete="off" readonly></td>
-                                                <td><input type="number" name="data[1][igst]" id="igst_1" class="form-control " autocomplete="off" readonly></td>
-                                                <td><input type="number" name="data[1][total_amount]" id="amount_1" class="form-control " autocomplete="off" readonly></td>
-                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
