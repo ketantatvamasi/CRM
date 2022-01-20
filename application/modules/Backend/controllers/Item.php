@@ -67,7 +67,7 @@ class Item extends BackendController
         }else {
             $result = $this->common_m->edit_id(array('*'), 'items', array('id' => $data['id']));
             $this->db->trans_begin();
-            $this->common_m->updateQty('items', array("id" => $data['id']), 'total_quantity', 0 - $result->opening_quantity);
+            $this->common_m->updateQty('items', array("id" => $data['id']), 'total_quantity',);
             $result = $this->common_m->update_record('items', $data, array('id' => $data['id']));
             $this->common_m->updateQty('items', array("id" => $data['id']), 'total_quantity', $data['opening_quantity']);
             if ($this->db->trans_status() === FALSE) {
