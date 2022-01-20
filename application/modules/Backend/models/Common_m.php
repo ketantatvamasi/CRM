@@ -87,5 +87,20 @@ class Common_m extends CI_Model
         $query = $this->db->get();
         return $query->row();
     }
+    
+    function last_insert_id($tbl_name, $data)
+    {
+        $this->db->insert($tbl_name, $data);
+        return $this->db->insert_id();
+    }
+
+    public function edit_multiple_id($column_name, $tbl_name, $where)
+    {
+        $this->db->select($column_name);
+        $this->db->from($tbl_name);
+        $this->db->where($where);
+        $query = $this->db->get();
+        return $query->result();
+    }
 }
 ?>
