@@ -36,15 +36,15 @@
 
                         <form class="form" id="sale_form" action="#">
 
-                            <input type="hidden" name="id" id="id">
-                            <input type="hidden" name="total_quantity" id="total_quantity">
-                            <input type="hidden" name="total_price" id="total_price">
-                            <input type="hidden" name="cgst_price" id="cgst_price">
-                            <input type="hidden" name="sgst_price" id="sgst_price">
-                            <input type="hidden" name="igst_price" id="igst_price">
-                            <input type="hidden" name="total_gst_amount" id="total_gst_amount">
+                            <input type="hidden" name="id" id="id" value="<?= $load_data['sale_data'][0]->id; ?>">
+                            <input type="hidden" name="total_quantity" id="total_quantity" value="<?= $load_data['sale_data'][0]->total_quantity; ?>">
+                            <input type="hidden" name="total_price" id="total_price" value="<?= $load_data['sale_data'][0]->total_price; ?>">
+                            <input type="hidden" name="cgst_price" id="cgst_price" value="<?= $load_data['sale_data'][0]->cgst_price; ?>">
+                            <input type="hidden" name="sgst_price" id="sgst_price" value="<?= $load_data['sale_data'][0]->sgst_price; ?>">
+                            <input type="hidden" name="igst_price" id="igst_price" value="<?= $load_data['sale_data'][0]->igst_price; ?>">
+                            <input type="hidden" name="total_gst_amount" id="total_gst_amount" value="<?= $load_data['sale_data'][0]->total_gst_amount; ?>">
                             <!-- <input type="hidden" name="round_of" id="round_of"> -->
-                            <input type="hidden" name="total_amount" id="total_amount">
+                            <input type="hidden" name="total_amount" id="total_amount" value="<?= $load_data['sale_data'][0]->total_amount; ?>">
 
                             <div class="row">
                                 <div class="col-xl-6">
@@ -54,8 +54,8 @@
                                             <option value="">Select Customer</option>
 
                                             <?php if (!($load_data['customers'] == '')) { ?>
-                                                <?php foreach ($load_data['customers'] as $value) : ?>
-                                                    <?php echo "<option value='" . $value->id . "'>" . $value->customer_name . " </option>" ?>
+                                                <?php foreach ($load_data['customers'] as $value) : $selected = ($value->id == $load_data['sale_data'][0]->customer_id) ? 'selected' : ''; ?>
+                                                    <?php echo "<option value='" . $value->id . "' $selected>" . $value->customer_name . " </option>" ?>
                                             <?php endforeach;
                                             } ?>
 
@@ -67,18 +67,18 @@
                                 <div class="col-xl-3">
                                     <div class="form-group">
                                         <label>Bill no. <span class="text-danger">*</span></label>
-                                        <input type="number" class="form-control" name="customer_invoice_id" id="customer_invoice_id" placeholder="Invoice Number" />
+                                        <input type="number" class="form-control" name="customer_invoice_id" id="customer_invoice_id" placeholder="Invoice Number" value="<?= $load_data['sale_data'][0]->customer_invoice_id; ?>" />
                                     </div>
                                 </div>
                                 <div class="col-xl-3">
                                     <div class="form-group">
                                         <label>Bill Date <span class="text-danger">*</span></label>
-                                        <input type="date" class="form-control" name="bill_date" id="bill_date" />
+                                        <input type="date" class="form-control" name="bill_date" id="bill_date" value="<?= $load_data['sale_data'][0]->bill_date; ?>" />
                                     </div>
                                 </div>
 
                             </div>
-
+                            <!-- <//?php print_r($load_data['sale_item_data']);?> -->
                             <div class="row">
                                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                     <table class="table table-separate table-head-custom table-checkable table-responsive" id="invoiceItem">
@@ -98,34 +98,36 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td><input class="itemRow" type="checkbox"></td>
-                                                <td>
-                                                    <select class="form-control" name="data[1][item_id]" id="productId_1" autocomplete="off">
-                                                        <option value="">Select Item</option>
+                                            <?php
+                                            $count = 0;
+                                            
+                                            foreach ($load_data['sale_item_data'] as $invoiceItems) {
+                                                $count++;
+                                            ?>
+                                                <tr>
+                                                    <td><input class="itemRow" type="checkbox"></td>
+                                                    <td><select class="form-control" name="data[<?= $count; ?>][item_id]" id="productId_<?= $count; ?>" autocomplete="off">\
+                                                            <option value="">Select Item</option>;
 
-                                                        <?php if (!($load_data['items'] == '')) { ?>
-                                                            <?php foreach ($load_data['items'] as $value) : ?>
-                                                                <?php echo "<option value='" . $value->id . "'>" . $value->item_name . " </option>" ?>
-                                                        <?php endforeach;
-                                                        } ?>
+                                                            <?php if (!($load_data['item_list'] == '')) { ?>
+                                                                <?php foreach ($load_data['item_list'] as $value) : $selected = ($value->id == $invoiceItems->item_id) ? 'selected' : ''; ?>
+                                                                    <?php echo "<option value='" . $value->id . "' $selected>" . $value->item_name . " </option>" ?>
+                                                            <?php endforeach;
+                                                            } ?>
+                                                        </select></td>
+                                                    <td><input type="number" name="data[<?= $count; ?>][quantity]" id="quantity_<?= $count; ?>" class="form-control " value="<?= $invoiceItems->quantity; ?>" autocomplete="off">
+                                                        
+                                                    </td>
+                                                    <td><input type="number" name="data[<?= $count; ?>][price]" id="price_<?= $count; ?>" class="form-control " autocomplete="off" value="<?= $invoiceItems->price; ?>" readonly></td>
+                                                    <td><input type="number" name="data[<?= $count; ?>][total]" id="total_<?= $count; ?>" class="form-control " autocomplete="off" value="<?= $invoiceItems->total; ?>" readonly></td>
+                                                    <td><input type="number" name="data[<?= $count; ?>][sgst]" id="sgst_<?= $count; ?>" class="form-control " autocomplete="off" value="<?= $invoiceItems->sgst; ?>" readonly></td>
+                                                    <td><input type="number" name="data[<?= $count; ?>][cgst]" id="cgst_<?= $count; ?>" class="form-control " autocomplete="off" value="<?= $invoiceItems->cgst; ?>" readonly></td>
+                                                    <td><input type="number" name="data[<?= $count; ?>][igst]" id="igst_<?= $count; ?>" class="form-control " autocomplete="off" value="<?= $invoiceItems->igst; ?>" readonly></td>
+                                                    <td><input type="number" name="data[<?= $count; ?>][total_amount]" id="amount_<?= $count; ?>" class="form-control " autocomplete="off" value="<?= $invoiceItems->total_amount; ?>" readonly></td>
+                                                </tr>
 
-                                                    </select>
-                                                </td>
-                                                <td>
-                                                    <input type="number" name="data[1][quantity]" id="quantity_1" class="form-control " autocomplete="off">
-                                                    <!-- <div class="font-weight-bold text-muted text-right" id="stock_1"></div> -->
-                                                    <!-- <span class="label label-rounded label-success" id="stock_1"></span> -->
-                                                </td>
-
-
-                                                <td><input type="number" name="data[1][price]" id="price_1" class="form-control " autocomplete="off" readonly></td>
-                                                <td><input type="number" name="data[1][total]" id="total_1" class="form-control " autocomplete="off" readonly></td>
-                                                <td><input type="number" name="data[1][sgst]" id="sgst_1" class="form-control " autocomplete="off" readonly></td>
-                                                <td><input type="number" name="data[1][cgst]" id="cgst_1" class="form-control " autocomplete="off" readonly></td>
-                                                <td><input type="number" name="data[1][igst]" id="igst_1" class="form-control " autocomplete="off" readonly></td>
-                                                <td><input type="number" name="data[1][total_amount]" id="amount_1" class="form-control " autocomplete="off" readonly></td>
-                                            </tr>
+                                            <?php 
+                                            } ?>
                                         </tbody>
                                     </table>
                                 </div>
@@ -157,34 +159,34 @@
                                         <div class="d-flex flex-column text-md-right">
                                             <div class="d-flex justify-content-between mb-3">
                                                 <span class="mr-15 font-weight-bold">Total Qty:</span>
-                                                <span class="text-right" id="total_quantityShow">0</span>
+                                                <span class="text-right" id="total_quantityShow"><?= $load_data['sale_data'][0]->total_quantity; ?></span>
                                             </div>
                                             <div class="d-flex justify-content-between mb-3">
                                                 <span class="mr-15 font-weight-bold">Total:</span>
-                                                <span class="text-right" id="total_amountShow">₹0</span>
+                                                <span class="text-right" id="total_amountShow">₹<?= $load_data['sale_data'][0]->total_price; ?></span>
                                             </div>
 
 
 
                                             <div class="d-flex justify-content-between">
                                                 <span class="mr-15 font-weight-bold">SGST:</span>
-                                                <span class="text-right" id="total_sgst">₹0</span>
+                                                <span class="text-right" id="total_sgst">₹<?= $load_data['sale_data'][0]->sgst_price; ?></span>
                                             </div>
                                             <div class="d-flex justify-content-between">
                                                 <span class="mr-15 font-weight-bold">CGST:</span>
-                                                <span class="text-right" id="total_cgst">₹0</span>
+                                                <span class="text-right" id="total_cgst">₹<?= $load_data['sale_data'][0]->cgst_price; ?></span>
                                             </div>
                                             <div class="d-flex justify-content-between">
                                                 <span class="mr-15 font-weight-bold">IGST:</span>
-                                                <span class="text-right" id="total_igst">₹0</span>
+                                                <span class="text-right" id="total_igst">₹<?= $load_data['sale_data'][0]->igst_price; ?></span>
                                             </div>
                                             <div class="d-flex justify-content-between">
                                                 <span class="mr-15 font-weight-bold">Total Tax:</span>
-                                                <span class="text-right" id="total_tax">₹0</span>
+                                                <span class="text-right" id="total_tax">₹<?= $load_data['sale_data'][0]->total_gst_amount; ?></span>
                                             </div>
                                             <span class="font-size-lg font-weight-bolder mt-10 mb-1">TOTAL
                                                 AMOUNT</span>
-                                            <span class="font-size-h2 font-weight-boldest text-danger mb-1" id="final_amount">₹0</span>
+                                            <span class="font-size-h2 font-weight-boldest text-danger mb-1" id="final_amount">₹<?= $load_data['sale_data'][0]->total_amount; ?></span>
                                             <span>Taxes Included</span>
                                         </div>
                                     </div>
@@ -195,7 +197,7 @@
 
                             <div class="card-footer">
                                 <button type="submit" class="btn btn-primary mr-2" id="sale_form_submit_button">Submit</button>
-                                <button type="button" class="btn btn-secondary mr-2" id="sale_form_reset_button">Reset</button>
+                                <button type="reset" class="btn btn-secondary mr-2">Reset</button>
                                 <button type="button" class="btn btn-light-primary font-weight-bold" onclick="window.print();">Download Invoice</button>
                             </div>
                         </form>
