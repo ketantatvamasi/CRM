@@ -158,6 +158,11 @@
                                     <!--end::Svg Icon-->
                                 </span><span class="menu-text"> Purchase</span></a>
                         </li>
+                        <li class="menu-item  menu-item" aria-haspopup="true"><a href="<?= base_url('backend/sale'); ?>" class="menu-link ">
+                        <i class="menu-icon flaticon-coins icon-lg"></i>
+                                    <!--end::Svg Icon-->
+                                </span><span class="menu-text">Sell</span></a>
+                        </li>
 
                     </ul>
                     <!--end::Menu Nav-->
