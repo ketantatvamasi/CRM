@@ -114,7 +114,7 @@
                                                 </td>
                                                 <td>
                                                     <input type="number" name="data[1][quantity]" id="quantity_1" class="form-control " autocomplete="off">
-                                                    <div class="font-weight-bold text-muted text-right" id="stock_1"></div>
+                                                    <!-- <div class="font-weight-bold text-muted text-right" id="stock_1"></div> -->
                                                     <!-- <span class="label label-rounded label-success" id="stock_1"></span> -->
                                                 </td>
 
@@ -195,7 +195,7 @@
 
                             <div class="card-footer">
                                 <button type="submit" class="btn btn-primary mr-2" id="sale_form_submit_button">Submit</button>
-                                <button type="reset" class="btn btn-secondary mr-2">Reset</button>
+                                <button type="button" class="btn btn-secondary mr-2" id="sale_form_reset_button">Reset</button>
                                 <button type="button" class="btn btn-light-primary font-weight-bold" onclick="window.print();">Download Invoice</button>
                             </div>
                         </form>

@@ -36,7 +36,7 @@
                                         <option value="">Select vendor name</option>
                                         <?php
                                         foreach ($load_data['record']['vendor_list'] as $val) {
-                                            echo "<option value='" . $val->id . "'>" . $val->contact_person_name ." | ".$val->company_name. "</option>";
+                                            echo "<option value='" . $val->id . "'>" . $val->contact_person_name ." (".$val->company_name.") ". "</option>";
                                         }
                                         ?>
                                     </select>

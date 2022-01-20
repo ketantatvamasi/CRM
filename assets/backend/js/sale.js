@@ -121,7 +121,7 @@ jQuery(document).ready(function () {
                 template: function (data) {
                     return '\
 	                        <div class="dropdown dropdown-inline">\
-	                        <a href="javascript:;" title="Edit" onclick="edit_sale('+ data.id + ')">\
+	                        <a href="'+ baseFolder + 'sale/editSale_Page/'+ data.id + '" title="Edit" >\
 							<i class="far fa-edit text-success mr-3"></i>\
 	                        </a>\
 	                        <a href="javascript:;" title="Delete" onclick="delete_sale('+ data.id + ')">\
@@ -135,50 +135,34 @@ jQuery(document).ready(function () {
 
 });
 
-function edit_sale(id) {
+function delete_sale(id) {
+	Swal.fire({
+		title: "Are you sure?",
+		text: "You won't be able to revert this!",
+		icon: "warning",
+		showCancelButton: true,
+		confirmButtonColor: "#d33",
+		confirmButtonText: "Yes, delete it!",
+		cancelButtonText: "No, cancel!",
+		reverseButtons: true
+	}).then(function (result) {
+        
+		if (result.value) {
+			$.ajax({
+				type: "POST",
+				url: baseFolder + 'sale/deleteSale',
+				data: { id: id },
+				dataType: "json",
+				success: function (data) {
+					if (data.response == true) {
+						toastr.success('Successfully Deleted');
+						$('#sale_datatable').KTDatatable('reload');
+					}
+				}
 
-    $.ajax({
-        type: "POST",
-        url: baseFolder + 'sale/editSale',
-        data: { id: id },
-        dataType: "json",
-        success: function (data) {
-            // console.log(data['itemRows'][0].id);
-            // window.location.href = baseFolder + "sale/editSale_Page";
-            $('editSale_model').modal('show');
-            var count = $(".itemRow").length;
-            count++;
-            var htmlRows = '';
-
-
-            for (let i = 0; i < data.itemRows.length; i++) {
-                htmlRows += '<tr>';
-                htmlRows += '<td><input class="itemRow" type="checkbox"></td>';
-                htmlRows += '<td><select class="form-control" name="data[' + count + '][item_id]" id="productId_' + count + '" autocomplete="off">\
-                                            <option value="">Select Item</option>';
-                for (let i = 0; i < data.items.length; i++) {
-                    htmlRows += '<option value="' + data['items'][i].id + '">' + data['items'][i].item_name + '</option>';
-                }
-
-                htmlRows += '</select></td>';
-                htmlRows += '<td><input type="number" name="data[' + count + '][quantity]" id="quantity_' + count + '" class="form-control " autocomplete="off"><div class="font-weight-bold text-muted text-right" id="stock_' + count + '"></td>';
-                htmlRows += '<td><input type="number" name="data[' + count + '][price]" id="price_' + count + '"  class="form-control " autocomplete="off" readonly></td>';
-                htmlRows += '<td><input type="number" name="data[' + count + '][total]" id="total_' + count + '"  class="form-control " autocomplete="off" readonly></td>';
-                htmlRows += '<td><input type="number" name="data[' + count + '][sgst]" id="sgst_' + count + '"  class="form-control " autocomplete="off" readonly></td>';
-                htmlRows += '<td><input type="number" name="data[' + count + '][cgst]" id="cgst_' + count + '"  class="form-control " autocomplete="off" readonly></td>';
-                htmlRows += '<td><input type="number" name="data[' + count + '][igst]" id="igst_' + count + '"  class="form-control " autocomplete="off" readonly></td>';
-                htmlRows += '<td><input type="number" name="data[' + count + '][total_amount]" id="amount_' + count + '"  class="form-control " autocomplete="off" readonly></td>';
-                htmlRows += '</tr>';
-                count++;
-            }
-
-            $('#invoiceItem').append(htmlRows);
-
-
-
-        }
-    });
-
+			});
+		}
+	});
 }
 
 var saleForm = function () {
@@ -308,7 +292,7 @@ $(document).ready(function () {
 
                 }
                 htmlRows += '</select></td>';
-                htmlRows += '<td><input type="number" name="data[' + count + '][quantity]" id="quantity_' + count + '" class="form-control " autocomplete="off"><div class="font-weight-bold text-muted text-right" id="stock_' + count + '"></td>';
+                htmlRows += '<td><input type="number" name="data[' + count + '][quantity]" id="quantity_' + count + '" class="form-control " autocomplete="off"></td>';
                 htmlRows += '<td><input type="number" name="data[' + count + '][price]" id="price_' + count + '"  class="form-control " autocomplete="off" readonly></td>';
                 htmlRows += '<td><input type="number" name="data[' + count + '][total]" id="total_' + count + '"  class="form-control " autocomplete="off" readonly></td>';
                 htmlRows += '<td><input type="number" name="data[' + count + '][sgst]" id="sgst_' + count + '"  class="form-control " autocomplete="off" readonly></td>';
@@ -339,6 +323,11 @@ $(document).ready(function () {
             $(this).closest('tr').remove();
         });
         $('#checkAll').prop('checked', false);
+        calculateTotal();
+    });
+
+    $(document).on('click','#sale_form_reset_button',function(){
+        document.getElementById("sale_form").reset();
         calculateTotal();
     });
 

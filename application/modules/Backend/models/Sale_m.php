@@ -77,18 +77,5 @@ class Sale_m extends CI_Model
         return $query->row();
     }
 
-    function insert_record($tbl_name, $data)
-    {
-        $this->db->insert($tbl_name, $data);
-        return $this->db->insert_id();
-    }
 
-    public function edit_id($column_name, $tbl_name, $where)
-    {
-        $this->db->select($column_name);
-        $this->db->from($tbl_name);
-        $this->db->where($where);
-        $query = $this->db->get();
-        return $query->result();
-    }
 }

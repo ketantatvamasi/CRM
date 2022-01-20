@@ -92,22 +92,47 @@ class Sale extends BackendController
                 'company_id' => $this->session->userdata['company_id'],
                 'user_id' => $this->session->userdata['user_id']
             );
-
-            $this->db->trans_begin();
-            $sale_id = $this->sale_m->insert_record('sale', $input1);
-
             $input2 = $input['data'];
-            foreach ($input2 as  $key => $value) {
-                $input2[$key]['sale_id'] = $sale_id;
-                $this->common_m->updateQty('items', array("id" => $input2[$key]['item_id']), 'total_quantity', 0 - $input2[$key]['quantity']);
-            }
 
-            $result = $this->common_m->muliple_insert_batch('sale_item', $input2);
+            if ($input['id'] == "") {
+                $this->db->trans_begin();
 
-            if ($this->db->trans_status() === FALSE) {
-                $this->db->trans_rollback();
+                $sale_id = $this->common_m->last_insert_id('sale', $input1);
+
+
+                foreach ($input2 as  $key => $value) {
+                    $input2[$key]['sale_id'] = $sale_id;
+                    $this->common_m->updateQty('items', array("id" => $input2[$key]['item_id']), 'total_quantity', 0 - $input2[$key]['quantity']);
+                }
+
+                $result = $this->common_m->muliple_insert_batch('sale_item', $input2);
+
+                if ($this->db->trans_status() === FALSE) {
+                    $this->db->trans_rollback();
+                } else {
+                    $this->db->trans_commit();
+                }
             } else {
-                $this->db->trans_commit();
+                $this->db->trans_begin();
+                $sale_item_list = $this->common_m->edit_multiple_id(array('*'), 'sale_item', array('sale_id' => $input1['id']));
+
+                foreach ($sale_item_list as  $key => $value) {
+                    $this->common_m->updateQty('items', array("id" => $value->item_id), 'total_quantity', $value->quantity);
+                }
+                $this->common_m->delete_record('sale_item', array('sale_id' => $input1['id']));
+                $this->common_m->update_record('sale', $input1, array('id' => $input1['id']));
+                foreach ($input2 as  $key => $value) {
+
+                    $input2[$key]['sale_id'] = $input1['id'];
+                    $this->common_m->updateQty('items', array("id" => $input2[$key]['item_id']), 'total_quantity', 0 - $input2[$key]['quantity']);
+                }
+                $result = $this->common_m->muliple_insert_batch('sale_item', $input2);
+
+                if ($this->db->trans_status() === FALSE) {
+                    $this->db->trans_rollback();
+                } else {
+                    $this->db->trans_commit();
+                }
             }
             $rsp['response'] = $result;
             echo json_encode($rsp);
@@ -123,23 +148,37 @@ class Sale extends BackendController
         $this->data['template_js'] = $this->load_grid_js('sale');
         $company_id = $this->session->userdata['company_id'];
 
-        $this->data['customers'] = $this->common_m->get_common_master('customers', array('id', 'user_id', 'company_id', 'customer_name'), array("company_id" => $company_id), 'customer_name asc');
-        
+        $this->data['customers'] = $this->common_m->get_common_master('customers', array('id', 'customer_name'), array("company_id" => $company_id), 'customer_name asc');
+        $id = $this->uri->segment(4);
+        $this->data['item_list'] = $this->common_m->get_common_master('items', array('*'), array("company_id" => $company_id), 'item_name asc');
+        $this->data['sale_data'] = $this->common_m->get_common_master('sale', array('*'), array("id" => $id), null);
+        $this->data['sale_item_data'] = $this->common_m->get_common_master('sale_item', array('*'), array("sale_id" => $id), null);
+
         $this->render_page($this->data['sitename_folder'] . 'saleEdit_v', $this->data);
     }
 
-    public function editSale()
+    public function deleteSale()
     {
-        if ($this->input->is_ajax_request()) {
-            $input = $this->input->post();
-            $company_id = $this->session->userdata['company_id'];
-
-            $data['items'] = $this->common_m->get_common_master('items', array('id', 'user_id', 'company_id', 'item_code', 'item_name'), array("company_id" => $company_id), 'item_name asc');
-            $data['saleRow'] = $this->common_m->edit_id(array('*'), 'sale', array('id' => $input['id']));
-            $data['itemRows'] = $this->sale_m->edit_id(array('*'), 'sale_item', array('sale_id' => $input['id']));
-            echo json_encode($data);
-        }else{
+        if (!$this->input->is_ajax_request()) {
             $this->error();
+            return false;
         }
+        $data = $this->input->post();
+        $this->db->trans_begin();
+        $sale_item_list = $this->common_m->edit_multiple_id(array('*'), 'sale_item', array('sale_id' => $data['id']));
+
+        foreach ($sale_item_list as  $key => $value) {
+            $this->common_m->updateQty('items', array("id" => $value->item_id), 'total_quantity', $value->quantity);
+        }
+        $result = $this->common_m->delete_record('sale', array('id' => $data['id']));
+        $result = $this->common_m->delete_record('sale_item', array('sale_id' => $data['id']));
+
+        if ($this->db->trans_status() === FALSE) {
+            $this->db->trans_rollback();
+        } else {
+            $this->db->trans_commit();
+        }
+        $rsp['response'] = $result;
+        echo json_encode($rsp);
     }
 }
