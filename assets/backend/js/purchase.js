@@ -146,8 +146,10 @@ jQuery(document).ready(function () {
 	                    ';
 				},
 			}],
-	});
-
-	
+	});	
 });
 
+function edit_purchase(id) {
+	// alert(id);
+	
+}
