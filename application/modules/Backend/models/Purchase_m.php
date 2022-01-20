@@ -74,9 +74,5 @@ class Purchase_m extends CI_Model
         $query = $this->db->get('items');
         return $query->row();
     }
-    function insert_record($tbl_name, $data)
-    {
-        $this->db->insert($tbl_name, $data);
-        return $this->db->insert_id();
-    }
+     
 }
