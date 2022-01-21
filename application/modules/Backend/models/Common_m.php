@@ -12,7 +12,6 @@ class Common_m extends CI_Model
             $this->db->where($where);
         $this->db->from($common_table);
         return $this->db->count_all_results();
-        
     }
     function insert_record($tbl_name, $data)
     {
@@ -29,16 +28,24 @@ class Common_m extends CI_Model
         // print_r($this->db->last_query());
         return $insert ? true : false;
     }
-    function updateQty ($table,$where,$column_name,$qty){
-        $this->db->set($column_name, $column_name.' +'. $qty, FALSE);
+    function updateQty($table, $where, $column_name, $qty)
+    {
+        $this->db->set($column_name, $column_name . ' +' . $qty, FALSE);
         $this->db->where($where);
         $this->db->update($table);
     }
     function update_record($tbl_name, $data, $where)
     {
-        $update = $this->db->update($tbl_name, $data, $where); 
+        $update = $this->db->update($tbl_name, $data, $where);
         return $update ? true : false;
     }
+
+    function multiple_update_batch($table_name,$data,$where)
+    {
+        $update = $this->db->update_batch($table_name, $data, $where);
+        return $update ? true : false;
+    }
+
     //delete single record
     function delete_record_bulk($tbl, $where)
     {
@@ -48,8 +55,8 @@ class Common_m extends CI_Model
     function delete_record($tbl, $where)
     {
         $this->db->where($where);
-        $result=$this->db->delete($tbl);
-        return $result?true:false;
+        $result = $this->db->delete($tbl);
+        return $result ? true : false;
     }
     function exist_record($select, $tbl_name, $where = null, $data)
     {
@@ -72,7 +79,7 @@ class Common_m extends CI_Model
         $query_result = $query->result();
         return $query_result;
     }
-   
+
     function delete_subrecord($tbl_name, $id)
     {
         $this->db->where($id);
@@ -104,4 +111,3 @@ class Common_m extends CI_Model
         return $query->result();
     }
 }
-?>

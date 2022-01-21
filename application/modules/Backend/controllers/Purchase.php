@@ -59,7 +59,7 @@ class Purchase extends BackendController
         $this->data['site_title'] = ucfirst('Purchase');
         $this->data['template_css'] = $this->load_grid_css('add');   //wizard3
         $this->data['template_js'] = $this->load_grid_js('purchase');
-        $this->data['record']['vendor_list'] = $this->common_m->get_common_master('vendors', array("id", "company_name", "contact_person_name"), array("company_id" => $session), "id ASC");
+        $this->data['record']['vendor_list'] = $this->common_m->get_common_master('vendors', array("id", "contact_person_name","company_name"), array("company_id" => $session), "id ASC");
         $this->data['record']['item_list'] = $this->common_m->get_common_master('items', array("id", "item_name"), array("company_id" => $session), "id ASC");
         $this->render_page($this->data['sitename_folder'] . 'addpurchase_v', $this->data);
     }
