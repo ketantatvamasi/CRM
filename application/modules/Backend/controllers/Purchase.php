@@ -52,7 +52,7 @@ class Purchase extends BackendController
             redirect('backend/purchase');
         }
     }
-    public function addpurchase()
+    public function addpurchase_page()
     {
         $session = $this->session->userdata['company_id'];
         user_is_logged_in();
@@ -105,15 +105,15 @@ class Purchase extends BackendController
             );
 
             $data2 = $input['data'];
+           
             if ($data['id'] == "") {
+              
                 $this->db->trans_begin();
                 $purchase_id = $this->common_m->last_insert_id('purchase', $data);
-
                 foreach ($data2 as  $key => $value) {
                     $data2[$key]['purchase_id'] = $purchase_id;
                     $this->common_m->updateQty('items', array("id" => $data2[$key]['item_id']), 'total_quantity', $data2[$key]['quantity']);
                 }
-
                 $result = $this->common_m->muliple_insert_batch('purchase_item', $data2);
                 if ($this->db->trans_status() === FALSE) {
                     $this->db->trans_rollback();

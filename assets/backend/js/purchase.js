@@ -163,7 +163,7 @@ jQuery(document).ready(function () {
 				count++;
 				var htmlRows = '';
                 htmlRows += '<tr>';
-                htmlRows += '<td><select class="form-control" name="data[" + count + "][item_id]" id="item_id_' + count + '"><option value="">Select Item</option>';
+                htmlRows += '<td><select class="form-control" name="data[' + count + '][item_id]" id="item_id_' + count + '"><option value="">Select Item</option>';
                 for (let i = 0; i < data["data"].length; i++) {
                     htmlRows += '<option value="' + data["data"][i].id + '">' + data["data"][i].item_name + '</option>';
                 }
