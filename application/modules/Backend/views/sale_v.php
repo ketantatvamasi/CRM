@@ -5,10 +5,6 @@
     <div class="d-flex flex-column-fluid">
         <!--begin::Container-->
         <div class=" container ">
-
-            
-
-
             <!--begin::Sell DataTable-->
             <div class="card card-custom ">
                 <!--begin::Header-->

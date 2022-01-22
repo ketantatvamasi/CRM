@@ -65,7 +65,7 @@ var KTWizard3 = function () {
 							notEmpty: {
 								message: 'Email is required'
 							},
-							emailAddress:{
+							emailAddress: {
 								message: 'Entered Email is not valid email address'
 							}
 						}
@@ -80,7 +80,10 @@ var KTWizard3 = function () {
 				},
 				plugins: {
 					trigger: new FormValidation.plugins.Trigger(),
-					bootstrap: new FormValidation.plugins.Bootstrap()
+					bootstrap: new FormValidation.plugins.Bootstrap({
+						eleInvalidClass: '',
+						eleValidClass: '',
+					})
 				}
 			}
 		));
@@ -127,7 +130,10 @@ var KTWizard3 = function () {
 				},
 				plugins: {
 					trigger: new FormValidation.plugins.Trigger(),
-					bootstrap: new FormValidation.plugins.Bootstrap()
+					bootstrap: new FormValidation.plugins.Bootstrap({
+						eleInvalidClass: '',
+						eleValidClass: '',
+					})
 				}
 			}
 		));
@@ -181,7 +187,10 @@ var KTWizard3 = function () {
 				},
 				plugins: {
 					trigger: new FormValidation.plugins.Trigger(),
-					bootstrap: new FormValidation.plugins.Bootstrap()
+					bootstrap: new FormValidation.plugins.Bootstrap({
+						eleInvalidClass: '',
+						eleValidClass: '',
+					})
 				}
 			}
 		));
@@ -236,7 +245,7 @@ var KTWizard3 = function () {
 	};
 }();
 
-jQuery(document).ready(function () {	
+jQuery(document).ready(function () {
 	KTWizard3.init();
 	var datatable = $('#vendor_datatable').KTDatatable({
 		// datasource definition
@@ -388,13 +397,13 @@ jQuery(document).ready(function () {
 		modelshow();
 	});
 	$('#vendor_list_button').on('click', function () {
-		datatableshow(title ,subtitle);
+		datatableshow(title, subtitle);
 	});
 
 	$('#vendor_form_submit_button').on('click', function () {
-	
+
 		var data = $('#vendor_form').serialize();
-	
+
 		$.ajax({
 			method: 'post',
 			url: baseFolder + 'Vendor/addVendor',
@@ -406,7 +415,7 @@ jQuery(document).ready(function () {
 			success: function (data) {
 				if (data.response == true) {
 					toastr.success('Successfully save');
-					datatableshow(title ,subtitle);
+					datatableshow(title, subtitle);
 					$('#vendor_datatable').KTDatatable('reload');
 				} else {
 					toastr.error("Enter Proper Data!!!!");
@@ -430,7 +439,7 @@ jQuery(document).ready(function () {
 		});
 	});
 
-	
+
 
 
 });
@@ -444,13 +453,13 @@ function modelshow() {
 	$('#vendor_dynamic_title').text('Vendor Signup');
 	$('#vendor_dynamic_subtitle_span').text('Great work ahead');
 }
-function datatableshow(title ,subtitle) {
+function datatableshow(title, subtitle) {
 	$('#vendor_form_model').addClass('d-none');
-		$('#vendor_datatable').show();
-		$('#add_vendor_button').show();
-		$('#vendor_list_button').addClass('d-none');
-		$('#vendor_dynamic_title').text(title);
-		$('#vendor_dynamic_subtitle_span').text(subtitle);
+	$('#vendor_datatable').show();
+	$('#add_vendor_button').show();
+	$('#vendor_list_button').addClass('d-none');
+	$('#vendor_dynamic_title').text(title);
+	$('#vendor_dynamic_subtitle_span').text(subtitle);
 }
 function edit_vendor(id) {
 	$('#vendor_datatable').hide();
@@ -460,7 +469,7 @@ function edit_vendor(id) {
 
 	$('#vendor_dynamic_title').text('Edit Vendor');
 	$('#vendor_dynamic_subtitle_span').text('Correct information lead to great business!');
-	
+
 	$.ajax({
 		type: "POST",
 		url: baseFolder + 'vendor/editVendor',

@@ -9,7 +9,7 @@ class Item extends BackendController
         parent::__construct();
         $this->load->model('Item_m', 'item_m');
     }
-    
+
     public function index()
     {
         user_is_logged_in();
@@ -28,7 +28,7 @@ class Item extends BackendController
         $data = array();
         $no = 0;
         foreach ($records as $record) {
-            $no++;  
+            $no++;
             $data[] = array(
                 "number" =>  $no,
                 "id" => $record->id,
@@ -62,12 +62,12 @@ class Item extends BackendController
             $data['company_id'] = $_SESSION['company_id'];
             $data['total_quantity'] = $data['opening_quantity'];
             $data['status'] = 0;
-          
+
             $result = $this->common_m->insert_record('items', $data);
-        }else {
+        } else {
             $result = $this->common_m->edit_id(array('*'), 'items', array('id' => $data['id']));
             $this->db->trans_begin();
-            $this->common_m->updateQty('items', array("id" => $data['id']), 'total_quantity',);
+            $this->common_m->updateQty('items', array("id" => $data['id']), 'total_quantity', 0 - $result->opening_quantity);
             $result = $this->common_m->update_record('items', $data, array('id' => $data['id']));
             $this->common_m->updateQty('items', array("id" => $data['id']), 'total_quantity', $data['opening_quantity']);
             if ($this->db->trans_status() === FALSE) {

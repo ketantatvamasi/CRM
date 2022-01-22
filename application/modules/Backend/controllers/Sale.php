@@ -55,7 +55,7 @@ class Sale extends BackendController
     {
         user_is_logged_in();
         $this->data['site_title'] = ucfirst('Sale');
-        // $this->data['template_css'] = $this->load_grid_css('add');   //wizard3
+        $this->data['template_css'] = $this->load_grid_css('add');   //wizard3
         $this->data['template_js'] = $this->load_grid_js('sale');
         $company_id = $this->session->userdata['company_id'];
 

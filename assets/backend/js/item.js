@@ -1,5 +1,5 @@
 jQuery(document).ready(function () {
-
+	itemForm();
 	var datatable = $('#item_datatable').KTDatatable({
 		// datasource definition
 		data: {
@@ -132,8 +132,118 @@ jQuery(document).ready(function () {
 			}],
 	});
 
-	$('.items_form').on('submit', function (e) {
-		e.preventDefault();
+
+
+
+
+
+	// $('.items_form').on('submit', function (e) {
+	// 	e.preventDefault();
+	// 	var data = $('#items_form').serialize();
+	// 	// alert(data);
+	// 	$.ajax({
+	// 		method: 'post',
+	// 		url: baseFolder + 'item/addItem',
+	// 		data: data,
+	// 		dataType: "json",
+	// 		beforeSend: function () {
+	// 			$("#items_button").prop('disabled', true);
+	// 		},
+	// 		success: function (data) {
+	// 			if (data.response == true) {
+	// 				toastr.success('Successfully save');
+	// 				$('#itemsModal').modal('toggle');
+	// 				$('#item_datatable').KTDatatable('reload');
+	// 			} else {
+	// 				toastr.error("Enter Proper Data!!!!");
+	// 			}
+	// 			$("#items_button").prop('disabled', false);
+	// 		},
+	// 		error: function (xhr, status, error) {
+	// 			var errorMessage = xhr.status + ': ' + xhr.statusText
+	// 			switch (xhr.status) {
+	// 				case 401:
+	// 					toastr.error('Authontication fail...');
+	// 					break;
+	// 				case 422:
+	// 					toastr.info('The user is invalid.');
+	// 					break;
+	// 				default:
+	// 					toastr.error('Error - ' + errorMessage);
+	// 			}
+	// 			$("#items_button").prop('disabled', false);
+	// 		}
+	// 	});
+	// });
+});
+var itemForm = function () {
+	var _buttonSpinnerClasses = 'spinner spinner-right spinner-white pr-15';
+	var form = KTUtil.getById('items_form');
+	var formSubmitButton = KTUtil.getById('items_button');
+
+	if (!form) {
+		return;
+	}
+
+	FormValidation.formValidation(
+		form,
+		{
+			fields: {
+				item_name: {
+					validators: {
+						notEmpty: {
+							message: 'Item name is required'
+						}
+					}
+				},
+				item_code: {
+					validators: {
+						notEmpty: {
+							message: 'Item code is required'
+						}
+					}
+				},
+				purchase_price: {
+					validators: {
+						notEmpty: {
+							message: 'Purchase price is required'
+						}
+					}
+				},
+				sale_price: {
+					validators: {
+						notEmpty: {
+							message: 'Sale price is required'
+						}
+					}
+				},
+				opening_quantity: {
+					validators: {
+						notEmpty: {
+							message: 'Opening quantity is required'
+						}
+					}
+				}
+			},
+			plugins: {
+				trigger: new FormValidation.plugins.Trigger(),
+				submitButton: new FormValidation.plugins.SubmitButton(),
+				bootstrap: new FormValidation.plugins.Bootstrap({
+					eleInvalidClass: '',
+					eleValidClass: '',
+				})
+			}
+		}
+	).on('core.form.valid', function () {
+		// Show loading state on button
+		KTUtil.btnWait(formSubmitButton, _buttonSpinnerClasses, "Please wait");
+
+		// Simulate Ajax request
+		setTimeout(function () {
+			KTUtil.btnRelease(formSubmitButton);
+		}, 1000);
+
+
 		var data = $('#items_form').serialize();
 		// alert(data);
 		$.ajax({
@@ -147,6 +257,7 @@ jQuery(document).ready(function () {
 			success: function (data) {
 				if (data.response == true) {
 					toastr.success('Successfully save');
+					$('#items_form')[0].reset();
 					$('#itemsModal').modal('toggle');
 					$('#item_datatable').KTDatatable('reload');
 				} else {
@@ -176,8 +287,7 @@ jQuery(document).ready(function () {
 		$('.modal-title').text('Add item');
 	});
 
-});
-
+}
 function edit_item(id) {
 	$('#items_form')[0].reset();
 	$.ajax({
@@ -193,7 +303,7 @@ function edit_item(id) {
 			$('#purchase_price').val(res.purchase_price);
 			$('#sale_price').val(res.sale_price);
 			$('#opening_quantity').val(res.opening_quantity);
-	
+
 			$('#cgst').val(res.cgst);
 			$('#sgst').val(res.sgst);
 			$('#igst').val(res.igst);
