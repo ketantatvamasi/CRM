@@ -22,9 +22,10 @@ class Common_m extends CI_Model
             return false;
         }
     }
-    public function muliple_insert_batch($table_name, $data = array())
+    public function multiple_insert_batch($table_name, $data = array())
     {
         $insert = $this->db->insert_batch($table_name, $data);
+        // print_r($this->db->last_query());
         return $insert ? true : false;
     }
     function updateQty($table, $where, $column_name, $qty)

@@ -52,22 +52,22 @@ class Purchase extends BackendController
             redirect('backend/purchase');
         }
     }
-    public function addpurchase()
+    public function addpurchase_page()
     {
         $session = $this->session->userdata['company_id'];
         user_is_logged_in();
         $this->data['site_title'] = ucfirst('Purchase');
         $this->data['template_css'] = $this->load_grid_css('add');   //wizard3
         $this->data['template_js'] = $this->load_grid_js('purchase');
-        $this->data['record']['vendor_list'] = $this->common_m->get_common_master('vendors', array("id", "contact_person_name","company_name"), array("company_id" => $session), "id ASC");
-        $this->data['record']['item_list'] = $this->common_m->get_common_master('items', array("id", "item_name"), array("company_id" => $session), "id ASC");
+        $this->data['record']['vendor_list'] = $this->common_m->get_common_master('vendors', array("id", "contact_person_name","company_name"), array("company_id" => $session), "contact_person_name ASC");
+        $this->data['record']['item_list'] = $this->common_m->get_common_master('items', array("id", "item_name"), array("company_id" => $session), "item_name ASC");
         $this->render_page($this->data['sitename_folder'] . 'addpurchase_v', $this->data);
     }
 
     public function editpurchase()
     {
         user_is_logged_in();
-        $this->data['site_title'] = ucfirst('Edit purchase');
+        $this->data['site_title'] = ucfirst('purchase');
         $this->data['template_js'] = $this->load_grid_js('purchase');
         $company_id = $this->session->userdata['company_id'];
         $this->data['vendors'] = $this->common_m->get_common_master('vendors', array('id', 'user_id', 'company_id', 'company_name', 'contact_person_name'), array("company_id" => $company_id), 'contact_person_name asc');
@@ -105,16 +105,17 @@ class Purchase extends BackendController
             );
 
             $data2 = $input['data'];
+           
             if ($data['id'] == "") {
+              
                 $this->db->trans_begin();
                 $purchase_id = $this->common_m->last_insert_id('purchase', $data);
-
                 foreach ($data2 as  $key => $value) {
                     $data2[$key]['purchase_id'] = $purchase_id;
                     $this->common_m->updateQty('items', array("id" => $data2[$key]['item_id']), 'total_quantity', $data2[$key]['quantity']);
                 }
 
-                $result = $this->common_m->muliple_insert_batch('purchase_item', $data2);
+                $result = $this->common_m->multiple_insert_batch('purchase_item', $data2);
                 if ($this->db->trans_status() === FALSE) {
                     $this->db->trans_rollback();
                 } else {
@@ -132,7 +133,7 @@ class Purchase extends BackendController
                     $data2[$key]['purchase_id'] = $data['id'];
                     $this->common_m->updateQty('items', array("id" => $data2[$key]['item_id']), 'total_quantity',  $data2[$key]['quantity']);
                 }
-                $result = $this->common_m->muliple_insert_batch('purchase_item', $data2);
+                $result = $this->common_m->multiple_insert_batch('purchase_item', $data2);
                 if ($this->db->trans_status() === FALSE) {
                     $this->db->trans_rollback();
                 } else {

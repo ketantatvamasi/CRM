@@ -12,7 +12,7 @@
                 <div class="card-header flex-wrap border-0 pt-6 pb-0">
                     <div class="card-title">
                         <h3 class="card-label">
-                            <span id="purchase_dynamic_title"><?= ucfirst($load_data['site_title']) ?> Book </span>
+                            <span id="purchase_dynamic_title">Edit <?= ucfirst($load_data['site_title']) ?> </span>
                             <span class="d-block text-muted pt-2 font-size-sm" id="purchase_dynamic_subtitle_span">Sale More earn More..</span>
                         </h3>
                     </div>
@@ -50,7 +50,7 @@
                                 <div class="col-xl-6">
                                     <div class="form-group">
                                         <label for="customer">Customer <span class="text-danger">*</span></label>
-                                        <select class="form-control" name="customer_id" id="customer_id">
+                                        <select class="form-control" name="customer_id" id="edit_customer_id" data-fv-not-empty="true" data-fv-not-empty___message="Customer is required">
                                             <option value="">Select Customer</option>
 
                                             <?php if (!($load_data['customers'] == '')) { ?>
@@ -67,13 +67,13 @@
                                 <div class="col-xl-3">
                                     <div class="form-group">
                                         <label>Bill no. <span class="text-danger">*</span></label>
-                                        <input type="number" class="form-control" name="customer_invoice_id" id="customer_invoice_id" placeholder="Invoice Number" value="<?= $load_data['sale_data'][0]->customer_invoice_id; ?>" />
+                                        <input type="number" data-fv-not-empty="true" data-fv-not-empty___message="The Bill no is required" class="form-control" name="customer_invoice_id" id="customer_invoice_id" placeholder="Invoice Number" value="<?= $load_data['sale_data'][0]->customer_invoice_id; ?>" />
                                     </div>
                                 </div>
                                 <div class="col-xl-3">
                                     <div class="form-group">
                                         <label>Bill Date <span class="text-danger">*</span></label>
-                                        <input type="date" class="form-control" name="bill_date" id="bill_date" value="<?= $load_data['sale_data'][0]->bill_date; ?>" />
+                                        <input type="date" data-fv-not-empty="true" data-fv-not-empty___message="Bill date is required" class="form-control" name="bill_date" id="bill_date" value="<?= $load_data['sale_data'][0]->bill_date; ?>" />
                                     </div>
                                 </div>
 
@@ -100,23 +100,34 @@
                                         <tbody>
                                             <?php
                                             $count = 0;
-                                            
+
                                             foreach ($load_data['sale_item_data'] as $invoiceItems) {
                                                 $count++;
                                             ?>
                                                 <tr>
                                                     <td><input class="itemRow" type="checkbox"></td>
-                                                    <td><select class="form-control" name="data[<?= $count; ?>][item_id]" id="productId_<?= $count; ?>" autocomplete="off">\
-                                                            <option value="">Select Item</option>;
+                                                    <td>
+                                                        <div class="form-group">
+                                                            <select class="form-control" name="data[<?= $count; ?>][item_id]" id="productId_<?= $count; ?>" autocomplete="off" data-fv-not-empty="true" data-fv-not-empty___message="Select Item">
+                                                                <option value="">Select Item</option>;
 
-                                                            <?php if (!($load_data['item_list'] == '')) { ?>
-                                                                <?php foreach ($load_data['item_list'] as $value) : $selected = ($value->id == $invoiceItems->item_id) ? 'selected' : ''; ?>
-                                                                    <?php echo "<option value='" . $value->id . "' $selected>" . $value->item_name . " </option>" ?>
-                                                            <?php endforeach;
-                                                            } ?>
-                                                        </select></td>
-                                                    <td><input type="number" name="data[<?= $count; ?>][quantity]" id="quantity_<?= $count; ?>" class="form-control " value="<?= $invoiceItems->quantity; ?>" autocomplete="off">
-                                                        
+                                                                <?php $selectedItem;
+
+                                                                if (!($load_data['item_list'] == '')) { ?>
+                                                                    <?php foreach ($load_data['item_list'] as $key => $value) : $selected = ($value->id == $invoiceItems->item_id) ? 'selected' : ''; ?>
+                                                                        <?php if ($value->id == $invoiceItems->item_id) {
+                                                                            $selectedItem = $key;
+                                                                        } ?>
+                                                                        <?php echo "<option value='" . $value->id . "' $selected>" . $value->item_name . " </option>" ?>
+                                                                <?php endforeach;
+                                                                } ?>
+                                                            </select>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="form-group">
+                                                            <input type="number" name="data[<?= $count; ?>][quantity]" id="quantity_<?= $count; ?>" class="form-control " value="<?= $invoiceItems->quantity; ?>" autocomplete="off" data-fv-not-empty="true" data-fv-not-empty___message="Required" data-fv-integer="true" data-fv-integer___message="Enter valid Qty" data-fv-greater-than="true" data-fv-greater-than___min="1" data-fv-greater-than___message="Minimum 1" data-fv-less-than="true" data-fv-less-than___max="<?= $load_data['item_list'][$selectedItem]->total_quantity ?>" data-fv-less-than___message="Max <?= $load_data['item_list'][$selectedItem]->total_quantity ?>">
+                                                        </div>
                                                     </td>
                                                     <td><input type="number" name="data[<?= $count; ?>][price]" id="price_<?= $count; ?>" class="form-control " autocomplete="off" value="<?= $invoiceItems->price; ?>" readonly></td>
                                                     <td><input type="number" name="data[<?= $count; ?>][total]" id="total_<?= $count; ?>" class="form-control " autocomplete="off" value="<?= $invoiceItems->total; ?>" readonly></td>
@@ -126,7 +137,7 @@
                                                     <td><input type="number" name="data[<?= $count; ?>][total_amount]" id="amount_<?= $count; ?>" class="form-control " autocomplete="off" value="<?= $invoiceItems->total_amount; ?>" readonly></td>
                                                 </tr>
 
-                                            <?php 
+                                            <?php
                                             } ?>
                                         </tbody>
                                     </table>

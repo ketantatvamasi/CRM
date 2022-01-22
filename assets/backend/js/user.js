@@ -90,7 +90,10 @@ var KTWizard3 = function () {
 				},
 				plugins: {
 					trigger: new FormValidation.plugins.Trigger(),
-					bootstrap: new FormValidation.plugins.Bootstrap()
+					bootstrap: new FormValidation.plugins.Bootstrap({
+						eleInvalidClass: '',
+						eleValidClass: '',
+					})
 				}
 			}
 		));
@@ -138,7 +141,10 @@ var KTWizard3 = function () {
 				},
 				plugins: {
 					trigger: new FormValidation.plugins.Trigger(),
-					bootstrap: new FormValidation.plugins.Bootstrap()
+					bootstrap: new FormValidation.plugins.Bootstrap({
+						eleInvalidClass: '',
+						eleValidClass: '',
+					})
 				}
 			}
 		));
@@ -326,12 +332,14 @@ jQuery(document).ready(function () {
 });
 
 function modelshow(subtitle) {
+	$('#user_add_form')[0].reset();
 	$("#kt_wizard_v3").removeClass("d-none");
 	$("#listuser").removeClass("d-none");
 	$('#userlist').hide();
 	$('#adduser').hide();
 	$('#user_dynamic_title').text('Add User');
 	$('#user_dynamic_subtitle_span').text(subtitle);
+	$('#user_add_form')[0].reset();
 }
 function datatableshow(title) {
 	$("#kt_wizard_v3").addClass("d-none");

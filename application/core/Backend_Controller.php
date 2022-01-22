@@ -155,8 +155,8 @@ class BackendController extends MY_Controller
                 break;
             case 'purchase':
                 return array(
-                    'assets/backend/js/purchase.js',
-                    'assets/backend/js/jquery.redirect.js'
+                    // 'assets/backend/js/FormValidation.min.js',
+                    'assets/backend/js/purchase.js'
                 );
                 break;
             case 'sale':
