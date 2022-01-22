@@ -70,7 +70,10 @@ var KTWizard3 = function () {
 				},
 				plugins: {
 					trigger: new FormValidation.plugins.Trigger(),
-					bootstrap: new FormValidation.plugins.Bootstrap()
+					bootstrap: new FormValidation.plugins.Bootstrap({
+						eleInvalidClass: '',
+						eleValidClass: '',
+					})
 				}
 			}
 		));
@@ -117,7 +120,10 @@ var KTWizard3 = function () {
 				},
 				plugins: {
 					trigger: new FormValidation.plugins.Trigger(),
-					bootstrap: new FormValidation.plugins.Bootstrap()
+					bootstrap: new FormValidation.plugins.Bootstrap({
+						eleInvalidClass: '',
+						eleValidClass: '',
+					})
 				}
 			}
 		));
@@ -171,7 +177,10 @@ var KTWizard3 = function () {
 				},
 				plugins: {
 					trigger: new FormValidation.plugins.Trigger(),
-					bootstrap: new FormValidation.plugins.Bootstrap()
+					bootstrap: new FormValidation.plugins.Bootstrap({
+						eleInvalidClass: '',
+						eleValidClass: '',
+					})
 				}
 			}
 		));

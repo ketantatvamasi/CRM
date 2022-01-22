@@ -50,7 +50,7 @@
                                 <div class="col-xl-6">
                                     <div class="form-group">
                                         <label for="customer">Customer <span class="text-danger">*</span></label>
-                                        <select class="form-control" name="customer_id" id="customer_id">
+                                        <select class="form-control" name="customer_id" id="edit_customer_id">
                                             <option value="">Select Customer</option>
 
                                             <?php if (!($load_data['customers'] == '')) { ?>

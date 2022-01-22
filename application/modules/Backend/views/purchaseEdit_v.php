@@ -10,7 +10,7 @@
                 <div class="card-header flex-wrap border-0 pt-6 pb-0">
                     <div class="card-title">
                         <h3 class="card-label">
-                            <span id="purchase_dynamic_title"><?= ucfirst($load_data['site_title']) ?></span>
+                            <span id="purchase_dynamic_title">Edit <?= ucfirst($load_data['site_title']) ?></span>
                             <span class="d-block text-muted pt-2 font-size-sm" id="purchase_dynamic_subtitle_span">More purchases More business!</span>
                         </h3>
                     </div>
@@ -26,13 +26,13 @@
                 <!--end::Header-->
                 <!--begin::Body-->
                 <div class="card-body">
-                    <form class="form" id="purchse_form">
+                    <form class="form" id="purchase_form">
                         <input type="hidden" name="id" id="id" value="<?= $load_data['purchase_data'][0]->id?>">
                         <div class="row">
                             <div class="col-6">
                                 <div class="form-group">
                                     <label>Vendor Name</label><span class="text-danger">*</span>
-                                    <select class="form-control" name="vendor_id" id="vendor_id">
+                                    <select class="form-control" name="vendor_id" id="edit_vendor_id">
                                         <option value="">Select vendor name</option>
 
                                         <?php if (!($load_data['vendors'] == '')) { ?>
@@ -72,16 +72,17 @@
                                     <th style="width: 11%;">Action</th>
                                 </tr>
                             </thead>
+                            
                             <tbody class="row_position">
 
                                 <?php
                                 $count = 0;
                                 foreach ($load_data['purchase_item_data'] as $invoiceItems) {
+                                //    print_r($invoiceItems->item_id);
                                     $count++;
                                 ?>
                                     <tr>
-                                        
-                                        <td><select class="form-control" name="data[<?= $count; ?>][item_id]" id="item_id_<?= $count; ?>" autocomplete="off">\
+                                        <td><select class="form-control item_row" name="data[<?= $count; ?>][item_id]" id="item_id_<?= $count; ?>" autocomplete="off">\
                                                 <option value="">Select Item</option>;
                                                 <?php if (!($load_data['item_list'] == '')) { ?>
                                                     <?php foreach ($load_data['item_list'] as $value) : $selected = ($value->id == $invoiceItems->item_id) ? 'selected' : ''; ?>
@@ -177,9 +178,8 @@
 
                     <div style="float:right;">
                         <input type="reset" id="reset_button" class="btn font-weight-bolder btn-light-primary" data-wizard-type="action-next" />
-                        <button type="button" id="purchase_form_submit_button" class="btn font-weight-bolder btn-light-success" data-wizard-type="action-submit">
-                            Submit
-                        </button>
+                        <button type="submit" id="purchase_form_submit_button" class="btn font-weight-bolder btn-light-success" form="purchase_form">
+                        Submit</button>
                     </div>
                 </div>
             </div>
@@ -190,3 +190,8 @@
     <!--end::Entry-->
 </div>
 <!--end::Content-->
+
+
+
+
+
