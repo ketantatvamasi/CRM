@@ -1,11 +1,20 @@
 "use strict";
 // Class definition
 
+var dropDown = function () {
+    // basic
+    $('#customer_id').select2({
+        placeholder: "Select vendor",
+        width: '100%'
+    });
+    $("[id^='productId_']").select2({
+        placeholder: "Select item",
+        width: '100%'
+    });
+}
 
 jQuery(document).ready(function () {
-
-    saleForm();
-
+    dropDown();
     var datatable = $('#sale_datatable').KTDatatable({
         // datasource definition
         data: {
@@ -121,7 +130,7 @@ jQuery(document).ready(function () {
                 template: function (data) {
                     return '\
 	                        <div class="dropdown dropdown-inline">\
-	                        <a href="'+ baseFolder + 'sale/editSale_Page/'+ data.id + '" title="Edit" >\
+	                        <a href="'+ baseFolder + 'sale/editSale_Page/' + data.id + '" title="Edit" >\
 							<i class="far fa-edit text-success mr-3"></i>\
 	                        </a>\
 	                        <a href="javascript:;" title="Delete" onclick="delete_sale('+ data.id + ')">\
@@ -132,40 +141,39 @@ jQuery(document).ready(function () {
             }],
     });
 
-
 });
 
 function delete_sale(id) {
-	Swal.fire({
-		title: "Are you sure?",
-		text: "You won't be able to revert this!",
-		icon: "warning",
-		showCancelButton: true,
-		confirmButtonColor: "#d33",
-		confirmButtonText: "Yes, delete it!",
-		cancelButtonText: "No, cancel!",
-		reverseButtons: true
-	}).then(function (result) {
-        
-		if (result.value) {
-			$.ajax({
-				type: "POST",
-				url: baseFolder + 'sale/deleteSale',
-				data: { id: id },
-				dataType: "json",
-				success: function (data) {
-					if (data.response == true) {
-						toastr.success('Successfully Deleted');
-						$('#sale_datatable').KTDatatable('reload');
-					}
-				}
+    Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!",
+        cancelButtonText: "No, cancel!",
+        reverseButtons: true
+    }).then(function (result) {
 
-			});
-		}
-	});
+        if (result.value) {
+            $.ajax({
+                type: "POST",
+                url: baseFolder + 'sale/deleteSale',
+                data: { id: id },
+                dataType: "json",
+                success: function (data) {
+                    if (data.response == true) {
+                        toastr.success('Successfully Deleted');
+                        $('#sale_datatable').KTDatatable('reload');
+                    }
+                }
+
+            });
+        }
+    });
 }
 
-var saleForm = function () {
+function saleForm() {
     var _buttonSpinnerClasses = 'spinner spinner-right spinner-white pr-15';
     var form = KTUtil.getById('sale_form');
     var formSubmitButton = KTUtil.getById('sale_form_submit_button');
@@ -174,41 +182,25 @@ var saleForm = function () {
         return;
     }
 
-    FormValidation.formValidation(
+
+    const fv = FormValidation.formValidation(
         form,
         {
             fields: {
-                customer_id: {
-                    validators: {
-                        notEmpty: {
-                            message: 'customer  is required'
-                        }
-                    }
-                },
-                customer_invoice_id: {
-                    validators: {
-                        notEmpty: {
-                            message: 'Bill no is required'
-                        }
-                    }
-                },
-                bill_date: {
-                    validators: {
-                        notEmpty: {
-                            message: 'Bill date is required'
-                        }
-                    }
-                }
+
 
             },
             plugins: {
                 trigger: new FormValidation.plugins.Trigger(),
                 submitButton: new FormValidation.plugins.SubmitButton(),
+                declarative: new FormValidation.plugins.Declarative(),
                 bootstrap: new FormValidation.plugins.Bootstrap({
-
+                    eleInvalidClass: '',
+                    eleValidClass: '',
                 })
             }
         }
+
     ).on('core.form.valid', function () {
         // Show loading state on button
         KTUtil.btnWait(formSubmitButton, _buttonSpinnerClasses, "Please wait");
@@ -253,23 +245,18 @@ var saleForm = function () {
         });
 
 
-    })
-}
-
-
-$(document).ready(function () {
-    $(document).on('click', '#checkAll', function () {
-        $(".itemRow").prop("checked", this.checked);
     });
-    $(document).on('click', '.itemRow', function () {
-        if ($('.itemRow:checked').length == $('.itemRow').length) {
-            $('#checkAll').prop('checked', true);
-        } else {
-            $('#checkAll').prop('checked', false);
-        }
-    });
+
+    const item = {
+        validators: {
+            notEmpty: {
+                message: 'Select Item',
+            },
+
+        },
+    };
+
     var count = $(".itemRow").length;
-
     $(document).on('click', '#addRows', function () {
 
         $.ajax({
@@ -283,7 +270,7 @@ $(document).ready(function () {
                 var htmlRows = '';
                 htmlRows += '<tr>';
                 htmlRows += '<td><input class="itemRow" type="checkbox"></td>';
-                htmlRows += '<td><select class="form-control" name="data[' + count + '][item_id]" id="productId_' + count + '" autocomplete="off">\
+                htmlRows += '<td><div class="form-group"><select class="form-control" name="data[' + count + '][item_id]" id="productId_' + count + '" autocomplete="off">\
                                         <option value="">Select Item</option>';
 
                 for (let i = 0; i < data["data"].length; i++) {
@@ -291,16 +278,40 @@ $(document).ready(function () {
                     htmlRows += '<option value="' + data["data"][i].id + '">' + data["data"][i].item_name + '</option>';
 
                 }
-                htmlRows += '</select></td>';
-                htmlRows += '<td><input type="number" name="data[' + count + '][quantity]" id="quantity_' + count + '" class="form-control " autocomplete="off"></td>';
-                htmlRows += '<td><input type="number" name="data[' + count + '][price]" id="price_' + count + '"  class="form-control " autocomplete="off" readonly></td>';
-                htmlRows += '<td><input type="number" name="data[' + count + '][total]" id="total_' + count + '"  class="form-control " autocomplete="off" readonly></td>';
-                htmlRows += '<td><input type="number" name="data[' + count + '][sgst]" id="sgst_' + count + '"  class="form-control " autocomplete="off" readonly></td>';
-                htmlRows += '<td><input type="number" name="data[' + count + '][cgst]" id="cgst_' + count + '"  class="form-control " autocomplete="off" readonly></td>';
-                htmlRows += '<td><input type="number" name="data[' + count + '][igst]" id="igst_' + count + '"  class="form-control " autocomplete="off" readonly></td>';
-                htmlRows += '<td><input type="number" name="data[' + count + '][total_amount]" id="amount_' + count + '"  class="form-control " autocomplete="off" readonly></td>';
+                htmlRows += '</select></div></td>';
+                htmlRows += '<td><div class="form-group"><input type="number" name="data[' + count + '][quantity]" id="quantity_' + count + '" class="form-control " placeholder="Qty" autocomplete="off"></div></td>';
+                htmlRows += '<td><input type="number" name="data[' + count + '][price]" id="price_' + count + '"  class="form-control " placeholder="Price" autocomplete="off" readonly></td>';
+                htmlRows += '<td><input type="number" name="data[' + count + '][total]" id="total_' + count + '"  class="form-control " placeholder="Total" autocomplete="off" readonly></td>';
+                htmlRows += '<td><input type="number" name="data[' + count + '][sgst]" id="sgst_' + count + '"  class="form-control " placeholder="SGST" autocomplete="off" readonly></td>';
+                htmlRows += '<td><input type="number" name="data[' + count + '][cgst]" id="cgst_' + count + '"  class="form-control " placeholder="CGST" autocomplete="off" readonly></td>';
+                htmlRows += '<td><input type="number" name="data[' + count + '][igst]" id="igst_' + count + '"  class="form-control " placeholder="IGST" autocomplete="off" readonly></td>';
+                htmlRows += '<td><input type="number" name="data[' + count + '][total_amount]" id="amount_' + count + '"  class="form-control " placeholder="Amount" autocomplete="off" readonly></td>';
                 htmlRows += '</tr>';
+                // console.log(data);
+
                 $('#invoiceItem').append(htmlRows);
+                fv.addField('data[' + count + '][item_id]', item).addField('data[' + count + '][quantity]', {
+                    validators: {
+                        notEmpty: {
+                            message: 'Required',
+                        },
+                        greaterThan: {
+                            message: 'Minimum 1',
+                            min: 1,
+                        },
+                        integer: {
+                            message: 'Enter valid Qty',
+                            thousandsSeparator: '',
+                            decimalSeparator: '.',
+                        },
+                    },
+                });
+                $("#productId_" + count).select2({
+                    placeholder: "Select item",
+                    width: '100%'
+                });
+
+
             },
             error: function (xhr, status, error) {
                 var errorMessage = xhr.status + ': ' + xhr.statusText
@@ -316,19 +327,8 @@ $(document).ready(function () {
                 }
             }
         });
-    });
 
-    $(document).on('click', '#removeRows', function () {
-        $(".itemRow:checked").each(function () {
-            $(this).closest('tr').remove();
-        });
-        $('#checkAll').prop('checked', false);
-        calculateTotal();
-    });
 
-    $(document).on('click','#sale_form_reset_button',function(){
-        document.getElementById("sale_form").reset();
-        calculateTotal();
     });
 
     $(document).on('change', "[id^=productId_]", function () {
@@ -358,14 +358,21 @@ $(document).ready(function () {
                     return;
                 }
                 $('#quantity_' + idArr).val(1);
-                $('#quantity_' + idArr).attr({ "min": 1, "max": res.total_quantity });
-                $('#stock_' + idArr).text(res.total_quantity);
+               
+                // $('#stock_' + idArr).text(res.total_quantity);
                 $('#price_' + idArr).val(res.sale_price);
                 $('#cgst_' + idArr).val(res.cgst);
                 $('#sgst_' + idArr).val(res.sgst);
                 $('#igst_' + idArr).val(res.igst);
 
-
+                fv.addField('data[' + idArr + '][quantity]', {
+                    validators: {
+                        lessThan: {
+                            message: 'Max '+res.total_quantity,
+                            max: res.total_quantity,
+                        },
+                    },
+                });
                 calculateTotal();
             },
             error: function (xhr, status, error) {
@@ -384,6 +391,45 @@ $(document).ready(function () {
         });
 
     });
+
+    // fv.addField('data[2][quantity]', qty);
+}
+
+
+
+$(document).ready(function () {
+
+    saleForm();
+
+    $(document).on('click', '#checkAll', function () {
+        $(".itemRow").prop("checked", this.checked);
+    });
+    $(document).on('click', '.itemRow', function () {
+        if ($('.itemRow:checked').length == $('.itemRow').length) {
+            $('#checkAll').prop('checked', true);
+        } else {
+            $('#checkAll').prop('checked', false);
+        }
+    });
+
+
+
+
+
+    $(document).on('click', '#removeRows', function () {
+        $(".itemRow:checked").each(function () {
+            $(this).closest('tr').remove();
+        });
+        $('#checkAll').prop('checked', false);
+        calculateTotal();
+    });
+
+    $(document).on('click', '#sale_form_reset_button', function () {
+        document.getElementById("sale_form").reset();
+        calculateTotal();
+    });
+
+    
 
     $(document).on('keyup', "[id^=quantity_]", function () {
         calculateTotal();

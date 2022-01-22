@@ -171,9 +171,15 @@ jQuery(document).ready(function () {
 		});
 	});
 
+	$('#add_item_button').on('click', function () {
+		$('#items_form')[0].reset();
+		$('.modal-title').text('Add item');
+	});
+
 });
 
 function edit_item(id) {
+	$('#items_form')[0].reset();
 	$.ajax({
 		type: "POST",
 		url: baseFolder + 'item/editItem',

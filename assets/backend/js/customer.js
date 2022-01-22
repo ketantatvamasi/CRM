@@ -409,6 +409,7 @@ jQuery(document).ready(function () {
 
 
 function modelshow() {
+	$('#customer_form')[0].reset();
 	$('#customer_datatable').hide();
 	$('#customer_form_model').removeClass('d-none');
 	$('#add_customer_button').hide();

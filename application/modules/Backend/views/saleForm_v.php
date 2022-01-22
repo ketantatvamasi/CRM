@@ -1,3 +1,8 @@
+<style>
+    .form-group {
+        margin-bottom: 0;
+    }
+</style>
 <!--begin::Content-->
 <div class="content  d-flex flex-column flex-column-fluid" id="kt_content">
 
@@ -12,7 +17,7 @@
                 <div class="card-header flex-wrap border-0 pt-6 pb-0">
                     <div class="card-title">
                         <h3 class="card-label">
-                            <span id="purchase_dynamic_title"><?= ucfirst($load_data['site_title']) ?> Book </span>
+                            <span id="purchase_dynamic_title">Add <?= ucfirst($load_data['site_title']) ?> </span>
                             <span class="d-block text-muted pt-2 font-size-sm" id="purchase_dynamic_subtitle_span">Sale More earn More..</span>
                         </h3>
                     </div>
@@ -50,7 +55,7 @@
                                 <div class="col-xl-6">
                                     <div class="form-group">
                                         <label for="customer">Customer <span class="text-danger">*</span></label>
-                                        <select class="form-control" name="customer_id" id="customer_id">
+                                        <select class="form-control" name="customer_id" id="customer_id" data-fv-not-empty="true" data-fv-not-empty___message="Customer is required">
                                             <option value="">Select Customer</option>
 
                                             <?php if (!($load_data['customers'] == '')) { ?>
@@ -67,13 +72,13 @@
                                 <div class="col-xl-3">
                                     <div class="form-group">
                                         <label>Bill no. <span class="text-danger">*</span></label>
-                                        <input type="number" class="form-control" name="customer_invoice_id" id="customer_invoice_id" placeholder="Invoice Number" />
+                                        <input type="number" data-fv-not-empty="true" data-fv-not-empty___message="The Bill no is required" class="form-control" name="customer_invoice_id" id="customer_invoice_id" placeholder="Invoice Number" />
                                     </div>
                                 </div>
                                 <div class="col-xl-3">
                                     <div class="form-group">
                                         <label>Bill Date <span class="text-danger">*</span></label>
-                                        <input type="date" class="form-control" name="bill_date" id="bill_date" />
+                                        <input type="date" class="form-control" name="bill_date" id="bill_date" data-fv-not-empty="true" data-fv-not-empty___message="Bii date is required" />
                                     </div>
                                 </div>
 
@@ -98,33 +103,39 @@
                                             </tr>
                                         </thead>
                                         <tbody>
+                                       
                                             <tr>
                                                 <td><input class="itemRow" type="checkbox"></td>
                                                 <td>
-                                                    <select class="form-control" name="data[1][item_id]" id="productId_1" autocomplete="off">
-                                                        <option value="">Select Item</option>
+                                                    <div class="form-group">
+                                                        <select class="form-control" name="data[1][item_id]" id="productId_1" autocomplete="off" data-fv-not-empty="true" data-fv-not-empty___message="Select Item">
+                                                            <option value="">Select Item</option>
 
-                                                        <?php if (!($load_data['items'] == '')) { ?>
-                                                            <?php foreach ($load_data['items'] as $value) : ?>
-                                                                <?php echo "<option value='" . $value->id . "'>" . $value->item_name . " </option>" ?>
-                                                        <?php endforeach;
-                                                        } ?>
+                                                            <?php if (!($load_data['items'] == '')) { ?>
+                                                                <?php foreach ($load_data['items'] as $value) : ?>
+                                                                    <?php echo "<option value='" . $value->id . "'>" . $value->item_name . " </option>" ?>
+                                                            <?php endforeach;
+                                                            } ?>
 
-                                                    </select>
+                                                        </select>
+                                                    </div>
                                                 </td>
                                                 <td>
-                                                    <input type="number" name="data[1][quantity]" id="quantity_1" class="form-control " autocomplete="off">
-                                                    <!-- <div class="font-weight-bold text-muted text-right" id="stock_1"></div> -->
-                                                    <!-- <span class="label label-rounded label-success" id="stock_1"></span> -->
+                                                    <div class="form-group">
+                                                        <input type="number" name="data[1][quantity]" id="quantity_1" class="form-control " placeholder="Qty" autocomplete="off" 
+                                                        data-fv-not-empty="true" data-fv-not-empty___message="Required" 
+                                                        data-fv-integer="true" data-fv-integer___message="Enter valid Qty" 
+                                                        data-fv-greater-than="true" data-fv-greater-than___min="1"  data-fv-greater-than___message="Minimum 1">
+                                                    </div>
                                                 </td>
 
 
-                                                <td><input type="number" name="data[1][price]" id="price_1" class="form-control " autocomplete="off" readonly></td>
-                                                <td><input type="number" name="data[1][total]" id="total_1" class="form-control " autocomplete="off" readonly></td>
-                                                <td><input type="number" name="data[1][sgst]" id="sgst_1" class="form-control " autocomplete="off" readonly></td>
-                                                <td><input type="number" name="data[1][cgst]" id="cgst_1" class="form-control " autocomplete="off" readonly></td>
-                                                <td><input type="number" name="data[1][igst]" id="igst_1" class="form-control " autocomplete="off" readonly></td>
-                                                <td><input type="number" name="data[1][total_amount]" id="amount_1" class="form-control " autocomplete="off" readonly></td>
+                                                <td><input type="number" name="data[1][price]" id="price_1" class="form-control " autocomplete="off" placeholder="Price" readonly></td>
+                                                <td><input type="number" name="data[1][total]" id="total_1" class="form-control " autocomplete="off" placeholder="Total" readonly></td>
+                                                <td><input type="number" name="data[1][sgst]" id="sgst_1" class="form-control " autocomplete="off" placeholder="SGST" readonly></td>
+                                                <td><input type="number" name="data[1][cgst]" id="cgst_1" class="form-control " autocomplete="off" placeholder="CGST" readonly></td>
+                                                <td><input type="number" name="data[1][igst]" id="igst_1" class="form-control " autocomplete="off" placeholder="IGST" readonly></td>
+                                                <td><input type="number" name="data[1][total_amount]" id="amount_1" class="form-control " autocomplete="off" placeholder="Amount" readonly></td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -133,7 +144,7 @@
                             <div class="row">
                                 <div class="col-xl-12">
 
-                                    <div class="form-group">
+                                    <div class="form-group mb-5">
                                         <button class="btn btn-success btn-sm" id="addRows" type="button">+ Add More</button>
                                         <button class="btn btn-danger btn-sm delete " id="removeRows" type="button">- Delete</button>
                                     </div>

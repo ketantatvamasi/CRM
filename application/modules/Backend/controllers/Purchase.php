@@ -114,7 +114,7 @@ class Purchase extends BackendController
                     $this->common_m->updateQty('items', array("id" => $data2[$key]['item_id']), 'total_quantity', $data2[$key]['quantity']);
                 }
 
-                $result = $this->common_m->muliple_insert_batch('purchase_item', $data2);
+                $result = $this->common_m->multiple_insert_batch('purchase_item', $data2);
                 if ($this->db->trans_status() === FALSE) {
                     $this->db->trans_rollback();
                 } else {
@@ -132,7 +132,7 @@ class Purchase extends BackendController
                     $data2[$key]['purchase_id'] = $data['id'];
                     $this->common_m->updateQty('items', array("id" => $data2[$key]['item_id']), 'total_quantity',  $data2[$key]['quantity']);
                 }
-                $result = $this->common_m->muliple_insert_batch('purchase_item', $data2);
+                $result = $this->common_m->multiple_insert_batch('purchase_item', $data2);
                 if ($this->db->trans_status() === FALSE) {
                     $this->db->trans_rollback();
                 } else {

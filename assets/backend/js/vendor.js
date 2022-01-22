@@ -436,6 +436,7 @@ jQuery(document).ready(function () {
 });
 
 function modelshow() {
+	$('#vendor_form')[0].reset();
 	$('#vendor_datatable').hide();
 	$('#vendor_form_model').removeClass('d-none');
 	$('#add_vendor_button').hide();

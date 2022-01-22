@@ -326,6 +326,7 @@ jQuery(document).ready(function () {
 });
 
 function modelshow(subtitle) {
+	$('#user_add_form')[0].reset();
 	$("#kt_wizard_v3").removeClass("d-none");
 	$("#listuser").removeClass("d-none");
 	$('#userlist').hide();

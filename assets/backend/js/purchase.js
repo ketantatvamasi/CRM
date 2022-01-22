@@ -150,7 +150,10 @@ jQuery(document).ready(function () {
 	});
 });
 
+
+
 jQuery(document).ready(function () {
+	
 	var count = $('.item_row').length;
 	// alert(count);
 
@@ -163,7 +166,7 @@ jQuery(document).ready(function () {
 				count++;
 				var htmlRows = '';
                 htmlRows += '<tr>';
-                htmlRows += '<td><select class="form-control" name="data[" + count + "][item_id]" id="item_id_' + count + '"><option value="">Select Item</option>';
+                htmlRows += '<td><select class="form-control" name="data[' + count + '][item_id]" id="item_id_' + count + '"><option value="">Select Item</option>';
                 for (let i = 0; i < data["data"].length; i++) {
                     htmlRows += '<option value="' + data["data"][i].id + '">' + data["data"][i].item_name + '</option>';
                 }
@@ -177,7 +180,6 @@ jQuery(document).ready(function () {
                 htmlRows += '<td><div class="row"><div class="col-4"><a href="javascript:;" id="addItemfield" class="btn btn-sm font-weight-bolder btn-light-primary addItemfield"><i class="la la-plus"></i></a></div>""<div class="col-4"><a href="javascript:;" id="deleteItemfield" class="btn btn-sm font-weight-bolder btn-light-danger"><i class="la la-trash-o"></i></a></div></div></td>';
                 htmlRows += '</tr>';
 				$('#app-purchse-table').append(htmlRows);
-				
 			},
 			error: function (xhr, status, error) {
 				var errorMessage = xhr.status + ': ' + xhr.statusText
