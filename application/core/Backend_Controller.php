@@ -127,7 +127,6 @@ class BackendController extends MY_Controller
                     'assets/Backend/app-assets/vendors/js/extensions/unslider-min.js',
                     'assets/Backend/app-assets/vendors/js/timeline/horizontal-timeline.js',
                     'assets/Backend/app-assets/js/scripts/pages/dashboard-ecommerce.min.js'
-
                 );
 
                 break;
@@ -148,14 +147,45 @@ class BackendController extends MY_Controller
                     //    'assets/Backend/app-assets/js/scripts/pages/app-invoice.min.js'
                 );
                 break;
+            case 'item':
+                return array(
+                    'assets/backend/js/item.js'
+                    // 'assets/backend/js/validation/parsley.min.js'
+                );
+                break;
+            case 'purchase':
+                return array(
+                    // 'assets/backend/js/FormValidation.min.js',
+                    'assets/backend/js/purchase.js'
+                );
+                break;
+            case 'sale':
+                return array(
+                    'assets/backend/js/sale.js'
+                );
+                break;
             case 'user':
                 return array(
                     'assets/backend/js/user.js'
+                );
+                break;
+            case 'vendor':
+                return array(
+                    'assets/backend/js/vendor.js'
+                );
+                break;
+            case 'customer':
+                return array(
+                    'assets/backend/js/customer.js'
                 );
                 break;
             default:
                 return array();
                 break;
         }
+    }
+    public function error()
+    {
+        $this->load->view('backend/template/error');
     }
 }

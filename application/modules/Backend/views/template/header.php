@@ -30,15 +30,15 @@
     <link href="<?= base_url() ?>assets/backend/css/themes/layout/brand/dark.css" rel="stylesheet" type="text/css" />
     <link href="<?= base_url() ?>assets/backend/css/themes/layout/aside/dark.css" rel="stylesheet" type="text/css" />
     <!--end::Layout Themes-->
-    
+
     <!--begin::Page css(used by this page)-->
 
     <?php
-      if(!empty($load_css['template_css'])){
-          foreach($load_css['template_css'] as $val){
-              echo link_tag($val,$rel = 'stylesheet',$type = 'text/css');
-          }
-      }
+    if (!empty($load_css['template_css'])) {
+        foreach ($load_css['template_css'] as $val) {
+            echo link_tag($val, $rel = 'stylesheet', $type = 'text/css');
+        }
+    }
     ?>
     <!--end::Page css-->
 
@@ -48,7 +48,7 @@
         var baseUrl = '<?= base_url() ?>';
         var baseFolder = '<?= base_url('backend/') ?>';
     </script>
-
+   
 </head>
 <!--end::Head-->
 
