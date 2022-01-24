@@ -71,6 +71,18 @@ jQuery(document).ready(function () {
 				}
 			},
 			{
+				field: 'purchase_price',
+				title: 'Purchase Price',
+				width: 100,
+				template: function (row) {
+					var output = '';
+
+					output += '<div class="font-weight ">' + row.purchase_price + '</div>';
+
+					return output;
+				}
+			},
+			{
 				field: 'opening_quantity',
 				title: 'Opening Qty.',
 				width: 100,

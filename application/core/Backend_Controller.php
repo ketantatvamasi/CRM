@@ -188,4 +188,35 @@ class BackendController extends MY_Controller
     {
         $this->load->view('backend/template/error');
     }
+
+
+    public function SendEmail($to_email,$subject ,$data){
+
+        $this->load->library('email');
+        $config['protocol'] = 'smtp';
+        $config['smtp_host'] = 'smtp.gmail.com';
+        $config['smtp_port'] = '465';
+        $config['smtp_timeout'] = '60';
+        $config['smtp_user'] = 'moneytracker741@gmail.com';
+        $config['smtp_pass'] = 'money@tracker';
+
+        $config['smtp_crypto'] = 'ssl';
+        $config['charset'] = 'utf-8';
+        $config['newline'] = "\r\n";
+        $config['wordwrap'] = TRUE;
+        $config['mailtype'] = 'html';
+
+        $this->email->initialize($config);
+
+        $this->email->from('moneytracker741@gmail.com', 'CRM');
+        $this->email->to($to_email);
+        $this->email->subject($subject);
+        $this->email->message($data);
+        if (!$this->email->send()) {
+            return json_encode($this->email->print_debugger());
+        } else {
+            // $dt = array("status" => "success", "msg" => "OTP Successfully Send On Your Email Address");
+            return true;
+        }
+    }
 }

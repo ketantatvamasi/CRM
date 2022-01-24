@@ -480,12 +480,12 @@ function purchaseForm  () {
 		}
 	).on('core.form.valid', function () {
 		// Show loading state on button
-		KTUtil.btnWait(formSubmitButton, _buttonSpinnerClasses, "Please wait");
+		// KTUtil.btnWait(formSubmitButton, _buttonSpinnerClasses, "Please wait");
 
 		// Simulate Ajax request
-		setTimeout(function () {
-			KTUtil.btnRelease(formSubmitButton);
-		}, 1000);
+		// setTimeout(function () {
+		// 	KTUtil.btnRelease(formSubmitButton);
+		// }, 5000);
 
 
 		var data = $('#purchase_form').serialize();
@@ -497,15 +497,18 @@ function purchaseForm  () {
 			dataType: "json",
 			beforeSend: function () {
 				$("#purchase_form_submit_button").prop('disabled', true);
+				toastr.info('Wait email is sending');
+				$("#purchase_form_submit_button").html('<i class="fa fa-spinner fa-pulse fa-fw"></i> Sending...');
 			},
 			success: function (data) {
 				if (data.response == true) {
 					toastr.success('Successfully Save');
 					window.location.href = baseFolder + "purchase";
+					
 				} else {
 					toastr.error("Enter Proper Data!!!!");
 				}
-				$("#purchase_form_submit_button").prop('disabled', false);
+				$("#purchase_form_submit_button").prop('disabled', true);
 			},
 			error: function (xhr, status, error) {
 				var errorMessage = xhr.status + ': ' + xhr.statusText
