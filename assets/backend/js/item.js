@@ -247,6 +247,7 @@ var itemForm = function () {
 
 
 	$('#add_item_button').on('click', function () {
+		$("[class^='fv-plugins-message-container']").text('');
 		$('#items_form')[0].reset();
 		fv.on('core.form.reset',function(){});
 		$('.modal-title').text('Add item');
@@ -254,6 +255,7 @@ var itemForm = function () {
 
 }
 function edit_item(id) {
+	$("[class^='fv-plugins-message-container']").text('');
 	$('#items_form')[0].reset();
 	$.ajax({
 		type: "POST",

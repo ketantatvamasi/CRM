@@ -21,6 +21,10 @@ class ForgetPassword extends BackendController
 	}
 	public function check_email()
     {
+		if (!$this->input->is_ajax_request()) {
+            $this->error();
+            return false;
+        }
         $data = $this->input->post('email');
         $dt = $this->common_m->getEmail(array('*'),"users",array('email' => $data));
         if ($dt != "") {
@@ -32,7 +36,10 @@ class ForgetPassword extends BackendController
     }
 	public function for_send_otp()
     {
-        if ($this->input->is_ajax_request()) {
+		if (!$this->input->is_ajax_request()) {
+            $this->error();
+            return false;
+        }
             $to_email = $this->input->post('email');
             $otp = rand(100000, 999999);
 
@@ -62,13 +69,14 @@ class ForgetPassword extends BackendController
                 $dt = array("status" => "success", "otp" => $otp, "msg" => "OTP Successfully Send On Your Email Address");
             }
             echo json_encode($dt);
-        } else {
-            $this->error();
-        }
 		
     }
 	public function forget_pass()
     {
+		if (!$this->input->is_ajax_request()) {
+            $this->error();
+            return false;
+        }
         $user_id = $this->input->post('user_id');
         $password = $this->input->post('password');
 		// $result = $this->common_m->update_record('users', array('passwor'=>$password), array('user_id' => $user_id));
