@@ -135,6 +135,11 @@ class BackendController extends MY_Controller
                     'assets/backend/js/login.js'
                 );
                 break;
+                case 'forgot':
+                    return array(
+                        'assets/backend/js/forgot.js'
+                    );
+                    break;
             case 'list':
                 return array(
                     'assets/Backend/app-assets/vendors/js/tables/datatable/datatables.min.js',
