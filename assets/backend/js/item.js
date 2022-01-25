@@ -131,63 +131,12 @@ jQuery(document).ready(function () {
 				overflow: 'visible',
 				autoHide: false,
 				template: function (data) {
-					return '\
-						<div class="dropdown dropdown-inline">\
-						<a href="javascript:;" title="Edit" onclick="edit_item('+ data.id + ')">\
-						<i class="far fa-edit text-success mr-3"></i>\
-						</a>\
-						<a href="javascript:;" title="Delete" onclick="delete_item('+ data.id + ')">\
-						<i class="fas fa-trash text-danger"></i>\
-						</a>\
-					';
+					return '<div class="dropdown dropdown-inline"><a href="javascript:;" title="Edit" onclick="edit_item('+ data.id + ')"><i class="far fa-edit text-success mr-3"></i></a><a href="javascript:;" title="Delete" onclick="delete_item('+ data.id + ')"><i class="fas fa-trash text-danger"></i></a>';
 				},
 			}],
 	});
-
-
-
-
-
-
-	// $('.items_form').on('submit', function (e) {
-	// 	e.preventDefault();
-	// 	var data = $('#items_form').serialize();
-	// 	// alert(data);
-	// 	$.ajax({
-	// 		method: 'post',
-	// 		url: baseFolder + 'item/addItem',
-	// 		data: data,
-	// 		dataType: "json",
-	// 		beforeSend: function () {
-	// 			$("#items_button").prop('disabled', true);
-	// 		},
-	// 		success: function (data) {
-	// 			if (data.response == true) {
-	// 				toastr.success('Successfully save');
-	// 				$('#itemsModal').modal('toggle');
-	// 				$('#item_datatable').KTDatatable('reload');
-	// 			} else {
-	// 				toastr.error("Enter Proper Data!!!!");
-	// 			}
-	// 			$("#items_button").prop('disabled', false);
-	// 		},
-	// 		error: function (xhr, status, error) {
-	// 			var errorMessage = xhr.status + ': ' + xhr.statusText
-	// 			switch (xhr.status) {
-	// 				case 401:
-	// 					toastr.error('Authontication fail...');
-	// 					break;
-	// 				case 422:
-	// 					toastr.info('The user is invalid.');
-	// 					break;
-	// 				default:
-	// 					toastr.error('Error - ' + errorMessage);
-	// 			}
-	// 			$("#items_button").prop('disabled', false);
-	// 		}
-	// 	});
-	// });
 });
+
 var itemForm = function () {
 	var _buttonSpinnerClasses = 'spinner spinner-right spinner-white pr-15';
 	var form = KTUtil.getById('items_form');
@@ -197,7 +146,7 @@ var itemForm = function () {
 		return;
 	}
 
-	FormValidation.formValidation(
+	const fv=FormValidation.formValidation(
 		form,
 		{
 			fields: {
@@ -292,10 +241,14 @@ var itemForm = function () {
 				$("#items_button").prop('disabled', false);
 			}
 		});
+
+		fv.on('core.form.reset',function(){});
 	});
+
 
 	$('#add_item_button').on('click', function () {
 		$('#items_form')[0].reset();
+		fv.on('core.form.reset',function(){});
 		$('.modal-title').text('Add item');
 	});
 
