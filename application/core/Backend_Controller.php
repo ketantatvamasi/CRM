@@ -190,9 +190,11 @@ class BackendController extends MY_Controller
     }
 
 
-    public function SendEmail($to_email,$subject ,$data){
+    public function SendEmail($to_email, $subject, $data)
+    {
 
         $this->load->library('email');
+        $config['useragent'] = 'CodeIgniter';
         $config['protocol'] = 'smtp';
         $config['smtp_host'] = 'smtp.gmail.com';
         $config['smtp_port'] = '465';
@@ -213,10 +215,8 @@ class BackendController extends MY_Controller
         $this->email->subject($subject);
         $this->email->message($data);
         if (!$this->email->send()) {
-            return json_encode($this->email->print_debugger());
-        } else {
-            // $dt = array("status" => "success", "msg" => "OTP Successfully Send On Your Email Address");
-            return true;
+            return false;
         }
+        return true;
     }
 }
