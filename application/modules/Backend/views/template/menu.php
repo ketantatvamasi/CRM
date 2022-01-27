@@ -1,7 +1,7 @@
 <?php $session = $this->session->userdata() ?>
 <!--begin::Main-->
 <!--begin::Header Mobile-->
-<div id="kt_header_mobile" class="header-mobile align-items-center  header-mobile-fixed ">
+<div id="kt_header_mobile" class="header-mobile align-items-center  header-mobile-fixed d-print-none">
     <!--begin::Logo-->
     <a href="index.html">
         <img alt="Logo" src="<?= base_url(); ?>assets/backend/media/logos/logo-light.png" />
@@ -144,7 +144,7 @@
         <!--begin::Wrapper-->
         <div class="d-flex flex-column flex-row-fluid wrapper" id="kt_wrapper">
             <!--begin::Header-->
-            <div id="kt_header" class="header  header-fixed ">
+            <div id="kt_header" class="header  header-fixed d-print-none">
                 <!--begin::Container-->
                 <div class=" container-fluid  d-flex align-items-stretch justify-content-between">
                     <!--begin::Header Menu Wrapper-->
@@ -254,7 +254,7 @@
             </div>
             <!--end::Header-->
             <!--begin::Subheader-->
-            <div class="subheader py-2 py-lg-4  subheader-solid " id="kt_subheader">
+            <div class="subheader py-2 py-lg-4  subheader-solid d-print-none" id="kt_subheader">
                 <div class=" container-fluid  d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
                     <!--begin::Info-->
                     <div class="d-flex align-items-center flex-wrap mr-2">
