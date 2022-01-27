@@ -9,7 +9,7 @@
             <!--begin::Sell-->
             <div class="card card-custom ">
                 <!--begin::Header-->
-                <div class="card-header flex-wrap border-0 pt-6 pb-0">
+                <div class="card-header flex-wrap border-0 pt-6 pb-0 d-print-none">
                     <div class="card-title">
                         <h3 class="card-label">
                             <span id="purchase_dynamic_title">Edit <?= ucfirst($load_data['site_title']) ?> </span>
@@ -17,7 +17,7 @@
                         </h3>
                     </div>
 
-                    <div class="card-toolbar">
+                    <div class="card-toolbar d-print-none">
                         <!--begin::Button-->
                         <a href="<?= base_url('backend/sale'); ?>">
                             <button type="button" class="btn btn-primary font-weight-bolder">
@@ -143,7 +143,7 @@
                                     </table>
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="row d-print-none">
                                 <div class="col-xl-12">
 
                                     <div class="form-group">
@@ -206,7 +206,7 @@
                             </div>
                             <!-- end: Invoice footer-->
 
-                            <div class="card-footer">
+                            <div class="card-footer d-print-none">
                                 <button type="submit" class="btn btn-primary mr-2" id="sale_form_submit_button">Submit</button>
                                 <button type="reset" class="btn btn-secondary mr-2">Reset</button>
                                 <button type="button" class="btn btn-light-primary font-weight-bold" onclick="window.print();">Download Invoice</button>

@@ -2,7 +2,7 @@
 $data = $load_js;
 if ($data['nofooter'] != 'nofooter') { ?>
     <!--begin::Footer-->
-    <div class="footer py-4 d-flex flex-lg-column " id="kt_footer">
+    <div class="footer py-4 d-flex flex-lg-column d-print-none" id="kt_footer">
         <!--begin::Container-->
         <div class=" container  d-flex flex-column flex-md-row align-items-center justify-content-between">
             <!--begin::Copyright-->

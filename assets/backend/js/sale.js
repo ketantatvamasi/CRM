@@ -228,8 +228,8 @@ jQuery(document).ready(function () {
     saleForm();
     demos();
 
-    
-       
+
+
     $('#customer_form_submit_button').on('click', function () {
         var data = $('#customer_form').serialize();
 
@@ -289,10 +289,10 @@ jQuery(document).ready(function () {
         document.getElementById("sale_form").reset();
         calculateTotal();
     });
-    
+
     $(document).on('keyup', "[id^=quantity_]", function () {
         calculateTotal();
-    }); 
+    });
     var datatable = $('#sale_datatable').KTDatatable({
         // datasource definition
         data: {
@@ -453,12 +453,12 @@ function saleForm() {
 
     ).on('core.form.valid', function () {
         // Show loading state on button
-        KTUtil.btnWait(formSubmitButton, _buttonSpinnerClasses, "Please wait");
+        KTUtil.btnWait(formSubmitButton, _buttonSpinnerClasses, "Please wait..");
 
         // Simulate Ajax request
-        setTimeout(function () {
-            KTUtil.btnRelease(formSubmitButton);
-        }, 1000);
+        // setTimeout(function () {
+        //     KTUtil.btnRelease(formSubmitButton);
+        // }, 1000);
 
 
         var data = $('#sale_form').serialize();
@@ -476,7 +476,7 @@ function saleForm() {
                     toastr.success('Successfully saved');
                     window.location.href = baseFolder + 'sale';
                 }
-                $("#sale_form_submit_button").prop('disabled', false);
+                $("#sale_form_submit_button").prop('disabled', true);
             },
             error: function (xhr, status, error) {
                 var errorMessage = xhr.status + ': ' + xhr.statusText
@@ -487,9 +487,16 @@ function saleForm() {
                     case 422:
                         toastr.info('The user is invalid.');
                         break;
+                    case 410:
+                        toastr.error('Network Error');
+                        break;
                     default:
                         toastr.error('Error - ' + errorMessage);
                 }
+               
+                setTimeout(function () {
+					KTUtil.btnRelease(formSubmitButton);
+				}, 1000);
                 $("#sale_form_submit_button").prop('disabled', false);
             }
         });
@@ -579,7 +586,7 @@ function saleForm() {
         });
 
     });
-    
+
 
     $(document).on('change', "[id^=productId_]", function () {
         var id = this.value;

@@ -1,13 +1,12 @@
 <?php $session = $this->session->userdata() ?>
 <!--begin::Main-->
 <!--begin::Header Mobile-->
-<div id="kt_header_mobile" class="header-mobile align-items-center  header-mobile-fixed ">
+<div id="kt_header_mobile" class="header-mobile align-items-center  header-mobile-fixed d-print-none">
     <!--begin::Logo-->
     <a href="index.html">
         <img alt="Logo" src="<?= base_url(); ?>assets/backend/media/logos/logo-light.png" />
     </a>
     <!--end::Logo-->
-
     <!--begin::Toolbar-->
     <div class="d-flex align-items-center">
         <!--begin::Aside Mobile Toggle-->
@@ -15,8 +14,6 @@
             <span></span>
         </button>
         <!--end::Aside Mobile Toggle-->
-
-
         <!--begin::Topbar Mobile Toggle-->
         <button class="btn btn-hover-text-primary p-0 ml-2" id="kt_header_mobile_topbar_toggle">
             <span class="svg-icon svg-icon-xl">
@@ -34,8 +31,6 @@
     <!--end::Toolbar-->
 </div>
 <!--end::Header Mobile-->
-
-
 <div class="d-flex flex-column flex-root">
     <!--begin::Page-->
     <div class="d-flex flex-row flex-column-fluid page">
@@ -48,7 +43,6 @@
                     <img alt="Logo" src="<?= base_url(); ?>assets/backend/media/logos/logo-light.png" />
                 </a>
                 <!--end::Logo-->
-
                 <!--begin::Toggle-->
                 <button class="brand-toggle btn btn-sm px-0" id="kt_aside_toggle">
                     <span class="svg-icon svg-icon svg-icon-xl">
@@ -64,15 +58,13 @@
                 <!--end::Toolbar-->
             </div>
             <!--end::Brand-->
-
             <!--begin::Aside Menu-->
             <div class="aside-menu-wrapper flex-column-fluid" id="kt_aside_menu_wrapper">
-
                 <!--begin::Menu Container-->
                 <div id="kt_aside_menu" class="aside-menu my-4 " data-menu-vertical="1" data-menu-scroll="1" data-menu-dropdown-timeout="500">
                     <!--begin::Menu Nav-->
                     <ul class="menu-nav ">
-                        <li class="menu-item  menu-item" aria-haspopup="true"><a href="<?= base_url('backend/dashboard'); ?>" class="menu-link "><span class="svg-icon menu-icon">
+                        <li class="menu-item" aria-haspopup="true"><a href="<?= base_url('backend/dashboard'); ?>" class="menu-link "><span class="svg-icon menu-icon">
                                     <!--begin::Svg Icon | path:assets/media/svg/icons/Design/Layers.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                                         <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                             <polygon points="0 0 24 0 24 24 0 24" />
@@ -87,7 +79,7 @@
                             <h4 class="menu-text">Buyers & Sellers</h4>
                             <i class="menu-icon ki ki-bold-more-hor icon-md"></i>
                         </li>
-                        <li class="menu-item  menu-item" aria-haspopup="true"><a href="<?= base_url('backend/users'); ?>" class="menu-link ">
+                        <li class="menu-item" aria-haspopup="true"><a href="<?= base_url('backend/users'); ?>" class="menu-link ">
                                 <span class="svg-icon menu-icon">
                                     <!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\themes\metronic\theme\html\demo1\dist/../src/media/svg/icons\General\User.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                                         <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -99,7 +91,7 @@
                                     <!--end::Svg Icon-->
                                 </span><span class="menu-text">Users</span></a>
                         </li>
-                        <li class="menu-item  menu-item" aria-haspopup="true"><a href="<?= base_url('backend/vendor'); ?>" class="menu-link ">
+                        <li class="menu-item" aria-haspopup="true"><a href="<?= base_url('backend/vendor'); ?>" class="menu-link ">
                                 <span class="svg-icon menu-icon">
                                     <!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\themes\metronic\theme\html\demo1\dist/../src/media/svg/icons\Shopping\Box3.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                                         <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -111,19 +103,17 @@
                                     <!--end::Svg Icon-->
                                 </span><span class="menu-text">Vendors</span></a>
                         </li>
-                        <li class="menu-item  menu-item" aria-haspopup="true"><a href="<?= base_url('backend/customer'); ?>" class="menu-link ">
+                        <li class="menu-item" aria-haspopup="true"><a href="<?= base_url('backend/customer'); ?>" class="menu-link ">
                                 <i class="menu-icon flaticon-users icon-lg"></i>
                                 <!--end::Svg Icon-->
                                 </span><span class="menu-text">Customers</span>
                             </a>
                         </li>
-
                         <li class="menu-section">
                             <h4 class="menu-text">Items Inventory</h4>
                             <i class="menu-icon ki ki-bold-more-hor icon-md"></i>
                         </li>
-
-                        <li class="menu-item  menu-item" aria-haspopup="true"><a href="<?= base_url('backend/item'); ?>" class="menu-link ">
+                        <li class="menu-item" aria-haspopup="true"><a href="<?= base_url('backend/item'); ?>" class="menu-link ">
                                 <span class="svg-icon menu-icon">
                                     <!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\themes\metronic\theme\html\demo1\dist/../src/media/svg/icons\Shopping\Gift.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                                         <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -135,26 +125,14 @@
                                     <!--end::Svg Icon-->
                                 </span><span class="menu-text">Items</span></a>
                         </li>
-                        <!-- <li class="menu-item  menu-item" aria-haspopup="true"><a href="<//?= base_url('backend/login'); ?>" class="menu-link ">
-                                <span class="svg-icon menu-icon">
-                                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-                                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                            <rect x="0" y="0" width="24" height="24" />
-                                            <rect fill="#000000" opacity="0.3" x="4" y="4" width="8" height="16" />
-                                            <path d="M6,18 L9,18 C9.66666667,18.1143819 10,18.4477153 10,19 C10,19.5522847 9.66666667,19.8856181 9,20 L4,20 L4,15 C4,14.3333333 4.33333333,14 5,14 C5.66666667,14 6,14.3333333 6,15 L6,18 Z M18,18 L18,15 C18.1143819,14.3333333 18.4477153,14 19,14 C19.5522847,14 19.8856181,14.3333333 20,15 L20,20 L15,20 C14.3333333,20 14,19.6666667 14,19 C14,18.3333333 14.3333333,18 15,18 L18,18 Z M18,6 L15,6 C14.3333333,5.88561808 14,5.55228475 14,5 C14,4.44771525 14.3333333,4.11438192 15,4 L20,4 L20,9 C20,9.66666667 19.6666667,10 19,10 C18.3333333,10 18,9.66666667 18,9 L18,6 Z M6,6 L6,9 C5.88561808,9.66666667 5.55228475,10 5,10 C4.44771525,10 4.11438192,9.66666667 4,9 L4,4 L9,4 C9.66666667,4 10,4.33333333 10,5 C10,5.66666667 9.66666667,6 9,6 L6,6 Z" fill="#000000" fill-rule="nonzero" />
-                                        </g>
-                                    </svg>
-                                </span><span class="menu-text">Stock</span></a>
-                        </li> -->
-                        <li class="menu-item  menu-item" aria-haspopup="true"><a href="<?= base_url('backend/purchase'); ?>" class="menu-link ">
-                        <i class="menu-icon icon-md fas fa-cart-plus"></i>
-                        <span class="menu-text"> Purchase</span></a>
+                        <li class="menu-item" aria-haspopup="true"><a href="<?= base_url('backend/purchase'); ?>" class="menu-link ">
+                                <i class="menu-icon icon-md fas fa-cart-plus"></i>
+                                <span class="menu-text"> Purchase</span></a>
                         </li>
-                        <li class="menu-item  menu-item" aria-haspopup="true"><a href="<?= base_url('backend/sale'); ?>" class="menu-link ">
+                        <li class="menu-item" aria-haspopup="true"><a href="<?= base_url('backend/sale'); ?>" class="menu-link ">
                                 <i class="menu-icon flaticon-coins icon-lg"></i>
                                 <span class="menu-text">Sell</span></a>
                         </li>
-
                     </ul>
                     <!--end::Menu Nav-->
                 </div>
@@ -163,44 +141,15 @@
             <!--end::Aside Menu-->
         </div>
         <!--end::Aside-->
-
         <!--begin::Wrapper-->
         <div class="d-flex flex-column flex-row-fluid wrapper" id="kt_wrapper">
             <!--begin::Header-->
-            <div id="kt_header" class="header  header-fixed ">
+            <div id="kt_header" class="header  header-fixed d-print-none">
                 <!--begin::Container-->
                 <div class=" container-fluid  d-flex align-items-stretch justify-content-between">
-
                     <!--begin::Header Menu Wrapper-->
-                    <div class="header-menu-wrapper header-menu-wrapper-left" id="kt_header_menu_wrapper">
-                        <!--begin::Header Menu-->
-                        <div id="kt_header_menu" class="header-menu header-menu-mobile  header-menu-layout-default ">
-                            <!--begin::Header Nav-->
-                            <ul class="menu-nav ">
-                                <li class="menu-item  menu-item-open menu-item-here menu-item-submenu menu-item-rel menu-item-open menu-item-here menu-item-active" data-menu-toggle="click" aria-haspopup="true"><a href="javascript:;" class="menu-link menu-toggle"><span class="menu-text">Pages</span><i class="menu-arrow"></i></a>
-                                    <!-- <div class="menu-submenu menu-submenu-classic menu-submenu-left">
-                            
-                        </div> -->
-                                </li>
-                                <li class="menu-item  menu-item-submenu" data-menu-toggle="click" aria-haspopup="true"><a href="javascript:;" class="menu-link menu-toggle"><span class="menu-text">Features</span><i class="menu-arrow"></i></a>
-                                    <div class="menu-submenu  menu-submenu-fixed menu-submenu-left" style="width:1000px">
-                                        <div class="menu-subnav">
-
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="menu-item  menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="true"><a href="javascript:;" class="menu-link menu-toggle"><span class="menu-text">Apps</span><i class="menu-arrow"></i></a>
-                                    <div class="menu-submenu menu-submenu-classic menu-submenu-left">
-
-                                    </div>
-                                </li>
-                            </ul>
-                            <!--end::Header Nav-->
-                        </div>
-                        <!--end::Header Menu-->
-                    </div>
+                    <div class="header-menu-wrapper header-menu-wrapper-left" id="kt_header_menu_wrapper"></div>
                     <!--end::Header Menu Wrapper-->
-
                     <!--begin::Topbar-->
                     <div class="topbar">
                         <!--begin::User-->
@@ -216,7 +165,6 @@
                                 </div>
                             </div>
                             <!--end::Toggle-->
-
                             <!--begin::Dropdown-->
                             <div class="dropdown-menu p-0 m-0 dropdown-menu-right dropdown-menu-anim-up dropdown-menu-lg p-0">
                                 <!--begin::Header-->
@@ -226,7 +174,6 @@
                                         <img src="<?= base_url(); ?>assets/backend/media/users/300_21.jpg" alt="" />
                                     </div>
                                     <!--end::Symbol-->
-
                                     <!--begin::Text-->
                                     <div class="text-dark m-0 flex-grow-1 mr-3 font-size-h5"><?= ucfirst($session['user_name']) ?></div>
                                     <span class="label label-light-success label-lg font-weight-bold label-inline">3 messages</span>
@@ -234,7 +181,6 @@
                                 </div>
                                 <div class="separator separator-solid"></div>
                                 <!--end::Header-->
-
                                 <!--begin::Nav-->
                                 <div class="navi navi-spacer-x-0 pt-5">
                                     <!--begin::Item-->
@@ -255,7 +201,6 @@
                                         </div>
                                     </a>
                                     <!--end::Item-->
-
                                     <!--begin::Item-->
                                     <a href="custom/apps/user/profile-2.html" class="navi-item px-8">
                                         <div class="navi-link">
@@ -273,7 +218,6 @@
                                         </div>
                                     </a>
                                     <!--end::Item-->
-
                                     <!--begin::Item-->
                                     <a href="custom/apps/userprofile-1/overview.html" class="navi-item px-8">
                                         <div class="navi-link">
@@ -291,12 +235,10 @@
                                         </div>
                                     </a>
                                     <!--end::Item-->
-
                                     <!--begin::Footer-->
                                     <div class="navi-separator mt-3"></div>
                                     <div class="navi-footer  px-8 py-5">
                                         <a href="<?= base_url(); ?><?= 'backend/Login/logout' ?>" class="btn btn-light-primary font-weight-bold">Sign Out</a>
-
                                     </div>
                                     <!--end::Footer-->
                                 </div>
@@ -307,50 +249,29 @@
                         <!--end::User-->
                     </div>
                     <!--end::Topbar-->
-
-
                 </div>
                 <!--end::Container-->
             </div>
             <!--end::Header-->
-
-
             <!--begin::Subheader-->
-            <div class="subheader py-2 py-lg-4  subheader-solid " id="kt_subheader">
+            <div class="subheader py-2 py-lg-4  subheader-solid d-print-none" id="kt_subheader">
                 <div class=" container-fluid  d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
                     <!--begin::Info-->
                     <div class="d-flex align-items-center flex-wrap mr-2">
-
                         <!--begin::Page Title-->
                         <h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">
                             <?= ucfirst($load_css['site_title']); ?> </h5>
                         <!--end::Page Title-->
-
-
                     </div>
                     <!--end::Info-->
-
                     <!--begin::Toolbar-->
                     <div class="d-flex align-items-center">
-                        <!--begin::Actions-->
-                        <a href="#" class="btn btn-clean  btn-sm font-weight-bold font-size-base mr-1">
-                            Today
-                        </a>
-                        <a href="#" class="btn btn-clean btn-sm font-weight-bold font-size-base  mr-1">
-                            Month
-                        </a>
-                        <a href="#" class="btn btn-clean btn-sm font-weight-bold font-size-base mr-1">
-                            Year
-                        </a>
-                        <!--end::Actions-->
-
                         <!--begin::Daterange-->
                         <a href="#" class="btn btn-sm btn-light font-weight-bold mr-2" id="kt_dashboard_daterangepicker" data-toggle="tooltip" title="Select dashboard daterange" data-placement="left">
                             <span class="text-muted font-size-base font-weight-bold mr-2" id="kt_dashboard_daterangepicker_title">Today</span>
                             <span class="text-primary font-size-base font-weight-bolder" id="kt_dashboard_daterangepicker_date">Aug 16</span>
                         </a>
                         <!--end::Daterange-->
-
                     </div>
                     <!--end::Toolbar-->
                 </div>

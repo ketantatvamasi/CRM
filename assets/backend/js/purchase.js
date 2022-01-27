@@ -250,7 +250,7 @@ jQuery(document).ready(function () {
 	purchaseForm();
 	demos();
 
-	
+
 	// alert(count);
 
 	//add vendor ajax
@@ -293,7 +293,7 @@ jQuery(document).ready(function () {
 		});
 	});
 
-	
+
 	$("#app-purchse-table").on("click", "#deleteItemfield", function () {
 		$(this).closest("tr").remove();
 		calculateTotal();
@@ -452,7 +452,7 @@ jQuery(document).ready(function () {
 });
 
 
-function purchaseForm  () {
+function purchaseForm() {
 	var _buttonSpinnerClasses = 'spinner spinner-right spinner-white pr-15';
 	var form = KTUtil.getById('purchase_form');
 	var formSubmitButton = KTUtil.getById('purchase_form_submit_button');
@@ -461,31 +461,31 @@ function purchaseForm  () {
 		return;
 	}
 
-	const fv=FormValidation.formValidation(
+	const fv = FormValidation.formValidation(
 		form,
 		{
 			fields: {
-				
+
 			},
 
 			plugins: {
-                trigger: new FormValidation.plugins.Trigger(),
-                submitButton: new FormValidation.plugins.SubmitButton(),
-                declarative: new FormValidation.plugins.Declarative(),
-                bootstrap: new FormValidation.plugins.Bootstrap({
-                    eleInvalidClass: '',
-                    eleValidClass: '',
-                })
-            }
+				trigger: new FormValidation.plugins.Trigger(),
+				submitButton: new FormValidation.plugins.SubmitButton(),
+				declarative: new FormValidation.plugins.Declarative(),
+				bootstrap: new FormValidation.plugins.Bootstrap({
+					eleInvalidClass: '',
+					eleValidClass: '',
+				})
+			}
 		}
 	).on('core.form.valid', function () {
 		// Show loading state on button
-		KTUtil.btnWait(formSubmitButton, _buttonSpinnerClasses, "Please wait");
+		KTUtil.btnWait(formSubmitButton, _buttonSpinnerClasses, "Please wait..");
 
 		// Simulate Ajax request
-		setTimeout(function () {
-			KTUtil.btnRelease(formSubmitButton);
-		}, 1000);
+		// setTimeout(function () {
+		// 	KTUtil.btnRelease(formSubmitButton);
+		// }, 5000);
 
 
 		var data = $('#purchase_form').serialize();
@@ -502,10 +502,11 @@ function purchaseForm  () {
 				if (data.response == true) {
 					toastr.success('Successfully Save');
 					window.location.href = baseFolder + "purchase";
+
 				} else {
-					toastr.error("Enter Proper Data!!!!");
+					toastr.error("Something went wrong! ");
 				}
-				$("#purchase_form_submit_button").prop('disabled', false);
+				$("#purchase_form_submit_button").prop('disabled', true);
 			},
 			error: function (xhr, status, error) {
 				var errorMessage = xhr.status + ': ' + xhr.statusText
@@ -516,27 +517,34 @@ function purchaseForm  () {
 					case 422:
 						toastr.info('The user is invalid.');
 						break;
+					case 410:
+						toastr.error('Network Error');
+						break;
 					default:
 						toastr.error('Error - ' + errorMessage);
 				}
+
+				setTimeout(function () {
+					KTUtil.btnRelease(formSubmitButton);
+				}, 1000);
 				$("#purchase_form_submit_button").prop('disabled', false);
 			}
 		});
-		
+
 	});
 
 	const item = {
-        validators: {
-            notEmpty: {
-                message: 'Select Item',
-            },
+		validators: {
+			notEmpty: {
+				message: 'Select Item',
+			},
 
-        },
-    };
+		},
+	};
 
 	var count = $('.item_row').length;
 	$("#app-purchse-table").on("click", ".addItemfield", function () {
-		
+
 		$.ajax({
 			type: 'ajax',
 			url: baseFolder + 'item/itemList',
@@ -560,25 +568,25 @@ function purchaseForm  () {
 				htmlRows += '</tr>';
 				$('#app-purchse-table').append(htmlRows);
 				fv.addField('data[' + count + '][item_id]', item).addField('data[' + count + '][quantity]', {
-                    validators: {
-                        notEmpty: {
-                            message: 'Required',
-                        },
-                        greaterThan: {
-                            message: 'Minimum 1',
-                            min: 1,
-                        },
-                        integer: {
-                            message: 'Enter valid Qty',
-                            thousandsSeparator: '',
-                            decimalSeparator: '.',
-                        },
-                    },
-                });
-                $("#item_id_" + count).select2({
-                    placeholder: "Select item",
-                    width: '100%'
-                });
+					validators: {
+						notEmpty: {
+							message: 'Required',
+						},
+						greaterThan: {
+							message: 'Minimum 1',
+							min: 1,
+						},
+						integer: {
+							message: 'Enter valid Qty',
+							thousandsSeparator: '',
+							decimalSeparator: '.',
+						},
+					},
+				});
+				$("#item_id_" + count).select2({
+					placeholder: "Select item",
+					width: '100%'
+				});
 
 			},
 			error: function (xhr, status, error) {
@@ -632,18 +640,18 @@ function purchaseForm  () {
 				calculateTotal();
 			},
 			error: function (xhr, status, error) {
-                var errorMessage = xhr.status + ': ' + xhr.statusText
-                switch (xhr.status) {
-                    case 401:
-                        toastr.error('Authontication fail...');
-                        break;
-                    case 422:
-                        toastr.info('The user is invalid.');
-                        break;
-                    default:
-                        toastr.error('Error - ' + errorMessage);
-                }
-            }
+				var errorMessage = xhr.status + ': ' + xhr.statusText
+				switch (xhr.status) {
+					case 401:
+						toastr.error('Authontication fail...');
+						break;
+					case 422:
+						toastr.info('The user is invalid.');
+						break;
+					default:
+						toastr.error('Error - ' + errorMessage);
+				}
+			}
 		});
 	});
 }
@@ -729,27 +737,25 @@ var demos = function () {
 	// basic
 	$('#vendor_id').select2({
 		placeholder: "Select vendor",
-		width:"100%"
+		width: "100%"
 	});
 	$('#edit_vendor_id').select2({
 		placeholder: "Select vendor",
-		width:"100%"
+		width: "100%"
 	});
 	$("[id^='item_id_']").select2({
 		placeholder: "Select item",
-		width:"100%"
+		width: "100%"
 	});
 }
 
 $('#vendor_id')
-    .select2()
-    .on('select2:open', () => {
-        $(".select2-results:not(:has(a))").append('<a href="javascript:;" style="padding: 6px;height: 20px;display: inline-table;" onclick="addvendor()">Create new vendor</a>');
-});
- 
-function addvendor(){
-	// $('#vendor_id').css({'z-index':'-1000'});
-	// alert("click");
+	.select2()
+	.on('select2:open', () => {
+		$(".select2-results:not(:has(a))").append('<a href="javascript:;" style="padding: 6px;height: 20px;display: inline-table;" onclick="addvendor()">Create new vendor</a>');
+	});
+
+function addvendor() {
 	$('#AddvendorModal').modal('show');
 	KTWizard3.init();
 	$('#vendor_id').select2('close');

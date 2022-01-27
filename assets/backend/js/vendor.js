@@ -65,8 +65,9 @@ var KTWizard3 = function () {
 							notEmpty: {
 								message: 'Email is required'
 							},
-							emailAddress: {
-								message: 'Entered Email is not valid email address'
+							regexp: {
+								regexp: /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/,
+								message: 'The Email is not a valid email address',
 							}
 						}
 					},
@@ -397,6 +398,7 @@ jQuery(document).ready(function () {
 		modelshow();
 	});
 	$('#vendor_list_button').on('click', function () {
+		$("[class^='fv-plugins-message-container']").text('');
 		datatableshow(title, subtitle);
 	});
 

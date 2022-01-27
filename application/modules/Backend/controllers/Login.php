@@ -22,7 +22,10 @@ class Login extends BackendController
 
 	public function login()
 	{
-
+		if (!$this->input->is_ajax_request()) {
+            $this->error();
+            return false;
+        }
 		$data['email'] = $this->input->post('email');
 		$data['password'] = $this->input->post('password');
 		// print_r($data); exit;

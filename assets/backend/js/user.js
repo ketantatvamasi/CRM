@@ -70,6 +70,10 @@ var KTWizard3 = function () {
 						validators: {
 							notEmpty: {
 								message: 'Email is required'
+							},
+							regexp: {
+								regexp: /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/,
+								message: 'The Email is not a valid email address',
 							}
 						}
 					},
@@ -286,9 +290,11 @@ jQuery(document).ready(function () {
 	var title = $('#user_dynamic_title').text();
 	var subtitle = $('#user_dynamic_subtitle_span').text();
 	$('#adduser').on('click', function () {
+		$("[class^='fv-plugins-message-container']").text('');
 		modelshow(subtitle);
 	});
 	$('#listuser').on('click', function () {
+		$("[class^='fv-plugins-message-container']").text('');
 		datatableshow(title);
 	});
 

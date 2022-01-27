@@ -22,7 +22,7 @@
 
                     <div class="card-toolbar">
                         <!--begin::Button-->
-                        <a href="<?= base_url('backend/purchase/purchaseList') ?>" class="btn btn-primary font-weight-bolder " id="add_purchase_button">
+                        <a href="<?= base_url('backend/purchase') ?>" class="btn btn-primary font-weight-bolder " id="add_purchase_button">
                             <i class="far fa-user"></i> <?= ucfirst($load_data['site_title']) ?> List
                         </a>
                         <!--end::Button-->

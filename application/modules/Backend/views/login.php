@@ -30,7 +30,7 @@
 
 		<!--begin::Content-->
 		<div class="login-content flex-row-fluid d-flex flex-column p-10">
-			
+
 
 			<!--begin::Wrapper-->
 			<div class="d-flex flex-row-fluid flex-center">
@@ -41,7 +41,7 @@
 						<!--begin::Title-->
 						<div class="pb-5 pb-lg-8">
 							<h3 class="font-weight-bolder text-dark font-size-h2 font-size-h1-lg">Sign In</h3>
-							
+
 						</div>
 						<!--begin::Title-->
 
@@ -57,18 +57,21 @@
 							<div class="d-flex justify-content-between mt-n5">
 								<label class="font-size-h6 font-weight-bolder text-dark pt-5">Password</label>
 
-								<a href="#" class="text-primary font-size-h6 font-weight-bolder text-hover-primary pt-5">
+								<a href="<?= base_url('backend/forgetpassword');?>" class="text-primary font-size-h6 font-weight-bolder text-hover-primary pt-5">
 									Forgot Password ?
 								</a>
 							</div>
-							<input class="form-control h-auto py-4 px-6 rounded-lg border-0" type="password" name="password" id="password" placeholder="Enter Your Password" autocomplete="off" />
+							<div class="input-group-append">
+								<input class="form-control h-auto py-4 px-6 rounded-lg border-0" type="password" name="password" id="password" placeholder="Enter Your Password" autocomplete="off" />
+								<span class="input-group-text" style="background: white;">
+								<i class="icon far field-icon toggle-password fa-eye" toggle="#password"></i>
+								</span>
+							</div>
 						</div>
 						<!--end::Form group-->
-
 						<!--begin::Action-->
 						<div class="pb-lg-0 pb-5">
 							<button type="submit" id="login_singin_form_submit_button" class="btn btn-primary font-weight-bolder font-size-h6 px-8 py-4 my-3 mr-3">Sign In</button>
-
 						</div>
 						<!--end::Action-->
 					</form>

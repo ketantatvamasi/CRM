@@ -135,6 +135,11 @@ class BackendController extends MY_Controller
                     'assets/backend/js/login.js'
                 );
                 break;
+                case 'forgot':
+                    return array(
+                        'assets/backend/js/forgot.js'
+                    );
+                    break;
             case 'list':
                 return array(
                     'assets/Backend/app-assets/vendors/js/tables/datatable/datatables.min.js',
@@ -187,5 +192,36 @@ class BackendController extends MY_Controller
     public function error()
     {
         $this->load->view('backend/template/error');
+    }
+
+
+    public function SendEmail($to_email, $subject, $data)
+    {
+
+        $this->load->library('email');
+        $config['useragent'] = 'CodeIgniter';
+        $config['protocol'] = 'smtp';
+        $config['smtp_host'] = 'smtp.gmail.com';
+        $config['smtp_port'] = '465';
+        $config['smtp_timeout'] = '60';
+        $config['smtp_user'] = 'moneytracker741@gmail.com';
+        $config['smtp_pass'] = 'money@tracker';
+
+        $config['smtp_crypto'] = 'ssl';
+        $config['charset'] = 'utf-8';
+        $config['newline'] = "\r\n";
+        $config['wordwrap'] = TRUE;
+        $config['mailtype'] = 'html';
+
+        $this->email->initialize($config);
+
+        $this->email->from('moneytracker741@gmail.com', 'CRM');
+        $this->email->to($to_email);
+        $this->email->subject($subject);
+        $this->email->message($data);
+        if (!$this->email->send()) {
+            return false;
+        }
+        return true;
     }
 }
