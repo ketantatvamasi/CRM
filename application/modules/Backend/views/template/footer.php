@@ -114,6 +114,8 @@ if (!empty($data['template_js'])) {
 ?>
 <!--end::Page Scripts-->
 
+<script src="<?= base_url() ?>assets/backend/js/common.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 
 <!--begin::Page Scripts(used by this page)-->
 <script src="<?= base_url();?>assets/backend/js/pages/widgets.js"></script>

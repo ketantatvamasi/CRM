@@ -126,7 +126,7 @@
                                 </span><span class="menu-text">Items</span></a>
                         </li>
                         <li class="menu-item" aria-haspopup="true"><a href="<?= base_url('backend/purchase'); ?>" class="menu-link ">
-                                <i class="menu-icon icon-md fas fa-cart-plus"></i>
+                                <i class="menu-icon icon-md fas fa-cart-arrow-down"></i>
                                 <span class="menu-text"> Purchase</span></a>
                         </li>
                         <li class="menu-item" aria-haspopup="true"><a href="<?= base_url('backend/sale'); ?>" class="menu-link ">

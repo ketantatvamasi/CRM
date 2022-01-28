@@ -268,7 +268,20 @@ jQuery(document).ready(function () {
 
 					return row.phone;
 				}
-			}, {
+			},
+			{
+				field: 'status',
+				title: 'Status',
+				// callback function support for column rendering
+				template: function (row) {
+					var status = {
+						0: { 'title': 'Active', 'class': ' label-light-success' },
+						1: { 'title': 'Deactive', 'class': ' label-light-danger' },
+					};
+					return `<span class="label label-lg font-weight-bold   ${status[row.status].class}   label-inline" onclick="statusChange( ${row.user_id} ,${row.status} ,'users','user_id','account','#userlist')">${status[row.status].title}</span>`;
+				},
+			},
+			{
 				field: 'Action',
 				title: 'Action',
 				sortable: false,
@@ -417,3 +430,4 @@ function user_delete(user_id) {
 		}
 	});
 }
+

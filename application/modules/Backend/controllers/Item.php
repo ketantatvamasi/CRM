@@ -37,7 +37,8 @@ class Item extends BackendController
                 "sale_price" => $record->sale_price,
                 "purchase_price" => $record->purchase_price,
                 "opening_quantity" => $record->opening_quantity,
-                "total_quantity" => $record->total_quantity
+                "total_quantity" => $record->total_quantity,
+                "status" => $record->status
             );
         }
         $output = array(

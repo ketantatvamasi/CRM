@@ -54,7 +54,7 @@ var KTLogin = function () {
 				// Simulate Ajax request
 				setTimeout(function () {
 					KTUtil.btnRelease(formSubmitButton);
-				}, 2000);
+				}, 1000);
 
 
 				$.ajax({

@@ -4,14 +4,13 @@ class Item_m extends CI_Model {
         parent::__construct();
     }
     var $table = 'items';
-    var $select_column = array("id","item_name","item_code","sale_price","purchase_price","opening_quantity","total_quantity");
+    var $select_column = array("id","item_name","item_code","sale_price","purchase_price","opening_quantity","total_quantity","status");
     var $column_search = array( "item_name","item_code","sale_price","opening_quantity","total_quantity"); //set column field database for datatable searchable
     var $order = array('item_name' => 'asc'); // default order
     private function _get_datatables_query()
     {
         $this->db->select($this->select_column);
         $this->db->from($this->table);
-        
         if ($this->session->userdata('role_id') == 2) {
             $this->db->where('company_id', $this->session->userdata['user_id']);
         } else if ($this->session->userdata('role_id') == 3) {

@@ -20,7 +20,7 @@
                     <div class="card-toolbar">
                         <!--begin::Button-->
                         <a href="<?= base_url('backend/purchase/addpurchase_page')?>" class="btn btn-primary font-weight-bolder " id="add_purchase_button">
-                            <i class="fas fa-user-plus"></i> Add <?= ucfirst($load_data['site_title']) ?>
+                            <i class="fas fa-cart-plus"></i> Add <?= ucfirst($load_data['site_title']) ?>
                         </a>
                         <!--end::Button-->
                     </div>

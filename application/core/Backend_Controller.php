@@ -84,6 +84,12 @@ class BackendController extends MY_Controller
                     'assets/backend/css/pages/wizard/wizard-3.css'
                 );
                 break;
+            case 'sale_purchase':
+                return array(
+                    'assets/backend/css/pages/wizard/wizard-3.css',
+                    'assets/backend/css/jquery-ui.css'
+                );
+                break;
             case 'dashboard':
                 return array(
                     'assets/Backend/app-assets/vendors/css/extensions/unslider.css',
@@ -135,11 +141,11 @@ class BackendController extends MY_Controller
                     'assets/backend/js/login.js'
                 );
                 break;
-                case 'forgot':
-                    return array(
-                        'assets/backend/js/forgot.js'
-                    );
-                    break;
+            case 'forgot':
+                return array(
+                    'assets/backend/js/forgot.js'
+                );
+                break;
             case 'list':
                 return array(
                     'assets/Backend/app-assets/vendors/js/tables/datatable/datatables.min.js',
