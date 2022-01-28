@@ -56,7 +56,7 @@ class Sale extends BackendController
     $company_id = $this->session->userdata['company_id'];
 
     $this->data['customers'] = $this->common_m->get_common_master('customers', array('id', 'user_id', 'company_id', 'customer_name'), array("company_id" => $company_id), 'customer_name asc');
-    $this->data['items'] = $this->common_m->get_common_master('items', array('id', 'user_id', 'company_id', 'item_code', 'item_name', 'total_quantity'), array("company_id" => $company_id , "status" => 0), 'item_name asc');
+    $this->data['items'] = $this->common_m->get_common_master('items', array('id', 'user_id', 'company_id', 'item_code', 'item_name', 'total_quantity'), array("company_id" => $company_id, "status" => 0), 'item_name asc');
 
     $this->render_page($this->data['sitename_folder'] . 'saleForm_v', $this->data);
   }
@@ -336,7 +336,6 @@ class Sale extends BackendController
       'user_id' => $this->session->userdata['user_id']
     );
     $input2 = $input['data'];
-
     if ($input['id'] == "") {
       $emailStatus =  $this->SendEmail($to_email, 'Your Order Details', $Emaildata);
       if ($emailStatus == false) {
@@ -368,8 +367,8 @@ class Sale extends BackendController
       }
       $this->common_m->delete_record('sale_item', array('sale_id' => $input1['id']));
       $this->common_m->update_record('sale', $input1, array('id' => $input1['id']));
-      foreach ($input2 as  $key => $value) {
 
+      foreach ($input2 as  $key => $value) {
         $input2[$key]['sale_id'] = $input1['id'];
         $this->common_m->updateQty('items', array("id" => $input2[$key]['item_id']), 'total_quantity', 0 - $input2[$key]['quantity']);
       }

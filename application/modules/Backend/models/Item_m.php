@@ -65,4 +65,28 @@ class Item_m extends CI_Model {
         $this->db->from($this->table);
         return $this->db->count_all_results();
     }
+
+    function getItems($postData)
+    {
+
+        $response = array();
+
+        if (isset($postData['search'])) {
+            // Select record
+            // $key=$postData['search'];
+            $company_id = $this->session->userdata['company_id'];
+            $this->db->select('*');
+            $this->db->where("status", 0);
+            $this->db->where("item_name like '" . $postData['search'] . "%' ");
+            // $this->db->where("customer_name LIKE '$key%'");
+            $this->db->where('company_id',$company_id);
+
+            $records = $this->db->get('items')->result();
+
+            foreach ($records as $row) {
+                $response[] = array("value" => $row->id, "label" => $row->item_name);
+            }
+        }
+        return $response;
+    }
 }
