@@ -245,55 +245,262 @@ var KTWizard3 = function () {
 	};
 }();
 
+var itemForm = function () {
+	var _buttonSpinnerClasses = 'spinner spinner-right spinner-white pr-15';
+	var form = KTUtil.getById('items_form');
+	var formSubmitButton = KTUtil.getById('items_button');
+
+	if (!form) {
+		return;
+	}
+
+	const fv=FormValidation.formValidation(
+		form,
+		{
+			fields: {
+				item_name: {
+					validators: {
+						notEmpty: {
+							message: 'Item name is required'
+						}
+					}
+				},
+				item_code: {
+					validators: {
+						notEmpty: {
+							message: 'Item code is required'
+						}
+					}
+				},
+				purchase_price: {
+					validators: {
+						notEmpty: {
+							message: 'Purchase price is required'
+						}
+					}
+				},
+				sale_price: {
+					validators: {
+						notEmpty: {
+							message: 'Sale price is required'
+						}
+					}
+				},
+				opening_quantity: {
+					validators: {
+						notEmpty: {
+							message: 'Opening quantity is required'
+						}
+					}
+				}
+			},
+			plugins: {
+				trigger: new FormValidation.plugins.Trigger(),
+				submitButton: new FormValidation.plugins.SubmitButton(),
+				bootstrap: new FormValidation.plugins.Bootstrap({
+					eleInvalidClass: '',
+					eleValidClass: '',
+				})
+			}
+		}
+	).on('core.form.valid', function () {
+		// Show loading state on button
+		KTUtil.btnWait(formSubmitButton, _buttonSpinnerClasses, "Please wait");
+
+		// Simulate Ajax request
+		setTimeout(function () {
+			KTUtil.btnRelease(formSubmitButton);
+		}, 1000);
+
+
+		var data = $('#items_form').serialize();
+		// alert(data);
+		$.ajax({
+			method: 'post',
+			url: baseFolder + 'item/addItem',
+			data: data,
+			dataType: "json",
+			beforeSend: function () {
+				$("#items_button").prop('disabled', true);
+			},
+			success: function (data) {
+				if (data.response == true) {
+					toastr.success('Successfully save');
+					$('#items_form')[0].reset();
+					$('#itemsModal').modal('toggle');
+					$('#item_datatable').KTDatatable('reload');
+				} else {
+					toastr.error("Enter Proper Data!!!!");
+				}
+				$("#items_button").prop('disabled', false);
+			},
+			error: function (xhr, status, error) {
+				var errorMessage = xhr.status + ': ' + xhr.statusText
+				switch (xhr.status) {
+					case 401:
+						toastr.error('Authontication fail...');
+						break;
+					case 422:
+						toastr.info('The user is invalid.');
+						break;
+					default:
+						toastr.error('Error - ' + errorMessage);
+				}
+				$("#items_button").prop('disabled', false);
+			}
+		});
+
+		fv.on('core.form.reset',function(){});
+	});
+
+
+	$('#add_item_button').on('click', function () {
+		$("[class^='fv-plugins-message-container']").text('');
+		$('#items_form')[0].reset();
+		fv.on('core.form.reset',function(){});
+		$('.modal-title').text('Add item');
+	});
+
+}
 function addvendor() {
 	$('#AddvendorModal').modal('show');
 	KTWizard3.init();
 	// $('#vendor_id').select2('close');
 }
 
+function additem() {
+	$('#itemsModal').modal('show');
+}
 jQuery(document).ready(function () {
-	
+
 	purchaseForm();
-	// demos();
+	itemForm();
 	$(document).on('focus', '#vendor_name', function () {
-        $(this).autocomplete({
-            minLength: 0,
-            source: function (request, response) {
-                // Fetch data
-                $.ajax({
-                    url: baseFolder + "purchase/vendorList",
-                    type: 'post',
-                    dataType: "json",
-                    data: {
-                        search: request.term
-                    },
-                    success: function (data) {
-                        response(data);
-                    }
-                });
-            },
-            select: function (event, ui) {
-                // Set selection
-                if (ui.item.value > 0) {
-                    $('#vendor_name').val(ui.item.label); // display the selected text
-                    $('#vendor_id').val(ui.item.value); // save selected id to input
-                }
-                return false;
-            },
-            response: function (event, ui) {
-                ui.content.push({
-                    value: 0,
-                    label: '<a href="javascript:void(0);" onclick="addvendor()" style="color:#207cf4 !important;font-style: normal;font-weight: 100;font-size: 14px;line-height: 19px;letter-spacing: 0.3px;"><i class="icon fas fa-plus text-primary"></i> New vendor</a>',
-                    // label: '<a href="javascript:;" style="padding: 6px;height: 20px;display: inline-table;" onclick="addcustomer()"><i class="icon-md fas fa-plus text-primary"></i> New customer</a>',
-                    desc: ''
-                });
-            }
+		$(this).autocomplete({
+			minLength: 0,
+			source: function (request, response) {
+				// Fetch data
+				$.ajax({
+					url: baseFolder + "purchase/vendorList",
+					type: 'post',
+					dataType: "json",
+					data: {
+						search: request.term
+					},
+					success: function (data) {
+						response(data);
+					}
+				});
+			},
+			select: function (event, ui) {
+				// Set selection
+				if (ui.item.value > 0) {
+					$('#vendor_name').val(ui.item.label); // display the selected text
+					$('#vendor_id').val(ui.item.value); // save selected id to input
+				}
+				return false;
+			},
+			response: function (event, ui) {
+				ui.content.push({
+					value: 0,
+					label: '<a href="javascript:void(0);" onclick="addvendor()" style="color:#207cf4 !important;font-style: normal;font-weight: 100;font-size: 14px;line-height: 19px;letter-spacing: 0.3px;"><i class="icon fas fa-plus text-primary"></i> New vendor</a>',
+					// label: '<a href="javascript:;" style="padding: 6px;height: 20px;display: inline-table;" onclick="addcustomer()"><i class="icon-md fas fa-plus text-primary"></i> New customer</a>',
+					desc: ''
+				});
+			}
 
-        }).autocomplete("instance")._renderItem = function (ul, item) {
-                return $("<li>").append("<h6 class='header-title'>" + item.label + "</h6>").appendTo(ul);
-            }
-    });
+		}).autocomplete("instance")._renderItem = function (ul, item) {
+			return $("<li>").append("<h6 class='header-title'>" + item.label + "</h6>").appendTo(ul);
+		}
+	});
 
+
+	$(document).on('focus', "[id^=item_name_]", function () {
+		let tr_id = $(this).attr('id');
+		let idArr = tr_id.split("_")[2];
+
+		$(this).autocomplete({
+			minLength: 0,
+			source: function (request, response) {
+				// Fetch data
+				$.ajax({
+					url: baseFolder + "item/getItemList",
+					type: 'post',
+					dataType: "json",
+					data: {
+						search: request.term
+					},
+					success: function (data) {
+						response(data);
+					}
+				});
+			},
+			select: function (event, ui) {
+				// Set selection
+				if (ui.item.value > 0) {
+					$('#item_name_' + idArr).val(ui.item.label); // display the selected text
+					$('#item_id_' + idArr).val(ui.item.value); // save selected id to input
+
+					var id = $('#item_id_' + idArr).val();
+
+					$.ajax({
+						method: 'post',
+						url: baseFolder + 'purchase/setitem',
+						data: {
+							id: id
+						},
+						dataType: "json",
+						success: function (data) {
+							// console.log(data);
+							if (data == null) {
+								$('#quantity_' + idArr).val('');
+								$('#rate_' + idArr).val('');
+								$('#cgst_tax_' + idArr).val('');
+								$('#sgst_tax_' + idArr).val('');
+								$('#igst_tax_' + idArr).val('');
+								$('#total_amount_' + idArr).val('');
+								calculateTotal();
+								return;
+							}
+							$('#quantity_' + idArr).val(1);
+							$('#rate_' + idArr).val(data.purchase_price);
+							$('#cgst_tax_' + idArr).val(data.cgst);
+							$('#sgst_tax_' + idArr).val(data.sgst);
+							$('#igst_tax_' + idArr).val(data.igst);
+							$('#total_amount_' + idArr).val(data.purchase_price);
+
+							calculateTotal();
+						},
+						error: function (xhr, status, error) {
+							var errorMessage = xhr.status + ': ' + xhr.statusText
+							switch (xhr.status) {
+								case 401:
+									toastr.error('Authontication fail...');
+									break;
+								case 422:
+									toastr.info('The user is invalid.');
+									break;
+								default:
+									toastr.error('Error - ' + errorMessage);
+							}
+						}
+					});
+				}
+				return false;
+			},
+			response: function (event, ui) {
+				ui.content.push({
+					value: 0,
+					label: '<a href="javascript:void(0);" onClick="additem()"style="color:#207cf4 !important;font-style: normal;font-weight: 100;font-size: 13px;line-height: 19px;letter-spacing: 0.3px;"><i class="icon fas fa-plus text-primary"></i> New Item</a>',
+					// label: '<a href="javascript:;" style="padding: 6px;height: 20px;display: inline-table;" onclick="addcustomer()"><i class="icon-md fas fa-plus text-primary"></i> New customer</a>',
+					desc: ''
+				});
+			}
+
+		}).autocomplete("instance")._renderItem = function (ul, item) {
+			return $("<li>").append("<h6 class='header-title'>" + item.label + "</h6>").appendTo(ul);
+		}
+	});
 	// alert(count);
 
 	//add vendor ajax
@@ -315,13 +522,13 @@ jQuery(document).ready(function () {
 					$('#AddvendorModal').modal('hide');
 					location.reload(true);
 				} else {
-					if(data.company_name!=""){
+					if (data.company_name != "") {
 						toastr.error(data.company_name);
 					}
-					if(data.email!=""){
+					if (data.email != "") {
 						toastr.error(data.email);
 					}
-					if(data.acccount_no!=""){
+					if (data.acccount_no != "") {
 						toastr.error(data.acccount_no);
 					}
 				}
@@ -344,6 +551,7 @@ jQuery(document).ready(function () {
 		});
 	});
 
+	
 
 	$("#app-purchse-table").on("click", "#deleteItemfield", function () {
 		$(this).closest("tr").remove();
@@ -603,12 +811,8 @@ function purchaseForm() {
 			success: function (data) {
 				count++;
 				var htmlRows = '';
-				htmlRows += '<tr>';
-				htmlRows += '<td><div class="form-group"><select class="form-control" name="data[' + count + '][item_id]" id="item_id_' + count + '"><option value="">Select Item</option>';
-				for (let i = 0; i < data["data"].length; i++) {
-					htmlRows += '<option value="' + data["data"][i].id + '">' + data["data"][i].item_name + '</option>';
-				}
-				htmlRows += '</select></div></td>';
+				htmlRows += '<tr class="item_row">';
+				htmlRows += '<td><div class="form-group"><input type="text" id="item_name_' + count + '" class="form-control" placeholder="Selete Item"><input type="hidden" name="data[' + count + '][item_id]" id="item_id_' + count + '"></div></td>';
 				htmlRows += '<td><div class="form-group"><input type="number" class="form-control" name="data[' + count + '][quantity]" id="quantity_' + count + '" placeholder="Qty"/></div></td>';
 				htmlRows += '<td><input type="number" class="form-control" name="data[' + count + '][rate]" id="rate_' + count + '"  placeholder="Rate" readonly/></td>';
 				htmlRows += '<td><input type="number" class="form-control" name="data[' + count + '][cgst_tax]" id="cgst_tax_' + count + '"  placeholder="CGST" readonly/></td>';
@@ -634,10 +838,6 @@ function purchaseForm() {
 						},
 					},
 				});
-				$("#item_id_" + count).select2({
-					placeholder: "Select item",
-					width: '100%'
-				});
 
 			},
 			error: function (xhr, status, error) {
@@ -655,55 +855,6 @@ function purchaseForm() {
 			}
 		});
 
-	});
-
-
-	$(document).on('change', "[id^=item_id_]", function () {
-		var id = this.value;
-		let tr_id = $(this).attr('id');
-		let idArr = tr_id.split("_")[2];
-		$.ajax({
-			method: 'post',
-			url: baseFolder + 'purchase/setitem',
-			data: {
-				id: id
-			},
-			dataType: "json",
-			success: function (data) {
-				// console.log(data.total_quantity);
-				if (data == null) {
-					$('#quantity_' + idArr).val('');
-					$('#rate_' + idArr).val('');
-					$('#cgst_tax_' + idArr).val('');
-					$('#sgst_tax_' + idArr).val('');
-					$('#igst_tax_' + idArr).val('');
-					$('#total_amount_' + idArr).val('');
-					calculateTotal();
-					return;
-				}
-				$('#quantity_' + idArr).val(1);
-				$('#rate_' + idArr).val(data.purchase_price);
-				$('#cgst_tax_' + idArr).val(data.cgst);
-				$('#sgst_tax_' + idArr).val(data.sgst);
-				$('#igst_tax_' + idArr).val(data.igst);
-				$('#total_amount_' + idArr).val(data.purchase_price);
-
-				calculateTotal();
-			},
-			error: function (xhr, status, error) {
-				var errorMessage = xhr.status + ': ' + xhr.statusText
-				switch (xhr.status) {
-					case 401:
-						toastr.error('Authontication fail...');
-						break;
-					case 422:
-						toastr.info('The user is invalid.');
-						break;
-					default:
-						toastr.error('Error - ' + errorMessage);
-				}
-			}
-		});
 	});
 }
 
@@ -782,26 +933,3 @@ function delete_purchase(id) {
 		}
 	});
 }
-
-
-// var demos = function () {
-// 	// basic
-// 	$('#vendor_id').select2({
-// 		placeholder: "Select vendor",
-// 		width: "100%"
-// 	});
-// 	$('#edit_vendor_id').select2({
-// 		placeholder: "Select vendor",
-// 		width: "100%"
-// 	});
-// 	$("[id^='item_id_']").select2({
-// 		placeholder: "Select item",
-// 		width: "100%"
-// 	});
-// }
-
-// $('#vendor_id')
-// 	.select2()
-// 	.on('select2:open', () => {
-// 		$(".select2-results:not(:has(a))").append('<a href="javascript:;" style="padding: 6px;height: 20px;display: inline-table;" onclick="addvendor()"><i class="icon-md fas fa-plus text-primary"></i> Create new vendor</a>');
-// 	});

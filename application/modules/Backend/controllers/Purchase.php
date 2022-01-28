@@ -354,24 +354,23 @@ class Purchase extends BackendController
       $emailStatus = $this->SendEmail($to_email, 'Purchase order request', $Emaildata);
       if ($emailStatus == false) {
         return $this->output
-        ->set_content_type('application/json')
-        ->set_status_header(410)
-        ->set_output(json_encode("Network Error"));
+          ->set_content_type('application/json')
+          ->set_status_header(410)
+          ->set_output(json_encode("Network Error"));
       }
-        $this->db->trans_begin();
-        $purchase_id = $this->common_m->last_insert_id('purchase', $data);
-        foreach ($data2 as  $key => $value) {
-          $data2[$key]['purchase_id'] = $purchase_id;
-          $this->common_m->updateQty('items', array("id" => $data2[$key]['item_id']), 'total_quantity', $data2[$key]['quantity']);
-        }
+      $this->db->trans_begin();
+      $purchase_id = $this->common_m->last_insert_id('purchase', $data);
+      foreach ($data2 as  $key => $value) {
+        $data2[$key]['purchase_id'] = $purchase_id;
+        $this->common_m->updateQty('items', array("id" => $data2[$key]['item_id']), 'total_quantity', $data2[$key]['quantity']);
+      }
 
-        $result = $this->common_m->multiple_insert_batch('purchase_item', $data2);
-        if ($this->db->trans_status() === FALSE) {
-          $this->db->trans_rollback();
-        } else {
-          $this->db->trans_commit();
-        }
-      
+      $result = $this->common_m->multiple_insert_batch('purchase_item', $data2);
+      if ($this->db->trans_status() === FALSE) {
+        $this->db->trans_rollback();
+      } else {
+        $this->db->trans_commit();
+      }
     } else {
       $this->db->trans_begin();
       $result = $this->common_m->edit_multiple_id(array('*'), 'purchase_item', array('purchase_id' => $data['id']));
@@ -423,4 +422,5 @@ class Purchase extends BackendController
 
     echo json_encode($data);
   }
+ 
 }

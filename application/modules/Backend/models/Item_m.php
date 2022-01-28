@@ -87,7 +87,6 @@ class Item_m extends CI_Model {
                 $response[] = array("value" => $row->id, "label" => $row->item_name);
             }
         }
-
         return $response;
     }
 }
