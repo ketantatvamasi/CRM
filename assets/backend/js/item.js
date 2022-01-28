@@ -237,12 +237,11 @@ var itemForm = function () {
 			}
 		});
 
-		fv.on('core.form.reset',function(){});
 	});
 
 
 	$('#add_item_button').on('click', function () {
-		$("[class^='fv-plugins-message-container']").text('');
+		$("[class^='fv-plugins-message-container']").text('');  //reset('empty') validation
 		$('#items_form')[0].reset();
 		fv.on('core.form.reset',function(){});
 		$('.modal-title').text('Add item');

@@ -1,10 +1,10 @@
 <style>
-  .parsley-errors-list {
-    color: #B94A48 !important;
-    margin-bottom: 0px;
-    padding-left: 0px !important;
-    list-style: none;
-  }
+    .parsley-errors-list {
+        color: #B94A48 !important;
+        margin-bottom: 0px;
+        padding-left: 0px !important;
+        list-style: none;
+    }
 </style>
 <!--begin::Content-->
 <div class="content  d-flex flex-column flex-column-fluid" id="kt_content">
@@ -54,7 +54,7 @@
                                         <div class="col-xl-6">
                                             <div class="form-group">
                                                 <label>Item Name</label><span class="text-danger">*</span>
-                                                <input type="text" class="form-control" name="item_name" id="item_name" placeholder="Enter item name"/>
+                                                <input type="text" class="form-control" name="item_name" id="item_name" placeholder="Enter item name" />
                                             </div>
                                         </div>
                                         <div class="col-xl-6">
@@ -144,4 +144,3 @@
     <!--end::Entry-->
 </div>
 <!--end::Content-->
-<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/parsley.js/2.9.2/parsley.min.js"></script> -->

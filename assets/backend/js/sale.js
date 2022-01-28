@@ -186,8 +186,7 @@ var KTWizard3 = function () {
         ));
     }
     var getFormSignup = function () {
-        // var x= $('#fullName').attr('value',$('.firstname').value);
-        // document.getElementById('fullName').remove();
+
         var x = $('input[name=customer_name]').val();
         var y = $('input[name=customer_category]').val();
         var p = $('input[name=email]').val();
@@ -223,16 +222,136 @@ var KTWizard3 = function () {
     };
 }();
 
+var itemForm = function () {
+	var _buttonSpinnerClasses = 'spinner spinner-right spinner-white pr-15';
+	var form = KTUtil.getById('items_form');
+	var formSubmitButton = KTUtil.getById('items_button');
+
+	if (!form) {
+		return;
+	}
+
+	const fv=FormValidation.formValidation(
+		form,
+		{
+			fields: {
+				item_name: {
+					validators: {
+						notEmpty: {
+							message: 'Item name is required'
+						}
+					}
+				},
+				item_code: {
+					validators: {
+						notEmpty: {
+							message: 'Item code is required'
+						}
+					}
+				},
+				purchase_price: {
+					validators: {
+						notEmpty: {
+							message: 'Purchase price is required'
+						}
+					}
+				},
+				sale_price: {
+					validators: {
+						notEmpty: {
+							message: 'Sale price is required'
+						}
+					}
+				},
+				opening_quantity: {
+					validators: {
+						notEmpty: {
+							message: 'Opening quantity is required'
+						}
+					}
+				}
+			},
+			plugins: {
+				trigger: new FormValidation.plugins.Trigger(),
+				submitButton: new FormValidation.plugins.SubmitButton(),
+				bootstrap: new FormValidation.plugins.Bootstrap({
+					eleInvalidClass: '',
+					eleValidClass: '',
+				})
+			}
+		}
+	).on('core.form.valid', function () {
+		// Show loading state on button
+		KTUtil.btnWait(formSubmitButton, _buttonSpinnerClasses, "Please wait");
+
+		// Simulate Ajax request
+		setTimeout(function () {
+			KTUtil.btnRelease(formSubmitButton);
+		}, 1000);
+
+
+		var data = $('#items_form').serialize();
+		// alert(data);
+		$.ajax({
+			method: 'post',
+			url: baseFolder + 'item/addItem',
+			data: data,
+			dataType: "json",
+			beforeSend: function () {
+				$("#items_button").prop('disabled', true);
+			},
+			success: function (data) {
+				if (data.response == true) {
+					toastr.success('Successfully save');
+					$('#items_form')[0].reset();
+					$('#itemsModal').modal('toggle');
+					$('#item_datatable').KTDatatable('reload');
+				} else {
+					toastr.error("Enter Proper Data!!!!");
+				}
+				$("#items_button").prop('disabled', false);
+			},
+			error: function (xhr, status, error) {
+				var errorMessage = xhr.status + ': ' + xhr.statusText
+				switch (xhr.status) {
+					case 401:
+						toastr.error('Authontication fail...');
+						break;
+					case 422:
+						toastr.info('The user is invalid.');
+						break;
+					default:
+						toastr.error('Error - ' + errorMessage);
+				}
+				$("#items_button").prop('disabled', false);
+			}
+		});
+
+	});
+
+
+	$('#add_item_button').on('click', function () {
+		$("[class^='fv-plugins-message-container']").text('');  //reset('empty') validation
+		$('#items_form')[0].reset();
+		fv.on('core.form.reset',function(){});
+		$('.modal-title').text('Add item');
+	});
+
+}
+
 function addcustomer() {
     $('#AddcustomerModal').modal('show');
     KTWizard3.init();
-    // $('#customer_id').select2('close');
+}
+function itemModel() {
+    $('#itemsModal').modal('show');
 }
 
 jQuery(document).ready(function () {
 
     saleForm();
-    // demos();
+    itemForm();
+
     $(document).on('focus', '#customer_name', function () {
         $(this).autocomplete({
             minLength: 0,
@@ -498,12 +617,6 @@ function saleForm() {
         // Show loading state on button
         KTUtil.btnWait(formSubmitButton, _buttonSpinnerClasses, "Please wait..");
 
-        // Simulate Ajax request
-        // setTimeout(function () {
-        //     KTUtil.btnRelease(formSubmitButton);
-        // }, 1000);
-
-
         var data = $('#sale_form').serialize();
 
         $.ajax({
@@ -557,6 +670,104 @@ function saleForm() {
     };
 
     var count = $(".itemRow").length;
+
+    $(document).on('focus', '[id^=productname_]', function () {
+
+        let tr_id = $(this).attr('id');
+        let idArr = tr_id.split("_")[1];
+
+        $(this).autocomplete({
+            minLength: 0,
+            source: function (request, response) {
+                // Fetch data
+                $.ajax({
+                    url: baseFolder + "item/getItemList",
+                    type: 'post',
+                    dataType: "json",
+                    data: {
+                        search: request.term
+                    },
+                    success: function (data) {
+                        response(data);
+                    }
+                });
+            },
+            select: function (event, ui) {
+                // Set selection
+                if (ui.item.value > 0) {
+                    $('#productname_' + idArr).val(ui.item.label); // display the selected text
+                    $('#productId_' + idArr).val(ui.item.value); // save selected id to input
+
+                    var id = $('#productId_' + idArr).val();
+
+                    $.ajax({
+                        type: "POST",
+                        url: baseFolder + 'sale/setItem',
+                        data: { id: id },
+                        dataType: "json",
+                        success: function (res) {
+
+                            if (res == null) {
+                                $('#quantity_' + idArr).val('');
+                                $('#stock_' + idArr).text('');
+                                $('#price_' + idArr).val('');
+                                $('#cgst_' + idArr).val('');
+                                $('#sgst_' + idArr).val('');
+                                $('#igst_' + idArr).val('');
+                                $('#total_' + idArr).val('');
+                                $('#amount_' + idArr).val('');
+                                calculateTotal();
+                                $('#total_' + idArr).val('');
+                                $('#amount_' + idArr).val('');
+                                return;
+                            }
+                            $('#quantity_' + idArr).val(1);
+                            $('#price_' + idArr).val(res.sale_price);
+                            $('#cgst_' + idArr).val(res.cgst);
+                            $('#sgst_' + idArr).val(res.sgst);
+                            $('#igst_' + idArr).val(res.igst);
+
+                            fv.addField('data[' + idArr + '][quantity]', {
+                                validators: {
+                                    lessThan: {
+                                        message: 'Available ' + res.total_quantity,
+                                        max: res.total_quantity,
+                                    },
+                                },
+                            });
+                            calculateTotal();
+                        },
+                        error: function (xhr, status, error) {
+                            var errorMessage = xhr.status + ': ' + xhr.statusText
+                            switch (xhr.status) {
+                                case 401:
+                                    toastr.error('Authontication fail...');
+                                    break;
+                                case 422:
+                                    toastr.info('The user is invalid.');
+                                    break;
+                                default:
+                                    toastr.error('Error - ' + errorMessage);
+                            }
+                        }
+                    });
+                }
+                return false;
+            },
+            response: function (event, ui) {
+                ui.content.push({
+                    value: 0,
+                    label: '<a href="javascript:void(0);" onclick="itemModel()" style="color:#207cf4 !important;font-style: normal;font-weight: 100;font-size: 14px;line-height: 19px;letter-spacing: 0.3px;"><i class="icon fas fa-plus text-primary"></i> New Item</a>',
+                    // label: '<a href="javascript:;" style="padding: 6px;height: 20px;display: inline-table;" onclick="addcustomer()"><i class="icon-md fas fa-plus text-primary"></i> New customer</a>',
+                    desc: ''
+                });
+            }
+
+        }).autocomplete("instance")._renderItem = function (ul, item) {
+            return $("<li>").append("<h6 class='header-title'>" + item.label + "</h6>").appendTo(ul);
+        }
+    });
+
     $(document).on('click', '#addRows', function () {
 
         $.ajax({
@@ -570,15 +781,10 @@ function saleForm() {
                 var htmlRows = '';
                 htmlRows += '<tr>';
                 htmlRows += '<td><input class="itemRow" type="checkbox"></td>';
-                htmlRows += '<td><div class="form-group"><select class="form-control" name="data[' + count + '][item_id]" id="productId_' + count + '" autocomplete="off">\
-                                        <option value="">Select Item</option>';
-
-                for (let i = 0; i < data["data"].length; i++) {
-
-                    htmlRows += '<option value="' + data["data"][i].id + '">' + data["data"][i].item_name + '</option>';
-
-                }
-                htmlRows += '</select></div></td>';
+                htmlRows += '<td><div class="form-group">';
+                htmlRows += '<input type="text" id="productname_' + count + '" class="form-control" placeholder="Items">';
+                htmlRows += '<input type="hidden" name="data[' + count + '][item_id]" id="productId_' + count + '">';
+                htmlRows += '</div></td>';
                 htmlRows += '<td><div class="form-group"><input type="number" name="data[' + count + '][quantity]" id="quantity_' + count + '" class="form-control " placeholder="Qty" autocomplete="off"></div></td>';
                 htmlRows += '<td><input type="number" name="data[' + count + '][price]" id="price_' + count + '"  class="form-control " placeholder="Price" autocomplete="off" readonly></td>';
                 htmlRows += '<td><input type="number" name="data[' + count + '][total]" id="total_' + count + '"  class="form-control " placeholder="Total" autocomplete="off" readonly></td>';
@@ -606,10 +812,6 @@ function saleForm() {
                         },
                     },
                 });
-                $("#productId_" + count).select2({
-                    placeholder: "Select item",
-                    width: '100%'
-                });
 
 
             },
@@ -630,69 +832,6 @@ function saleForm() {
 
     });
 
-
-    $(document).on('change', "[id^=productId_]", function () {
-        var id = this.value;
-        let tr_id = $(this).attr('id');
-        let idArr = tr_id.split("_")[1];
-
-        $.ajax({
-            type: "POST",
-            url: baseFolder + 'sale/setItem',
-            data: { id: id },
-            dataType: "json",
-            success: function (res) {
-
-                if (res == null) {
-                    $('#quantity_' + idArr).val('');
-                    $('#stock_' + idArr).text('');
-                    $('#price_' + idArr).val('');
-                    $('#cgst_' + idArr).val('');
-                    $('#sgst_' + idArr).val('');
-                    $('#igst_' + idArr).val('');
-                    $('#total_' + idArr).val('');
-                    $('#amount_' + idArr).val('');
-                    calculateTotal();
-                    $('#total_' + idArr).val('');
-                    $('#amount_' + idArr).val('');
-                    return;
-                }
-                $('#quantity_' + idArr).val(1);
-
-                // $('#stock_' + idArr).text(res.total_quantity);
-                $('#price_' + idArr).val(res.sale_price);
-                $('#cgst_' + idArr).val(res.cgst);
-                $('#sgst_' + idArr).val(res.sgst);
-                $('#igst_' + idArr).val(res.igst);
-
-                fv.addField('data[' + idArr + '][quantity]', {
-                    validators: {
-                        lessThan: {
-                            message: 'Available ' + res.total_quantity,
-                            max: res.total_quantity,
-                        },
-                    },
-                });
-                calculateTotal();
-            },
-            error: function (xhr, status, error) {
-                var errorMessage = xhr.status + ': ' + xhr.statusText
-                switch (xhr.status) {
-                    case 401:
-                        toastr.error('Authontication fail...');
-                        break;
-                    case 422:
-                        toastr.info('The user is invalid.');
-                        break;
-                    default:
-                        toastr.error('Error - ' + errorMessage);
-                }
-            }
-        });
-
-    });
-
-    // fv.addField('data[2][quantity]', qty);
 }
 
 
@@ -791,28 +930,5 @@ function delete_sale(id) {
         }
     });
 }
-
-// var demos = function () {
-//     // basic
-//     $('#customer_id').select2({
-//         placeholder: "Select customer",
-//         width: "100%"
-//     });
-//     $('#edit_customer_id').select2({
-//         placeholder: "Select customer",
-//         width: "100%"
-//     });
-//     $("[id^='productId_']").select2({
-//         placeholder: "Select item",
-//         width: "100%"
-
-//     });
-// }
-
-// $('#customer_id')
-//     .select2()
-//     .on('select2:open', () => {
-//         $(".select2-results:not(:has(a))").append('<a href="javascript:;" style="padding: 6px;height: 20px;display: inline-table;" onclick="addcustomer()"><i class="icon-md fas fa-plus text-primary"></i> Create new customer</a>');
-//     });
 
 

@@ -105,4 +105,10 @@ class Item extends BackendController
         $rsp['response'] = $result;
         echo json_encode($rsp);
     }
+    public function getItemList()
+    {
+        $postData = $this->input->post();
+        $data = $this->item_m->getItems($postData);
+        echo json_encode($data);
+    }
 }

@@ -1,5 +1,5 @@
 <style>
-    .form-group {
+    .card-body .form-group {
         margin-bottom: 0;
     }
 </style>
@@ -53,18 +53,8 @@
                                 <div class="col-xl-6">
                                     <div class="form-group">
                                         <label for="customer">Customer <span class="text-danger">*</span></label>
-                                        <!-- <select class="form-control" name="customer_id" id="customer_id" data-fv-not-empty="true" data-fv-not-empty___message="Customer is required">
-                                            <option value="">Select Customer</option>
-
-                                            <//?php if (!($load_data['customers'] == '')) { 
-                                                 foreach ($load_data['customers'] as $value) : 
-                                                     echo "<option value='" . $value->id . "'>" . $value->customer_name . " </option>"; 
-                                                 endforeach;
-                                            } ?>
-                                        </select> -->
                                         <input type="text" name="customer_name" id="customer_name" class="form-control" placeholder="Customers" data-fv-not-empty="true" data-fv-not-empty___message="Customer is required">
                                         <input type="hidden" name="customer_id" id="customer_id">
-                                        
                                     </div>
                                 </div>
 
@@ -84,12 +74,12 @@
                             </div>
 
                             <div class="row">
-                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 mt-10">
                                     <table class="table table-separate table-head-custom table-checkable table-responsive" id="invoiceItem">
-                                        <thead>
+                                        <thead class="thead-light">
                                             <tr>
                                                 <th width="2px"><input id="checkAll" class="formcontrol" type="checkbox"></th>
-                                                <th width="300px">Item</th>
+                                                <th width="300px">Items</th>
                                                 <!-- <th width="38%">Item Name</th> -->
                                                 <th width="100px">Qty.</th>
                                                 <th width="120px">Price</th>
@@ -107,16 +97,8 @@
                                                 <td><input class="itemRow" type="checkbox"></td>
                                                 <td>
                                                     <div class="form-group">
-                                                        <select class="form-control" name="data[1][item_id]" id="productId_1" autocomplete="off" data-fv-not-empty="true" data-fv-not-empty___message="Select Item">
-                                                            <option value="">Select Item</option>
-
-                                                            <?php if (!($load_data['items'] == '')) { ?>
-                                                                <?php foreach ($load_data['items'] as $value) : ?>
-                                                                    <?php echo "<option value='" . $value->id . "'>" . $value->item_name . " </option>" ?>
-                                                            <?php endforeach;
-                                                            } ?>
-
-                                                        </select>
+                                                        <input type="text" id="productname_1" class="form-control" placeholder="Items">
+                                                        <input type="hidden" name="data[1][item_id]" id="productId_1" data-fv-not-empty="true" data-fv-not-empty___message="Select Item">
                                                     </div>
                                                 </td>
                                                 <td>
@@ -223,7 +205,7 @@
 <!--end::Content-->
 
 
-<!-- Modal-->
+<!--Customer Modal-->
 <div class="modal fade" id="AddcustomerModal" id="AddcustomerModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="AddcustomerModal" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -749,6 +731,97 @@
                     <!--end: Wizard Body-->
                 </div>
                 <!--end: Wizard -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Item Modal-->
+<div class="modal fade " id="itemsModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="itemsModal" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add <?= ucfirst($load_data['site_title']) ?></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i aria-hidden="true" class="ki ki-close"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="form items_form" id="items_form" method="post">
+                    <input type="hidden" name="id" id="id">
+                    <div class="row">
+                        <div class="col-xl-6">
+                            <div class="form-group">
+                                <label>Item Name</label><span class="text-danger">*</span>
+                                <input type="text" class="form-control" name="item_name" id="item_name" placeholder="Enter item name" />
+                            </div>
+                        </div>
+                        <div class="col-xl-6">
+                            <div class="form-group">
+                                <label>Item Code</label><span class="text-danger">*</span>
+                                <input type="text" class="form-control" name="item_code" id="item_code" placeholder="Enter item code" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xl-6">
+                            <div class="form-group">
+                                <label>Purchase Price</label><span class="text-danger">*</span>
+                                <input type="number" class="form-control" name="purchase_price" id="purchase_price" placeholder="Enter item purchse price" />
+                            </div>
+                        </div>
+                        <div class="col-xl-6">
+                            <div class="form-group">
+                                <label>Sale price</label><span class="text-danger">*</span>
+                                <input type="number" class="form-control" name="sale_price" id="sale_price" placeholder="Enter item sale price" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xl-6">
+                            <div class="form-group">
+                                <label>Opening quantity</label><span class="text-danger">*</span>
+                                <input type="number" class="form-control" name="opening_quantity" id="opening_quantity" placeholder="Enter opening quantity" />
+                            </div>
+                        </div>
+                        <!-- <div class="col-xl-6">
+                                            <div class="form-group">
+                                                <label>Total quantity</label>
+                                                <input type="number" class="form-control" name="total_quantity" id="total_quantity" placeholder="Enter total quantity" />
+                                            </div>
+                                        </div> -->
+                    </div>
+                    <div class="row">
+                        <div class="col-xl-4">
+                            <div class="form-group">
+                                <label>CGST</label>
+                                <input type="text" class="form-control" name="cgst" id="cgst" placeholder="Enter cgst" />
+                            </div>
+                        </div>
+                        <div class="col-xl-4">
+                            <div class="form-group">
+                                <label>SGST</label>
+                                <input type="text" class="form-control" name="sgst" id="sgst" placeholder="Enter sgst" />
+                            </div>
+                        </div>
+                        <div class="col-xl-4">
+                            <div class="form-group">
+                                <label>IGST</label>
+                                <input type="text" class="form-control" name="igst" id="igst" placeholder="Enter igst" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Note</label>
+                        <textarea rows="5" name="note" id="note" placeholder="Enter the note" class="form-control"></textarea>
+                        <!-- <input type="text" class="form-control" name="igst" id="igst" placeholder="Enter igst" /> -->
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Close</button>
+                <input type="submit" class="btn btn-primary font-weight-bold" id="items_button" form="items_form" value="Save">
+                <!-- <input type="submit" class="btn btn-primary font-weight-bold" form="items_form" value="Save"/> -->
             </div>
         </div>
     </div>
