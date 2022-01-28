@@ -14,7 +14,7 @@ class Purchase extends BackendController
   {
     user_is_logged_in();
     $this->data['site_title'] = ucfirst('Purchase');
-    $this->data['template_css'] = $this->load_grid_css('add');   //wizard3
+    $this->data['template_css'] = $this->load_grid_css('sale_purchase');   //wizard3
     $this->data['template_js'] = $this->load_grid_js('purchase');
     $this->render_page($this->data['sitename_folder'] . 'purchase_v', $this->data);
   }
@@ -54,7 +54,7 @@ class Purchase extends BackendController
     $session = $this->session->userdata['company_id'];
     user_is_logged_in();
     $this->data['site_title'] = ucfirst('Purchase');
-    $this->data['template_css'] = $this->load_grid_css('add');   //wizard3
+    $this->data['template_css'] = $this->load_grid_css('sale_purchase');   //wizard3
     $this->data['template_js'] = $this->load_grid_js('purchase');
     $this->data['record']['vendor_list'] = $this->common_m->get_common_master('vendors', array("id", "contact_person_name", "company_name"), array("company_id" => $session), "contact_person_name ASC");
     $this->data['record']['item_list'] = $this->common_m->get_common_master('items', array("id", "item_name"), array("company_id" => $session), "item_name ASC");
@@ -65,6 +65,7 @@ class Purchase extends BackendController
   {
     user_is_logged_in();
     $this->data['site_title'] = ucfirst('purchase');
+    $this->data['template_css'] = $this->load_grid_css('sale_purchase');
     $this->data['template_js'] = $this->load_grid_js('purchase');
     $company_id = $this->session->userdata['company_id'];
     $this->data['vendors'] = $this->common_m->get_common_master('vendors', array('id', 'user_id', 'company_id', 'company_name', 'contact_person_name'), array("company_id" => $company_id), 'contact_person_name asc');
@@ -409,5 +410,17 @@ class Purchase extends BackendController
     $result = $this->common_m->delete_record('purchase_item', array('purchase_id' => $data['id']));
     $rsp['response'] = $result;
     echo json_encode($rsp);
+  }
+
+  public function vendorList()
+  {
+    // POST data
+    $postData = $this->input->post();
+    // print_r($postData);
+    // exit;
+    // Get data
+    $data = $this->purchase_m->getVendors($postData);
+
+    echo json_encode($data);
   }
 }

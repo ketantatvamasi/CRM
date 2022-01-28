@@ -245,11 +245,54 @@ var KTWizard3 = function () {
 	};
 }();
 
-jQuery(document).ready(function () {
-	// KTWizard3.init();
-	purchaseForm();
-	demos();
+function addvendor() {
+	$('#AddvendorModal').modal('show');
+	KTWizard3.init();
+	// $('#vendor_id').select2('close');
+}
 
+jQuery(document).ready(function () {
+	
+	purchaseForm();
+	// demos();
+	$(document).on('focus', '#vendor_name', function () {
+        $(this).autocomplete({
+            minLength: 0,
+            source: function (request, response) {
+                // Fetch data
+                $.ajax({
+                    url: baseFolder + "purchase/vendorList",
+                    type: 'post',
+                    dataType: "json",
+                    data: {
+                        search: request.term
+                    },
+                    success: function (data) {
+                        response(data);
+                    }
+                });
+            },
+            select: function (event, ui) {
+                // Set selection
+                if (ui.item.value > 0) {
+                    $('#vendor_name').val(ui.item.label); // display the selected text
+                    $('#vendor_id').val(ui.item.value); // save selected id to input
+                }
+                return false;
+            },
+            response: function (event, ui) {
+                ui.content.push({
+                    value: 0,
+                    label: '<a href="javascript:void(0);" onclick="addvendor()" style="color:#207cf4 !important;font-style: normal;font-weight: 100;font-size: 14px;line-height: 19px;letter-spacing: 0.3px;"><i class="icon fas fa-plus text-primary"></i> New vendor</a>',
+                    // label: '<a href="javascript:;" style="padding: 6px;height: 20px;display: inline-table;" onclick="addcustomer()"><i class="icon-md fas fa-plus text-primary"></i> New customer</a>',
+                    desc: ''
+                });
+            }
+
+        }).autocomplete("instance")._renderItem = function (ul, item) {
+                return $("<li>").append("<h6 class='header-title'>" + item.label + "</h6>").appendTo(ul);
+            }
+    });
 
 	// alert(count);
 
@@ -272,7 +315,15 @@ jQuery(document).ready(function () {
 					$('#AddvendorModal').modal('hide');
 					location.reload(true);
 				} else {
-					toastr.error("Enter Proper Data!!!!");
+					if(data.company_name!=""){
+						toastr.error(data.company_name);
+					}
+					if(data.email!=""){
+						toastr.error(data.email);
+					}
+					if(data.acccount_no!=""){
+						toastr.error(data.acccount_no);
+					}
 				}
 				$("#vendor_form_submit_button").prop('disabled', false);
 			},
@@ -733,31 +784,24 @@ function delete_purchase(id) {
 }
 
 
-var demos = function () {
-	// basic
-	$('#vendor_id').select2({
-		placeholder: "Select vendor",
-		width: "100%"
-	});
-	$('#edit_vendor_id').select2({
-		placeholder: "Select vendor",
-		width: "100%"
-	});
-	$("[id^='item_id_']").select2({
-		placeholder: "Select item",
-		width: "100%"
-	});
-}
+// var demos = function () {
+// 	// basic
+// 	$('#vendor_id').select2({
+// 		placeholder: "Select vendor",
+// 		width: "100%"
+// 	});
+// 	$('#edit_vendor_id').select2({
+// 		placeholder: "Select vendor",
+// 		width: "100%"
+// 	});
+// 	$("[id^='item_id_']").select2({
+// 		placeholder: "Select item",
+// 		width: "100%"
+// 	});
+// }
 
-$('#vendor_id')
-	.select2()
-	.on('select2:open', () => {
-		$(".select2-results:not(:has(a))").append('<a href="javascript:;" style="padding: 6px;height: 20px;display: inline-table;" onclick="addvendor()">Create new vendor</a>');
-	});
-
-function addvendor() {
-	$('#AddvendorModal').modal('show');
-	KTWizard3.init();
-	$('#vendor_id').select2('close');
-
-}
+// $('#vendor_id')
+// 	.select2()
+// 	.on('select2:open', () => {
+// 		$(".select2-results:not(:has(a))").append('<a href="javascript:;" style="padding: 6px;height: 20px;display: inline-table;" onclick="addvendor()"><i class="icon-md fas fa-plus text-primary"></i> Create new vendor</a>');
+// 	});

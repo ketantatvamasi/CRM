@@ -99,4 +99,3 @@ class Users extends BackendController
         echo json_encode($data);
     }
 }
-?>

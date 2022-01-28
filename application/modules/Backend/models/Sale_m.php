@@ -11,7 +11,7 @@ class Sale_m extends CI_Model
     var $select_column = array("sale.*", "cm.customer_name");
     var $column_search = array("customer_id", "total_quantity", "total_price", "total_gst_amount", "total_amount"); //set column field database for datatable searchable
     var $order = array('id' => 'asc'); // default order
-    
+
     private function _get_datatables_query()
     {
         $this->db->select($this->select_column);
@@ -70,12 +70,35 @@ class Sale_m extends CI_Model
     }
 
     public function getitem($id)
-    {   
+    {
         $this->db->select('*');
         $this->db->where('id', $id);
         $query = $this->db->get('items');
         return $query->row();
     }
 
+    function getCustomers($postData)
+    {
 
+        $response = array();
+
+        if (isset($postData['search'])) {
+            // Select record
+            // $key=$postData['search'];
+            $company_id = $this->session->userdata['company_id'];
+            $this->db->select('*');
+            $this->db->where("status", 0);
+            $this->db->where("customer_name like '" . $postData['search'] . "%' ");
+            // $this->db->where("customer_name LIKE '$key%'");
+            $this->db->where('company_id',$company_id);
+
+            $records = $this->db->get('customers')->result();
+
+            foreach ($records as $row) {
+                $response[] = array("value" => $row->id, "label" => $row->customer_name);
+            }
+        }
+
+        return $response;
+    }
 }

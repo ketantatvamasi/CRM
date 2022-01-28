@@ -40,7 +40,8 @@ class Vendor extends BackendController
                 "mobile_main" => $record->mobile_main,
                 "code" => $record->code,
                 "country" => $record->country,
-                // "status" => $record->status,
+                "status" => $record->status,
+                
                 "created_at" => date('d-m-Y H:i:s', strtotime($record->created_at))
             );
         }
@@ -94,8 +95,8 @@ class Vendor extends BackendController
 
         if (!$this->form_validation->run()) {
 
-            $errors['company_name'] = form_error('name');
-            $errors['acccount_no'] = form_error('organization_name');
+            $errors['company_name'] = form_error('company_name');
+            $errors['acccount_no'] = form_error('acccount_no');
             $errors['email'] = form_error('email');
 
             // print_r($errors);

@@ -74,5 +74,29 @@ class Purchase_m extends CI_Model
         $query = $this->db->get('items');
         return $query->row();
     }
-     
+
+    function getVendors($postData)
+    {
+
+        $response = array();
+
+        if (isset($postData['search'])) {
+            // Select record
+            // $key=$postData['search'];
+            $company_id = $this->session->userdata['company_id'];
+            $this->db->select('*');
+            $this->db->where("status", 0);
+            $this->db->where("contact_person_name like '" . $postData['search'] . "%' ");
+            // $this->db->where("customer_name LIKE '$key%'");
+            $this->db->where('company_id',$company_id);
+
+            $records = $this->db->get('vendors')->result();
+
+            foreach ($records as $row) {
+                $response[] = array("value" => $row->id, "label" => $row->contact_person_name);
+            }
+        }
+
+        return $response;
+    }
 }

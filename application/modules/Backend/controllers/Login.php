@@ -28,6 +28,7 @@ class Login extends BackendController
         }
 		$data['email'] = $this->input->post('email');
 		$data['password'] = $this->input->post('password');
+		$data['status']= 0;
 		// print_r($data); exit;
 		$this->form_validation->set_rules('email', 'Email address', 'trim|required|valid_email');
 		$this->form_validation->set_rules('password', 'Password', 'trim|required');
@@ -42,7 +43,6 @@ class Login extends BackendController
 				->set_status_header(422)
 				->set_output(json_encode($data_e));
 		} else {
-
 
 			$query = $this->login_m->login($data);
 		
@@ -82,4 +82,21 @@ class Login extends BackendController
 		//$this->session->sess_destroy();
 		redirect(base_url());
 	}
+
+	public function statusChange()
+    {
+        if (!$this->input->is_ajax_request()) {
+            $this->error();
+            return false;
+        }
+        $user_id = $this->input->post('user_id');
+        if ($this->input->post('status') == '0') {
+            $status = 1;
+        } else {
+            $status = 0;
+        }
+        $response = $this->common_m->update_record($this->input->post('table'), array("status" => $status), array($this->input->post('id') => $user_id));
+        $data['response'] = $response;
+        echo json_encode($data);
+    }
 }

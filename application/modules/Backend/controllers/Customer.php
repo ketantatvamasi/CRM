@@ -38,6 +38,7 @@ class Customer extends BackendController
                 "mobile_main" => $record->mobile_main,
                 "gst_no" => $record->gst_no,
                 "address" => $record->address,
+                "status" => $record->status
             );
         }
         $output = array(
@@ -59,12 +60,25 @@ class Customer extends BackendController
         $data = $this->input->post();
 
         if ($data['id'] == "") {
+            $this->form_validation->set_rules('email', 'Email', 'required|is_unique[customers.email]');
+        } else {
+            $this->form_validation->set_rules('email', 'Email', 'required');
+        }
+
+        if (!$this->form_validation->run()) {
+
+            $errors['email'] = form_error('email');
+            return $this->output
+                ->set_content_type('application/json')
+                // ->set_status_header(407)
+                ->set_output(json_encode($errors));
+        }
+
+        if ($data['id'] == "") {
             $data['user_id'] = $_SESSION['user_id'];
             $data['company_id'] = $_SESSION['company_id'];
             $data['status'] = 0;
-            // echo "<pre>";
-            // print_r($data);
-            // exit;
+            
             $result = $this->common_m->insert_record('customers', $data);
         } else {
             // $udata = array('name' => $data['name'], 'organization_name' => $data['organization_name'], 'email' => $data['email'], 'contact' => $data['contact'], 'address' => $data['address'], 'pincode' => $data['pincode']);

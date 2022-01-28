@@ -333,23 +333,18 @@ jQuery(document).ready(function () {
 					return output;
 				}
 			},
-			// {
-			// 	field: 'Status',
-			// 	title: 'Status',
-			// 	// callback function support for column rendering
-			// 	template: function(row) {
-			// 		var status = {
-			// 			1: {'title': 'Pending', 'class': ' label-light-primary'},
-			// 			2: {'title': 'Delivered', 'class': ' label-light-danger'},
-			// 			3: {'title': 'Canceled', 'class': ' label-light-primary'},
-			// 			4: {'title': 'Success', 'class': ' label-light-success'},
-			// 			5: {'title': 'Info', 'class': ' label-light-info'},
-			// 			6: {'title': 'Danger', 'class': ' label-light-danger'},
-			// 			7: {'title': 'Warning', 'class': ' label-light-warning'},
-			// 		};
-			// 		return '<span class="label label-lg font-weight-bold ' + status[row.Status].class + ' label-inline">' + status[row.Status].title + '</span>';
-			// 	},
-			// }, 
+			{
+				field: 'status',
+				title: 'Status',
+				// callback function support for column rendering
+				template: function (row) {
+					var status = {
+						0: { 'title': 'Active', 'class': ' label-light-success' },
+						1: { 'title': 'Deactive', 'class': ' label-light-danger' },
+					};
+					return `<span class="label label-lg font-weight-bold   ${status[row.status].class}   label-inline" onclick="statusChange( ${row.id} ,${row.status} ,'customers','id','customer','#customer_datatable')">${status[row.status].title}</span>`;
+				},
+			},
 			{
 				field: 'Action',
 				title: 'Action',
@@ -378,7 +373,7 @@ jQuery(document).ready(function () {
 	});
 	$('#customer_list_button').on('click', function () {
 		$("[class^='fv-plugins-message-container']").text('');
-		datatableshow(title, subtitle);	
+		datatableshow(title, subtitle);
 	});
 
 	$('#customer_form_submit_button').on('click', function () {
@@ -395,10 +390,12 @@ jQuery(document).ready(function () {
 			success: function (data) {
 				if (data.response == true) {
 					toastr.success('Successfully save');
-					datatableshow(title ,subtitle);
+					datatableshow(title, subtitle);
 					$('#customer_datatable').KTDatatable('reload');
 				} else {
-					toastr.error("Enter Proper Data!!!!");
+					if (data.email != "") {
+						toastr.error(data.email);
+					}
 				}
 				$("#customer_form_submit_button").prop('disabled', false);
 			},

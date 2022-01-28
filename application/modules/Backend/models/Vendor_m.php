@@ -6,7 +6,7 @@ class Vendor_m extends CI_Model
         parent::__construct();
     }
     var $table = 'vendors';
-    var $select_column = array("id", "company_name", "contact_person_name", "code", "mobile_main", "vendors.email", "vendors.country", "created_at", "u.firstname as vendor_creator");
+    var $select_column = array("id", "company_name", "contact_person_name", "code", "mobile_main", "vendors.email", "vendors.country","vendors.status", "created_at", "u.firstname as vendor_creator");
     var $column_search = array('company_name', 'contact_person_name', 'code', 'email', 'mobile_main'); //set column field database for datatable searchable
     var $order = array('id' => 'asc'); // default order
     private function _get_datatables_query()

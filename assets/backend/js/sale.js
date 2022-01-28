@@ -223,13 +223,54 @@ var KTWizard3 = function () {
     };
 }();
 
+function addcustomer() {
+    $('#AddcustomerModal').modal('show');
+    KTWizard3.init();
+    // $('#customer_id').select2('close');
+}
+
 jQuery(document).ready(function () {
 
     saleForm();
-    demos();
+    // demos();
+    $(document).on('focus', '#customer_name', function () {
+        $(this).autocomplete({
+            minLength: 0,
+            source: function (request, response) {
+                // Fetch data
+                $.ajax({
+                    url: baseFolder + "sale/customerList",
+                    type: 'post',
+                    dataType: "json",
+                    data: {
+                        search: request.term
+                    },
+                    success: function (data) {
+                        response(data);
+                    }
+                });
+            },
+            select: function (event, ui) {
+                // Set selection
+                if (ui.item.value > 0) {
+                    $('#customer_name').val(ui.item.label); // display the selected text
+                    $('#customer_id').val(ui.item.value); // save selected id to input
+                }
+                return false;
+            },
+            response: function (event, ui) {
+                ui.content.push({
+                    value: 0,
+                    label: '<a href="javascript:void(0);" onclick="addcustomer()" style="color:#207cf4 !important;font-style: normal;font-weight: 100;font-size: 14px;line-height: 19px;letter-spacing: 0.3px;"><i class="icon fas fa-plus text-primary"></i> New customer</a>',
+                    // label: '<a href="javascript:;" style="padding: 6px;height: 20px;display: inline-table;" onclick="addcustomer()"><i class="icon-md fas fa-plus text-primary"></i> New customer</a>',
+                    desc: ''
+                });
+            }
 
-
-
+        }).autocomplete("instance")._renderItem = function (ul, item) {
+            return $("<li>").append("<h6 class='header-title'>" + item.label + "</h6>").appendTo(ul);
+        }
+    });
     $('#customer_form_submit_button').on('click', function () {
         var data = $('#customer_form').serialize();
 
@@ -247,7 +288,9 @@ jQuery(document).ready(function () {
                     $('#AddcustomerModal').modal('hide');
                     location.reload(true);
                 } else {
-                    toastr.error("Enter Proper Data!!!!");
+                    if (data.email != "") {
+                        toastr.error(data.email);
+                    }
                 }
                 $("#customer_form_submit_button").prop('disabled', false);
             },
@@ -493,10 +536,10 @@ function saleForm() {
                     default:
                         toastr.error('Error - ' + errorMessage);
                 }
-               
+
                 setTimeout(function () {
-					KTUtil.btnRelease(formSubmitButton);
-				}, 1000);
+                    KTUtil.btnRelease(formSubmitButton);
+                }, 1000);
                 $("#sale_form_submit_button").prop('disabled', false);
             }
         });
@@ -625,7 +668,7 @@ function saleForm() {
                 fv.addField('data[' + idArr + '][quantity]', {
                     validators: {
                         lessThan: {
-                            message: 'Max ' + res.total_quantity,
+                            message: 'Available ' + res.total_quantity,
                             max: res.total_quantity,
                         },
                     },
@@ -749,31 +792,27 @@ function delete_sale(id) {
     });
 }
 
-var demos = function () {
-    // basic
-    $('#customer_id').select2({
-        placeholder: "Select customer",
-        width: "100%"
-    });
-    $('#edit_customer_id').select2({
-        placeholder: "Select customer",
-        width: "100%"
-    });
-    $("[id^='productId_']").select2({
-        placeholder: "Select item",
-        width: "100%"
+// var demos = function () {
+//     // basic
+//     $('#customer_id').select2({
+//         placeholder: "Select customer",
+//         width: "100%"
+//     });
+//     $('#edit_customer_id').select2({
+//         placeholder: "Select customer",
+//         width: "100%"
+//     });
+//     $("[id^='productId_']").select2({
+//         placeholder: "Select item",
+//         width: "100%"
 
-    });
-}
+//     });
+// }
 
-$('#customer_id')
-    .select2()
-    .on('select2:open', () => {
-        $(".select2-results:not(:has(a))").append('<a href="javascript:;" style="padding: 6px;height: 20px;display: inline-table;" onclick="addcustomer()">Create new customer</a>');
-    });
+// $('#customer_id')
+//     .select2()
+//     .on('select2:open', () => {
+//         $(".select2-results:not(:has(a))").append('<a href="javascript:;" style="padding: 6px;height: 20px;display: inline-table;" onclick="addcustomer()"><i class="icon-md fas fa-plus text-primary"></i> Create new customer</a>');
+//     });
 
-function addcustomer() {
-    $('#AddcustomerModal').modal('show');
-    KTWizard3.init();
-    $('#customer_id').select2('close');
-}
+

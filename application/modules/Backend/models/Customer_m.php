@@ -4,7 +4,7 @@ class Customer_m extends CI_Model {
         parent::__construct();
     }
     var $table = 'customers';
-    var $select_column = array("id","customer_name","customer_category","email","address","mobile_main","gst_no");
+    var $select_column = array("id","customer_name","customer_category","email","address","mobile_main","gst_no","status");
     var $column_search = array( "customer_name","customer_category","email","address","mobile_main","gst_no"); //set column field database for datatable searchable
     var $order = array('id' => 'asc'); // default order
     private function _get_datatables_query()

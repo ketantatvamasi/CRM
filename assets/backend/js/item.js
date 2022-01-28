@@ -106,23 +106,18 @@ jQuery(document).ready(function () {
 					return output;
 				}
 			},
-			// {
-			// 	field: 'Status',
-			// 	title: 'Status',
-			// 	// callback function support for column rendering
-			// 	template: function(row) {
-			// 		var status = {
-			// 			1: {'title': 'Pending', 'class': ' label-light-primary'},
-			// 			2: {'title': 'Delivered', 'class': ' label-light-danger'},
-			// 			3: {'title': 'Canceled', 'class': ' label-light-primary'},
-			// 			4: {'title': 'Success', 'class': ' label-light-success'},
-			// 			5: {'title': 'Info', 'class': ' label-light-info'},
-			// 			6: {'title': 'Danger', 'class': ' label-light-danger'},
-			// 			7: {'title': 'Warning', 'class': ' label-light-warning'},
-			// 		};
-			// 		return '<span class="label label-lg font-weight-bold ' + status[row.Status].class + ' label-inline">' + status[row.Status].title + '</span>';
-			// 	},
-			// }, 
+			{
+				field: 'status',
+				title: 'Status',
+				// callback function support for column rendering
+				template: function (row) {
+					var status = {
+						0: { 'title': 'Active', 'class': ' label-light-success' },
+						1: { 'title': 'Deactive', 'class': ' label-light-danger' },
+					};
+					return `<span class="label label-lg font-weight-bold   ${status[row.status].class}   label-inline" onclick="statusChange( ${row.id} ,${row.status} ,'items','id','item','#item_datatable')">${status[row.status].title}</span>`;
+				},
+			}, 
 			{
 				field: 'Action',
 				title: 'Action',

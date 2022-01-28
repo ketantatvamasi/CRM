@@ -23,7 +23,7 @@
                     <div class="card-toolbar">
                         <!--begin::Button-->
                         <a href="<?= base_url('backend/purchase') ?>" class="btn btn-primary font-weight-bolder " id="add_purchase_button">
-                            <i class="far fa-user"></i> <?= ucfirst($load_data['site_title']) ?> List
+                            <i class="fas fa-file-invoice-dollar"></i> <?= ucfirst($load_data['site_title']) ?> List
                         </a>
                         <!--end::Button-->
                     </div>
@@ -37,15 +37,9 @@
                             <div class="col-6">
                                 <div class="form-group">
                                     <label>Vendor Name</label><span class="text-danger">*</span>
-                                    <select class="form-control " name="vendor_id" id="vendor_id" data-fv-not-empty="true" data-fv-not-empty___message="Vendor is required">
-                                        <option value="">Select vendor name</option>
-                                        <?php
-                                        foreach ($load_data['record']['vendor_list'] as $val) {
-                                            echo "<option value='" . $val->id . "'>" . $val->contact_person_name . "  (" . $val->company_name . ")" . "</option>";
-                                        }
-                                        ?>
-
-                                    </select>
+        
+                                    <input type="text" name="vendor_name" id="vendor_name" class="form-control" placeholder="Vendors" data-fv-not-empty="true" data-fv-not-empty___message="Vendor is required">
+                                    <input type="hidden" name="vendor_id" id="vendor_id">
                                 </div>
                             </div>
                             <div class="col-6">
@@ -94,10 +88,7 @@
                                     </td>
                                     <td>
                                         <div class="form-group">
-                                            <input type="number" name="data[1][quantity]" id="quantity_1" class="form-control " placeholder="Qty" autocomplete="off" 
-                                            data-fv-not-empty="true" data-fv-not-empty___message="Required" 
-                                            data-fv-integer="true" data-fv-integer___message="Enter valid Qty" 
-                                            data-fv-greater-than="true" data-fv-greater-than___min="1" data-fv-greater-than___message="Minimum 1">
+                                            <input type="number" name="data[1][quantity]" id="quantity_1" class="form-control " placeholder="Qty" autocomplete="off" data-fv-not-empty="true" data-fv-not-empty___message="Required" data-fv-integer="true" data-fv-integer___message="Enter valid Qty" data-fv-greater-than="true" data-fv-greater-than___min="1" data-fv-greater-than___message="Minimum 1">
                                         </div>
                                     </td>
                                     <td>
