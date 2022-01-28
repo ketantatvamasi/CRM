@@ -1,6 +1,6 @@
 <style>
-    .form-group {
-        margin-bottom: 0;
+    .card-body .form-group {
+        margin-bottom: 0 !important;
     }
 </style>
 <!--begin::Content-->
@@ -37,7 +37,7 @@
                             <div class="col-6">
                                 <div class="form-group">
                                     <label>Vendor Name</label><span class="text-danger">*</span>
-        
+
                                     <input type="text" name="vendor_name" id="vendor_name" class="form-control" placeholder="Vendors" data-fv-not-empty="true" data-fv-not-empty___message="Vendor is required">
                                     <input type="hidden" name="vendor_id" id="vendor_id">
                                 </div>
@@ -72,18 +72,19 @@
                                 </tr>
                             </thead>
                             <tbody class="row_position">
-                                <tr>
+                                <tr class="item_row">
                                     <td>
                                         <div class="form-group">
-                                            <select class="form-control item_row" name="data[1][item_id]" id="item_id_1" data-fv-not-empty="true" data-fv-not-empty___message="Select Item">
+                                            <!-- <select class="form-control item_row" name="data[1][item_id]" id="item_id_1" data-fv-not-empty="true" data-fv-not-empty___message="Select Item">
                                                 <option value="">Select item</option>
-                                                <?php
+                                                <//?php
                                                 foreach ($load_data['record']['item_list'] as $val) {
                                                     echo "<option value='" . $val->id . "'>" . $val->item_name . "</option>";
                                                 }
                                                 ?>
-
-                                            </select>
+                                            </select> -->
+                                            <input type="text" id="item_name_1" class="form-control" placeholder="Selete Item">
+                                            <input type="hidden" name="data[1][item_id]" id="item_id_1" data-fv-not-empty="true" data-fv-not-empty___message="Select Item">
                                         </div>
                                     </td>
                                     <td>
@@ -200,7 +201,7 @@
 <!--end::Content-->
 
 
-<!-- Modal-->
+<!--vendor Modal-->
 <div class="modal fade" id="AddvendorModal" id="AddvendorModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="AddvendorModal" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -856,6 +857,92 @@
                     </div>
                     <!--end: Wizard Body-->
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--item Modal-->
+<div class="modal fade " id="itemsModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="itemsModal" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add Item</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i aria-hidden="true" class="ki ki-close"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="form items_form" id="items_form" method="post">
+                    <input type="hidden" name="id" id="id">
+                    <div class="row">
+                        <div class="col-xl-6">
+                            <div class="form-group">
+                                <label>Item Name</label><span class="text-danger">*</span>
+                                <input type="text" class="form-control" name="item_name" id="item_name" placeholder="Enter item name" />
+                            </div>
+                        </div>
+                        <div class="col-xl-6">
+                            <div class="form-group">
+                                <label>Item Code</label><span class="text-danger">*</span>
+                                <input type="text" class="form-control" name="item_code" id="item_code" placeholder="Enter item code" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xl-6">
+                            <div class="form-group">
+                                <label>Purchase Price</label><span class="text-danger">*</span>
+                                <input type="number" class="form-control" name="purchase_price" id="purchase_price" placeholder="Enter item purchse price" />
+                            </div>
+                        </div>
+                        <div class="col-xl-6">
+                            <div class="form-group">
+                                <label>Sale price</label><span class="text-danger">*</span>
+                                <input type="number" class="form-control" name="sale_price" id="sale_price" placeholder="Enter item sale price" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xl-6">
+                            <div class="form-group">
+                                <label>Opening quantity</label><span class="text-danger">*</span>
+                                <input type="number" class="form-control" name="opening_quantity" id="opening_quantity" placeholder="Enter opening quantity" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xl-4">
+                            <div class="form-group">
+                                <label>CGST</label>
+                                <input type="text" class="form-control" name="cgst" id="cgst" placeholder="Enter cgst" />
+                            </div>
+                        </div>
+                        <div class="col-xl-4">
+                            <div class="form-group">
+                                <label>SGST</label>
+                                <input type="text" class="form-control" name="sgst" id="sgst" placeholder="Enter sgst" />
+                            </div>
+                        </div>
+                        <div class="col-xl-4">
+                            <div class="form-group">
+                                <label>IGST</label>
+                                <input type="text" class="form-control" name="igst" id="igst" placeholder="Enter igst" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Note</label>
+                        <textarea rows="5" name="note" id="note" placeholder="Enter the note" class="form-control"></textarea>
+                        <!-- <input type="text" class="form-control" name="igst" id="igst" placeholder="Enter igst" /> -->
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Close</button>
+                <input type="submit" class="btn btn-primary font-weight-bold" id="items_button" form="items_form" value="Save">
+                <!-- <input type="submit" class="btn btn-primary font-weight-bold" form="items_form" value="Save"/> -->
             </div>
         </div>
     </div>
