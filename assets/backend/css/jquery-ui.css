@@ -108,6 +108,9 @@
 	top: 0;
 	left: 0;
 	cursor: default;
+	max-height : 200px;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 .ui-menu {
 	list-style: none;

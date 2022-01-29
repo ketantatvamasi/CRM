@@ -381,7 +381,7 @@ jQuery(document).ready(function () {
 						</a>\
 						<a href="javascript:;" title="Delete" onclick="delete_vendor('+ data.id + ')">\
 						<i class="fas fa-trash text-danger"></i>\
-						</a>\
+						</a></div>\
 					';
 				},
 			}],

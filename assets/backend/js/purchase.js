@@ -699,11 +699,11 @@ jQuery(document).ready(function () {
 					return '\
 	                        <div class="dropdown dropdown-inline">\
 	                        <a href="'+ baseFolder + 'purchase/editpurchase/' + data.id + '" title="Edit">\
-							<i class="far fa-edit text-success mr-3"></i>\
+								<i class="far fa-edit text-success mr-3"></i>\
 	                        </a>\
 	                        <a href="javascript:;" title="Delete" onclick="delete_purchase('+ data.id + ')">\
-							<i class="fas fa-trash text-danger"></i>\
-	                        </a>\
+								<i class="fas fa-trash text-danger"></i>\
+	                        </a></div>\
 	                    ';
 				},
 			}],
