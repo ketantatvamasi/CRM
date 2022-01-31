@@ -445,8 +445,6 @@ jQuery(document).ready(function () {
 	});
 
 
-
-
 });
 
 function modelshow() {

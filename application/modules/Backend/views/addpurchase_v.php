@@ -68,7 +68,7 @@
                                     <th>SGST (%)</th>
                                     <th>IGST (%)</th>
                                     <th>Amount</th>
-                                    <th style="width: 11%;">Action</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody class="row_position">
@@ -107,18 +107,18 @@
                                     <td>
                                         <input type="number" class="form-control total_amount" name="data[1][total_amount]" id="total_amount_1" placeholder="Amount" readonly />
                                     </td>
-                                    <td>
+                                    <td align="center">
                                         <div class="row">
                                             <div class="col-4">
                                                 <a href="javascript:;" id="addItemfield" class="btn btn-sm font-weight-bolder btn-light-primary addItemfield">
                                                     <i class="la la-plus"></i>
                                                 </a>
                                             </div>
-                                            <div class="col-4">
+                                            <!-- <div class="col-4">
                                                 <a href="javascript:;" id="deleteItemfield" class="btn btn-sm font-weight-bolder btn-light-danger deleteItemfield">
                                                     <i class="la la-trash-o"></i>
                                                 </a>
-                                            </div>
+                                            </div> -->
                                         </div>
                                     </td>
                                 </tr>

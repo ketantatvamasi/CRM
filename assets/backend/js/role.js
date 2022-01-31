@@ -1,5 +1,85 @@
-jQuery(document).ready(function () {
+var roleForm = function () {
+	var _buttonSpinnerClasses = 'spinner spinner-right spinner-white pr-15';
+	var form = KTUtil.getById('role_form');
+	var formSubmitButton = KTUtil.getById('role_form_submit_button');
 
+	if (!form) {
+		return;
+	}
+
+		FormValidation.formValidation(
+		form,
+		{
+			fields: {
+				role_name: {
+					validators: {
+						notEmpty: {
+							message: 'Role name is required'
+						}
+					}
+				}
+			},
+			plugins: {
+				trigger: new FormValidation.plugins.Trigger(),
+				submitButton: new FormValidation.plugins.SubmitButton(),
+				bootstrap: new FormValidation.plugins.Bootstrap({
+					eleInvalidClass: '',
+					eleValidClass: '',
+				})
+			}
+		}
+	).on('core.form.valid', function () {
+		// Show loading state on button
+		KTUtil.btnWait(formSubmitButton, _buttonSpinnerClasses, "Please wait");
+
+		// Simulate Ajax request
+		setTimeout(function () {
+			KTUtil.btnRelease(formSubmitButton);
+		}, 1000);
+
+
+		var data = $('#role_form').serialize();
+		$.ajax({
+			method: 'post',
+			url: baseFolder + 'role/addRole',
+			data: data,
+			dataType: "json",
+			beforeSend: function () {
+				$("#role_form_submit_button").prop('disabled', true);
+			},
+			success: function (data) {
+				if (data.response == true) {
+					toastr.success('Successfully save');
+					$('#role_form')[0].reset();
+					$("#addRole").removeClass("d-none");
+					$("#role_form").addClass("d-none");
+					$('#role_datatable').show();
+					$('#role_datatable').KTDatatable('reload');
+				} else {
+					toastr.error("Enter Proper Data!!!!");
+				}
+				$("#role_form_submit_button").prop('disabled', false);
+			},
+			error: function (xhr, status, error) {
+				var errorMessage = xhr.status + ': ' + xhr.statusText
+				switch (xhr.status) {
+					case 401:
+						toastr.error('Authontication fail...');
+						break;
+					case 422:
+						toastr.info('The user is invalid.');
+						break;
+					default:
+						toastr.error('Error - ' + errorMessage);
+				}
+				$("#role_form_submit_button").prop('disabled', false);
+			}
+		});
+
+	});
+}
+jQuery(document).ready(function () {
+	
 	var datatable = $('#role_datatable').KTDatatable({
 		// datasource definition
 		data: {
@@ -55,7 +135,7 @@ jQuery(document).ready(function () {
 				template: function (row) {
 					var output = '';
 					output += '<span class="font-weight-bolder">' + row.role_name + '</span>';
-					
+
 					return output;
 					// return row.firstname;
 				}
@@ -68,20 +148,79 @@ jQuery(document).ready(function () {
 				overflow: 'visible',
 				template: function (row) {
 					return '\
-					<div class="dropdown dropdown-inline"><a href="javascript:;" title="Edit" onclick="permission_edit(' + row.user_id + ')"><i class="icon-lg fa fa-cog text-warning mr-3"></i></a>\
-						<a href="javascript:;" title="Delete" onclick="user_delete(' + row.user_id + ')"><i class="fas fa-trash text-danger"></i></a></div>';
+					<div class="dropdown dropdown-inline"><a href="javascript:;" title="Edit" onclick="role_edit(' + row.role_id + ')"><i class="icon-lg fa fa-cog text-warning mr-3"></i></a>\
+						<a href="javascript:;" title="Delete" onclick="role_delete(' + row.role_id + ')"><i class="fas fa-trash text-danger"></i></a></div>';
 				},
 			}
 		],
 
 	});
+	roleForm();
 
 	$('#addRole').on('click', function () {
 		$("#role_form").removeClass("d-none");
 		$('#role_datatable').hide();
 		$('#addRole').addClass("d-none");
+		$('#role_dynamic_title').text('Add Role');
 	});
-	$('#SelectAll').on("click",function(){
+	$('#SelectAll').on("click", function () {
 		$('input:checkbox').not(this).prop('checked', this.checked);
 	});
 });
+
+
+function role_edit(id) {
+	$("#role_form").removeClass("d-none");
+	$('#role_datatable').hide();
+	$('#addRole').addClass("d-none");
+
+	$('#role_dynamic_title').text('Edit Role');
+	$('#role_dynamic_subtitle_span').text('Role is Important.');
+
+	$.ajax({
+		type: "POST",
+		url: baseFolder + 'role/editRole',
+		data: { id: id },
+		dataType: "json",
+		success: function (data) {
+			$('#id').val(data.id);
+			$('#role_name').val(data.role_name);
+			data.permission.forEach(function (element) {
+				console.log(element.permission_id);
+				$("input[value='" + element.permission_id + "']").prop('checked', true);
+			});
+		}
+	});
+
+}
+
+function role_delete(id) {
+	// alert(id);
+	Swal.fire({
+		title: "Are you sure?",
+		text: "You won't be able to revert this!",
+		icon: "warning",
+		showCancelButton: true,
+		confirmButtonColor: "#d33",
+		confirmButtonText: "Yes, delete it!",
+		cancelButtonText: "No, cancel!",
+		reverseButtons: true
+	}).then(function (result) {
+		if (result.value) {
+			$.ajax({
+				type: "POST",
+				url: baseFolder + 'role/deleteRole',
+				data: { id: id },
+				dataType: "json",
+				success: function (data) {
+					if (data.response == true) {
+						toastr.success('Successfully Deleted');
+						$('#role_datatable').KTDatatable('reload');
+					}
+				}
+
+			});
+		}
+	});
+
+}

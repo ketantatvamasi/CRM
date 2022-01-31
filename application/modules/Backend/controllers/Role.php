@@ -31,6 +31,7 @@ class Role extends BackendController
             $no++;
             $data[] = array(
                 "id" =>  $no,
+                "role_id" => $record->id,
                 "role_name" => $record->role_name
             );
         }
@@ -54,19 +55,67 @@ class Role extends BackendController
             "company_id" => $this->session->userdata('company_id')
         );
         $role_permissoin = array();
+        if ($input['id'] == "") {
+            $this->db->trans_begin();
+            $role_id = $this->common_m->last_insert_id('role', $roleInput);
 
-        $this->db->trans_begin();
-        $role_id = $this->common_m->last_insert_id('role', $roleInput);
+            foreach ($input['permissions'] as $key => $value) {
+                $role_permissoin[$key] = ['role_id' => $role_id, 'permission_id' => $value];
+            }
+            $result = $this->common_m->multiple_insert_batch('role_permission', $role_permissoin);
+            if ($this->db->trans_status() === FALSE) {
+                $this->db->trans_rollback();
+            } else {
+                $this->db->trans_commit();
+            }
+        } else {
+            $this->db->trans_begin();
 
-        foreach ($input['permissions'] as $key => $value) {
-            $role_permissoin[$key] = ['role_id' => $role_id, 'permission_id' => $value];
+            $this->common_m->update_record('role', $roleInput, array('id' => $input['id']));
+            $this->common_m->delete_record('role_permission', array('role_id' => $input['id']));
+            foreach ($input['permissions'] as $key => $value) {
+                $role_permissoin[$key] = ['role_id' => $input['id'], 'permission_id' => $value];
+            }
+            $result = $this->common_m->multiple_insert_batch('role_permission', $role_permissoin);
+
+            if ($this->db->trans_status() === FALSE) {
+                $this->db->trans_rollback();
+            } else {
+                $this->db->trans_commit();
+            }
         }
-        $result = $this->common_m->multiple_insert_batch('role_permission', $role_permissoin);
+        $rsp['response'] = $result;
+        echo json_encode($rsp);
+    }
+    public function editRole()
+    {
+        if (!$this->input->is_ajax_request()) {
+            $this->error();
+            return false;
+        }
+        $data = $this->input->post();
+        $result = $this->common_m->edit_id(array('*'), 'role', array('id' => $data['id']));
+        $result->permission = $this->common_m->edit_multiple_id(array('*'), 'role_permission', array('role_id' => $result->id));
+        echo json_encode($result);
+    }
+    public function deleteRole()
+    {
+        if (!$this->input->is_ajax_request()) {
+            $this->error();
+            return false;
+        }
+        $data = $this->input->post();
+        $this->db->trans_begin();
+        
+        $result = $this->common_m->delete_record('role', array('id' => $data['id']));
+        $result = $this->common_m->delete_record('role_permission', array('role_id' => $data['id']));
+
         if ($this->db->trans_status() === FALSE) {
             $this->db->trans_rollback();
         } else {
             $this->db->trans_commit();
         }
-        redirect('backend/role');
+        $rsp['response'] = $result;
+        echo json_encode($rsp);
     }
 }
