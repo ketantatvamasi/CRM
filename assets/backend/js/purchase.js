@@ -703,7 +703,7 @@ jQuery(document).ready(function () {
 	                        </a>\
 	                        <a href="javascript:;" title="Delete" onclick="delete_purchase('+ data.id + ')">\
 							<i class="fas fa-trash text-danger"></i>\
-	                        </a>\
+	                        </a></div>\
 	                    ';
 				},
 			}],

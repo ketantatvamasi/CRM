@@ -107,6 +107,10 @@ class Item extends BackendController
     }
     public function getItemList()
     {
+        if (!$this->input->is_ajax_request()) {
+            $this->error();
+            return false;
+        }
         $postData = $this->input->post();
         $data = $this->item_m->getItems($postData);
         echo json_encode($data);
