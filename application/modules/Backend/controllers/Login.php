@@ -15,7 +15,6 @@ class Login extends BackendController
 	{
 		user_is_session_login();
 		$this->data['site_title'] = ucfirst('User Login');
-		// $this->data['taplate_css']=$this->load_grid_css('login');
 		$this->data['template_js'] = $this->load_grid_js('login');
 		$this->render_page($this->data['sitename_folder'] . 'login', $this->data, 1);
 	}
@@ -29,7 +28,7 @@ class Login extends BackendController
 		$data['email'] = $this->input->post('email');
 		$data['password'] = $this->input->post('password');
 		$data['status']= 0;
-		// print_r($data); exit;
+		
 		$this->form_validation->set_rules('email', 'Email address', 'trim|required|valid_email');
 		$this->form_validation->set_rules('password', 'Password', 'trim|required');
 		$this->form_validation->set_error_delimiters('<div class="text-danger">', '</div>');

@@ -1,5 +1,5 @@
 <?php
-class User_m extends CI_Model
+class Role_m extends CI_Model
 {
 
     function __construct()
@@ -7,23 +7,16 @@ class User_m extends CI_Model
         parent::__construct();
     }
 
-    var $table = 'users';
-    var $select_column = array("users.*","c.role_name as role_name");
-    var $column_search = array('organization_name', 'firstname', 'email', 'phone','status'); //set column field database for datatable searchable
-    var $order = array('user_id' => 'asc'); // default order
+    var $table = 'role';
+    var $select_column = array("*");
+    var $column_search = array('role_name'); //set column field database for datatable searchable
+    var $order = array('role_name' => 'asc'); // default order
     
     private function _get_datatables_query()
     {
             $this->db->select($this->select_column);
             $this->db->from($this->table);
-        if ($this->session->userdata['role_id'] == 1) {
-            $this->db->join('role as c', 'c.id = users.role_id');
-            $this->db->where('role_id',2);
-        }else{
-            $this->db->join('role as c', 'c.id = users.role_id');
-            $this->db->where('role_id',3);
-            $this->db->where('parent_id',$this->session->userdata['user_id']);
-        }
+            $this->db->where('company_id',$this->session->userdata['company_id']);
         $i = 0;
 
         foreach ($this->column_search as $item) // loop column

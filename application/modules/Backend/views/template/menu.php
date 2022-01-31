@@ -131,8 +131,18 @@
                         </li>
                         <li class="menu-item" aria-haspopup="true"><a href="<?= base_url('backend/sale'); ?>" class="menu-link ">
                                 <i class="menu-icon flaticon-coins icon-lg"></i>
-                                <span class="menu-text">Sell</span></a>
+                                <span class="menu-text">Sale</span></a>
                         </li>
+                        <?php if ($session['role_id'] != 3) { ?>
+                            <li class="menu-section">
+                                <h4 class="menu-text">Roles & Permissions</h4>
+                                <i class="menu-icon ki ki-bold-more-hor icon-md"></i>
+                            </li>
+                            <li class="menu-item" aria-haspopup="true"><a href="<?= base_url('backend/role'); ?>" class="menu-link ">
+                                    <i class="menu-icon flaticon-coins icon-lg"></i>
+                                    <span class="menu-text">Role</span></a>
+                            </li>
+                        <?php } ?>
                     </ul>
                     <!--end::Menu Nav-->
                 </div>

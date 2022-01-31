@@ -126,7 +126,7 @@ jQuery(document).ready(function () {
 				overflow: 'visible',
 				autoHide: false,
 				template: function (data) {
-					return '<div class="dropdown dropdown-inline"><a href="javascript:;" title="Edit" onclick="edit_item('+ data.id + ')"><i class="far fa-edit text-success mr-3"></i></a><a href="javascript:;" title="Delete" onclick="delete_item('+ data.id + ')"><i class="fas fa-trash text-danger"></i></a>';
+					return '<div class="dropdown dropdown-inline"><a href="javascript:;" title="Edit" onclick="edit_item('+ data.id + ')"><i class="far fa-edit text-success mr-3"></i></a><a href="javascript:;" title="Delete" onclick="delete_item('+ data.id + ')"><i class="fas fa-trash text-danger"></i></a></div>';
 				},
 			}],
 	});
