@@ -16,8 +16,8 @@
                         <div class="card-header flex-wrap border-0 pt-6 pb-0">
                             <div class="card-title">
                                 <h3 class="card-label">
-                                    <span id="user_dynamic_title"><?= ucfirst($load_data['site_title']) ?> List</span>
-                                    <span class="d-block text-muted pt-2 font-size-sm" id="user_dynamic_subtitle_span">Your User's Hope</span>
+                                    <span id="role_dynamic_title"><?= ucfirst($load_data['site_title']) ?> List</span>
+                                    <span class="d-block text-muted pt-2 font-size-sm" id="role_dynamic_subtitle_span">Your User's Hope</span>
                                 </h3>
                             </div>
                             <div class="card-toolbar">
@@ -36,14 +36,17 @@
                             <div class="datatable datatable-bordered datatable-head-custom" id="role_datatable">
                             </div>
                             <!--end: Datatable-->
-                            <form class="forms-sample d-none" id="role_form" method="POST" action="<?= base_url('backend/role/addRole') ?>">
+                            <form class="forms-sample d-none" id="role_form" method="POST" action="#">
                                 <div class="row">
                                     <div class="col-lg-9">
                                         <div class="col-lg-6">
                                             <div class="tab-content">
                                                 <div class="mb-3">
-                                                    <label for="role_name" class="form-label">Role Name</label>
-                                                    <input type="text" id="role_name" name="role_name" class="form-control form-control-sm" placeholder="Role Name">
+                                                    <div class="form-group">
+                                                        <label for="role_name" class="form-label">Role Name</label>
+                                                        <input type="text" id="role_name" name="role_name" class="form-control form-control-sm" placeholder="Role Name">
+                                                        <input type="hidden" name="id" id="id">
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -127,7 +130,7 @@
                                                 <div class="col-lg-3">
                                                     <div class="mt-3">
                                                         <div class="form-check">
-                                                            <input type="checkbox" name="permissions[]" class="form-check-input" id="customCheckCustomer View" value=" 9">
+                                                            <input type="checkbox" name="permissions[]" class="form-check-input" id="customCheckCustomer View" value="9">
                                                             <label class="form-check-label" for="customCheckCustomer View">Customer View</label>
                                                         </div>
                                                     </div>
@@ -291,7 +294,7 @@
                                 <div class="row">
                                     <div class="col-lg-10"></div>
                                     <div class="col-lg-1 mt-7">
-                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                        <button type="submit" class="btn btn-primary" id="role_form_submit_button">Submit</button>
                                     </div>
                                 </div>
                             </form>
