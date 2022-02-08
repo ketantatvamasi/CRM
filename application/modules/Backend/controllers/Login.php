@@ -46,21 +46,20 @@ class Login extends BackendController
 			$query = $this->login_m->login($data);
 		
 			if ($query) {
-                if ($query[0]->role_id == 3) {
-                    $company_id = $query[0]->parent_id;
-                } else {
-                    $company_id = $query[0]->user_id;
-                }
+				$permission =  $this->common_m->getPermission($query[0]->user_id);	
+        
                 $user = array(
                     'response' => 'success',
                     'user_id' => $query[0]->user_id,
                     'parent_id' => $query[0]->parent_id,
-                    'company_id' => $company_id,
+                    'company_id' => $query[0]->company_id,
                     'user_name' => $query[0]->firstname,
                     'email' => $query[0]->email,
-                    'role_id' => $query[0]->role_id
+                    'role_id' => array_unique(array_column($permission,'role_id'))[0],
+					'permission' => array_column($permission,'permission_id')
                 );
-                $this->session->set_userdata($user);
+				$this->session->set_userdata($user);
+
                 echo json_encode($user);
             } else {
 				$data_e['token'] = 'false';

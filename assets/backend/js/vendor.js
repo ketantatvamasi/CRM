@@ -27,6 +27,10 @@ var KTWizard3 = function () {
 				}
 			});
 		});
+
+		$('#vendor_list_button').on('click', function () {
+			_wizard.goTo(1);
+		});
 		// Change event
 		_wizard.on('change', function (wizard) {
 			KTUtil.scrollTop();
@@ -283,7 +287,7 @@ jQuery(document).ready(function () {
 		columns: [
 			{
 				field: 'id',
-				title: '#',
+				title: 'id',
 				sortable: false,
 				width: 50,
 				type: 'number',
@@ -365,7 +369,7 @@ jQuery(document).ready(function () {
 					};
 					return `<span class="label label-lg font-weight-bold   ${status[row.status].class}   label-inline" onclick="statusChange( ${row.id} ,${row.status} ,'vendors','id','vendor','#vendor_datatable')">${status[row.status].title}</span>`;
 				},
-			}, 
+			},
 			{
 				field: 'Action',
 				title: 'Action',
@@ -415,13 +419,13 @@ jQuery(document).ready(function () {
 					datatableshow(title, subtitle);
 					$('#vendor_datatable').KTDatatable('reload');
 				} else {
-					if(data.company_name!=""){
+					if (data.company_name != "") {
 						toastr.error(data.company_name);
 					}
-					if(data.email!=""){
+					if (data.email != "") {
 						toastr.error(data.email);
 					}
-					if(data.acccount_no!=""){
+					if (data.acccount_no != "") {
 						toastr.error(data.acccount_no);
 					}
 				}

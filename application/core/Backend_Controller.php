@@ -65,6 +65,7 @@ class BackendController extends MY_Controller
     {
         $this->load->view('template/header', array('load_css' => $this->data));
         if ($name == null) {
+            $this->load->model('Role_m', 'role_m');
             $this->load->view('template/menu');
         }
 

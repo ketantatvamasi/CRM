@@ -15,6 +15,7 @@ class Role extends BackendController
         user_is_logged_in();
         $this->data['site_title'] = ucfirst('Role');
         $this->data['template_js'] = $this->load_grid_js('role');
+        $this->data['record']= $this->role_m->getPermission();
         $this->render_page($this->data['sitename_folder'] . 'role_v', $this->data);
     }
     public function roleList()

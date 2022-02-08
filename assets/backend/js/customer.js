@@ -27,6 +27,11 @@ var KTWizard3 = function () {
 				}
 			});
 		});
+
+		$('#customer_list_button').on('click', function () {
+			_wizard.goTo(1);
+		});
+
 		// Change event
 		_wizard.on('change', function (wizard) {
 			KTUtil.scrollTop();
