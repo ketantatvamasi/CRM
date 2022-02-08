@@ -1,3 +1,6 @@
+<?php
+$userPermissionArr = $this->session->userdata('permission');
+?>
 <!--begin::Content-->
 <div class="content  d-flex flex-column flex-column-fluid" id="kt_content">
 
@@ -22,9 +25,11 @@
                             </div>
                             <div class="card-toolbar">
                                 <!--begin::Button-->
-                                <button type="button" class="btn btn-primary font-weight-bolder " id="addRole">
-                                    <i class="fas fa-user-plus"></i> Add <?= $load_data['site_title']; ?>
-                                </button>
+                                <?php if (in_array(26, $userPermissionArr)) { ?>
+                                    <button type="button" class="btn btn-primary font-weight-bolder " id="addRole">
+                                        <i class="fas fa-user-plus"></i> Add <?= $load_data['site_title']; ?>
+                                    </button>
+                                <?php } ?>
                                 <!--end::Button-->
                             </div>
                         </div>

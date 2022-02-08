@@ -13,6 +13,11 @@ class Sale extends BackendController
   public function index()
   {
     user_is_logged_in();
+    $session = $this->session->userdata();
+    $userPermissionArr = $session['permission'];
+    if (!in_array(21, $userPermissionArr)) {
+      return $this->error();
+    }
     $this->data['site_title'] = ucfirst('sale');
     $this->data['template_css'] = $this->load_grid_css('sale_purchase');   //wizard3
     $this->data['template_js'] = $this->load_grid_js('sale');
@@ -50,6 +55,11 @@ class Sale extends BackendController
   public function addSale_Page()
   {
     user_is_logged_in();
+    $session = $this->session->userdata();
+    $userPermissionArr = $session['permission'];
+    if (!in_array(21, $userPermissionArr)) {
+      return $this->error();
+    }
     $this->data['site_title'] = ucfirst('Sale');
     $this->data['template_css'] = $this->load_grid_css('sale_purchase');   //wizard3
     $this->data['template_js'] = $this->load_grid_js('sale');
@@ -387,6 +397,11 @@ class Sale extends BackendController
   public function editSale_Page()
   {
     user_is_logged_in();
+    $session = $this->session->userdata();
+    $userPermissionArr = $session['permission'];
+    if (!in_array(21, $userPermissionArr)) {
+      return $this->error();
+    }
     $this->data['site_title'] = ucfirst('Sale');
     $this->data['template_css'] = $this->load_grid_css('sale_purchase');
     $this->data['template_js'] = $this->load_grid_js('sale');

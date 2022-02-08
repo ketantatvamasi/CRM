@@ -1,3 +1,6 @@
+<?php
+  $userPermissionArr =$this->session->userdata('permission');
+?>
 <!--begin::Content-->
 <div class="content  d-flex flex-column flex-column-fluid" id="kt_content">
 
@@ -19,9 +22,11 @@
 
                     <div class="card-toolbar">
                         <!--begin::Button-->
-                        <a href="<?= base_url('backend/purchase/addpurchase_page')?>" class="btn btn-primary font-weight-bolder " id="add_purchase_button">
-                            <i class="fas fa-cart-plus"></i> Add <?= ucfirst($load_data['site_title']) ?>
-                        </a>
+                        <?php if (in_array(18, $userPermissionArr)) { ?>
+                            <a href="<?= base_url('backend/purchase/addpurchase_page') ?>" class="btn btn-primary font-weight-bolder " id="add_purchase_button">
+                                <i class="fas fa-cart-plus"></i> Add <?= ucfirst($load_data['site_title']) ?>
+                            </a>
+                        <?php } ?>
                         <!--end::Button-->
                     </div>
                 </div>

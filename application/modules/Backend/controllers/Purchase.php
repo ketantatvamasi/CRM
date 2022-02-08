@@ -13,6 +13,11 @@ class Purchase extends BackendController
   public function index()
   {
     user_is_logged_in();
+    $session = $this->session->userdata();
+    $userPermissionArr = $session['permission'];
+    if (!in_array(17, $userPermissionArr)) {
+      return $this->error();
+    }
     $this->data['site_title'] = ucfirst('Purchase');
     $this->data['template_css'] = $this->load_grid_css('sale_purchase');   //wizard3
     $this->data['template_js'] = $this->load_grid_js('purchase');
@@ -53,6 +58,11 @@ class Purchase extends BackendController
   {
     // $session = $this->session->userdata['company_id'];
     user_is_logged_in();
+    $session = $this->session->userdata();
+    $userPermissionArr = $session['permission'];
+    if (!in_array(17, $userPermissionArr)) {
+      return $this->error();
+    }
     $this->data['site_title'] = ucfirst('Purchase');
     $this->data['template_css'] = $this->load_grid_css('sale_purchase');   //wizard3
     $this->data['template_js'] = $this->load_grid_js('purchase');
@@ -64,6 +74,11 @@ class Purchase extends BackendController
   public function editpurchase()
   {
     user_is_logged_in();
+    $session = $this->session->userdata();
+    $userPermissionArr = $session['permission'];
+    if (!in_array(17, $userPermissionArr)) {
+      return $this->error();
+    }
     $this->data['site_title'] = ucfirst('purchase');
     $this->data['template_css'] = $this->load_grid_css('sale_purchase');
     $this->data['template_js'] = $this->load_grid_js('purchase');
@@ -422,5 +437,4 @@ class Purchase extends BackendController
 
     echo json_encode($data);
   }
- 
 }

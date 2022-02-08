@@ -13,9 +13,14 @@ class Role extends BackendController
     public function index()
     {
         user_is_logged_in();
+        $session = $this->session->userdata();
+        $userPermissionArr = $session['permission'];
+        if (!in_array(25, $userPermissionArr)) {
+            return $this->error();
+        }
         $this->data['site_title'] = ucfirst('Role');
         $this->data['template_js'] = $this->load_grid_js('role');
-        $this->data['record']= $this->role_m->getPermission();
+        $this->data['record'] = $this->role_m->getPermission();
         $this->render_page($this->data['sitename_folder'] . 'role_v', $this->data);
     }
     public function roleList()
@@ -107,7 +112,7 @@ class Role extends BackendController
         }
         $data = $this->input->post();
         $this->db->trans_begin();
-        
+
         $result = $this->common_m->delete_record('role', array('id' => $data['id']));
         $result = $this->common_m->delete_record('role_permission', array('role_id' => $data['id']));
 
