@@ -13,6 +13,11 @@ class Vendor extends BackendController
     public function index()
     {
         user_is_logged_in();
+        $session = $this->session->userdata();
+        $userPermissionArr = $session['permission'];
+        if (!in_array(5, $userPermissionArr)) {
+            return $this->error();
+        }
         $this->data['site_title'] = ucfirst('Vendor');
         $this->data['template_css'] = $this->load_grid_css('add');
         $this->data['template_js'] = $this->load_grid_js('vendor');

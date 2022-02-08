@@ -205,9 +205,9 @@ $userPermissionArr =  $this->session->userdata('permission');
                             <div class="topbar-item" data-toggle="dropdown" data-offset="0px,0px">
                                 <div class="btn btn-icon btn-icon-mobile w-auto btn-clean d-flex align-items-center btn-lg px-2">
                                     <span class="text-muted font-weight-bold font-size-base d-none d-md-inline mr-1">Hi,</span>
-                                    <span class="text-dark-50 font-weight-bolder font-size-base d-none d-md-inline mr-3"><?= ucfirst($session['user_name']) ?></span>
+                                    <span class="text-dark-50 font-weight-bolder font-size-base d-none d-md-inline mr-3"><?= ucfirst($this->session->userdata('user_name')) ?></span>
                                     <span class="symbol symbol-lg-35 symbol-25 symbol-light-success">
-                                        <span class="symbol-label font-size-h5 font-weight-bold"><?= ucfirst($session['user_name'][0]) ?></span>
+                                        <span class="symbol-label font-size-h5 font-weight-bold"><?= ucfirst($this->session->userdata('user_name')[0]) ?></span>
                                     </span>
                                 </div>
                             </div>
@@ -222,7 +222,7 @@ $userPermissionArr =  $this->session->userdata('permission');
                                     </div>
                                     <!--end::Symbol-->
                                     <!--begin::Text-->
-                                    <div class="text-dark m-0 flex-grow-1 mr-3 font-size-h5"><?= ucfirst($session['user_name']) ?></div>
+                                    <div class="text-dark m-0 flex-grow-1 mr-3 font-size-h5"><?= ucfirst($this->session->userdata('user_name')) ?></div>
                                     <span class="label label-light-success label-lg font-weight-bold label-inline">3 messages</span>
                                     <!--end::Text-->
                                 </div>
