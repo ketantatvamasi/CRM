@@ -147,9 +147,14 @@ jQuery(document).ready(function () {
 				width: 60,
 				overflow: 'visible',
 				template: function (row) {
-					return '\
-					<div class="dropdown dropdown-inline"><a href="javascript:;" title="Edit" onclick="role_edit(' + row.role_id + ')"><i class="far fa-edit text-success mr-3"></i></a>\
-						<a href="javascript:;" title="Delete" onclick="role_delete(' + row.role_id + ')"><i class="fas fa-trash text-danger"></i></a></div>';
+					var edbutton='';
+					if($.inArray(27, session_permission) !== -1) {
+						edbutton +='<a href="javascript:;" title="Edit" onclick="role_edit(' + row.role_id + ')"><i class="far fa-edit text-success mr-3"></i></a>';
+					}	
+					if($.inArray(28, session_permission) !== -1) {
+					edbutton +='<a href="javascript:;" title="Delete" onclick="role_delete(' + row.role_id + ')"><i class="fas fa-trash text-danger"></i></a>';
+					}
+					return edbutton;
 				},
 			}
 		],

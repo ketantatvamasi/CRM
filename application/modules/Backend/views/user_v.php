@@ -1,5 +1,5 @@
 <?php
-  $userPermissionArr =$this->session->userdata('permission');
+$userPermissionArr = $this->session->userdata('permission');
 ?>
 <!--begin::Content-->
 <div class="content  d-flex flex-column flex-column-fluid" id="kt_content">
@@ -25,10 +25,10 @@
                             <div class="card-toolbar">
                                 <!--begin::Button-->
                                 <?php if (in_array(2, $userPermissionArr)) { ?>
-                                <button type="button" class="btn btn-primary font-weight-bolder " id="adduser">
-                                    <i class="fas fa-user-plus"></i> Add <?= $load_data['site_title']; ?>
-                                </button>
-                                <?php }?>
+                                    <button type="button" class="btn btn-primary font-weight-bolder " id="adduser">
+                                        <i class="fas fa-user-plus"></i> Add <?= $load_data['site_title']; ?>
+                                    </button>
+                                <?php } ?>
                                 <!--end::Button-->
                                 <!--begin::Button-->
                                 <button type="button" class="btn btn-primary font-weight-bolder d-none" id="listuser">
@@ -38,7 +38,7 @@
                             </div>
                         </div>
                         <!--end::Header-->
-                      
+
                         <!--begin::Body-->
                         <div class="card-body">
                             <!--begin: Datatable-->

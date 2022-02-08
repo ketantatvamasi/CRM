@@ -13,6 +13,11 @@ class Item extends BackendController
     public function index()
     {
         user_is_logged_in();
+        $session = $this->session->userdata();
+        $userPermissionArr = $session['permission'];
+        if (!in_array(13, $userPermissionArr)) {
+            return $this->error();
+        }
         $this->data['site_title'] = ucfirst('Item');
         $this->data['template_css'] = $this->load_grid_css('add');   //wizard3
         $this->data['template_js'] = $this->load_grid_js('item');

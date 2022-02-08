@@ -13,13 +13,14 @@ class Purchase_m extends CI_Model
     {
         $this->db->select($this->select_column);
         $this->db->from($this->table);
-
-        if ($this->session->userdata('role_id') == 2) {
-            $this->db->join('vendors as v', 'v.id = purchase.vendor_id');
-            // $this->db->join('purchase_item as a', 'a.purchase_id = purchase.id');
-            $this->db->where('purchase.company_id', $this->session->userdata['user_id']);
-        } else if ($this->session->userdata('role_id') == 3) {
-            $this->db->where('user_id', $this->session->userdata['user_id']);
+        $this->db->join('vendors as v', 'v.id = purchase.vendor_id');
+        
+        if ($this->session->userdata['user_id'] != 1) {
+            if ($this->session->userdata['parent_id'] != 1) {
+                $this->db->where('purchase.user_id', $this->session->userdata['user_id']);
+            } else {
+                $this->db->where('purchase.company_id', $this->session->userdata['company_id']);
+            }
         }
         $i = 0;
         foreach ($this->column_search as $purchase) // loop column

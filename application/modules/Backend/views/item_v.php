@@ -6,6 +6,9 @@
         list-style: none;
     }
 </style>
+<?php
+$userPermissionArr = $this->session->userdata('permission');
+?>
 <!--begin::Content-->
 <div class="content  d-flex flex-column flex-column-fluid" id="kt_content">
 
@@ -27,10 +30,11 @@
 
                     <div class="card-toolbar">
                         <!--begin::Button-->
-
-                        <button type="button" class="btn btn-primary font-weight-bolder " id="add_item_button" data-toggle="modal" data-target="#itemsModal">
-                            <i class="fas fa-user-plus"></i> Add <?= ucfirst($load_data['site_title']) ?>
-                        </button>
+                        <?php if (in_array(14, $userPermissionArr)) { ?>
+                            <button type="button" class="btn btn-primary font-weight-bolder " id="add_item_button" data-toggle="modal" data-target="#itemsModal">
+                                <i class="fas fa-user-plus"></i> Add <?= ucfirst($load_data['site_title']) ?>
+                            </button>
+                        <?php } ?>
                         <!--end::Button-->
                     </div>
                 </div>
