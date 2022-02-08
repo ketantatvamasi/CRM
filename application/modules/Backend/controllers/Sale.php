@@ -13,6 +13,11 @@ class Sale extends BackendController
   public function index()
   {
     user_is_logged_in();
+    $session = $this->session->userdata();
+    $userPermissionArr = $session['permission'];
+    if (!in_array(21, $userPermissionArr)) {
+      return $this->error();
+    }
     $this->data['site_title'] = ucfirst('sale');
     $this->data['template_css'] = $this->load_grid_css('sale_purchase');   //wizard3
     $this->data['template_js'] = $this->load_grid_js('sale');
@@ -50,13 +55,18 @@ class Sale extends BackendController
   public function addSale_Page()
   {
     user_is_logged_in();
+    $session = $this->session->userdata();
+    $userPermissionArr = $session['permission'];
+    if (!in_array(21, $userPermissionArr)) {
+      return $this->error();
+    }
     $this->data['site_title'] = ucfirst('Sale');
     $this->data['template_css'] = $this->load_grid_css('sale_purchase');   //wizard3
     $this->data['template_js'] = $this->load_grid_js('sale');
-    $company_id = $this->session->userdata['company_id'];
+    // $company_id = $this->session->userdata['company_id'];
 
-    $this->data['customers'] = $this->common_m->get_common_master('customers', array('id', 'user_id', 'company_id', 'customer_name'), array("company_id" => $company_id), 'customer_name asc');
-    $this->data['items'] = $this->common_m->get_common_master('items', array('id', 'user_id', 'company_id', 'item_code', 'item_name', 'total_quantity'), array("company_id" => $company_id, "status" => 0), 'item_name asc');
+    // $this->data['customers'] = $this->common_m->get_common_master('customers', array('id', 'user_id', 'company_id', 'customer_name'), array("company_id" => $company_id), 'customer_name asc');
+    // $this->data['items'] = $this->common_m->get_common_master('items', array('id', 'user_id', 'company_id', 'item_code', 'item_name', 'total_quantity'), array("company_id" => $company_id, "status" => 0), 'item_name asc');
 
     $this->render_page($this->data['sitename_folder'] . 'saleForm_v', $this->data);
   }
@@ -387,6 +397,11 @@ class Sale extends BackendController
   public function editSale_Page()
   {
     user_is_logged_in();
+    $session = $this->session->userdata();
+    $userPermissionArr = $session['permission'];
+    if (!in_array(21, $userPermissionArr)) {
+      return $this->error();
+    }
     $this->data['site_title'] = ucfirst('Sale');
     $this->data['template_css'] = $this->load_grid_css('sale_purchase');
     $this->data['template_js'] = $this->load_grid_js('sale');

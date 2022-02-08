@@ -223,119 +223,118 @@ var KTWizard3 = function () {
 }();
 
 var itemForm = function () {
-	var _buttonSpinnerClasses = 'spinner spinner-right spinner-white pr-15';
-	var form = KTUtil.getById('items_form');
-	var formSubmitButton = KTUtil.getById('items_button');
+    var _buttonSpinnerClasses = 'spinner spinner-right spinner-white pr-15';
+    var form = KTUtil.getById('items_form');
+    var formSubmitButton = KTUtil.getById('items_button');
 
-	if (!form) {
-		return;
-	}
+    if (!form) {
+        return;
+    }
 
-	const fv=FormValidation.formValidation(
-		form,
-		{
-			fields: {
-				item_name: {
-					validators: {
-						notEmpty: {
-							message: 'Item name is required'
-						}
-					}
-				},
-				item_code: {
-					validators: {
-						notEmpty: {
-							message: 'Item code is required'
-						}
-					}
-				},
-				purchase_price: {
-					validators: {
-						notEmpty: {
-							message: 'Purchase price is required'
-						}
-					}
-				},
-				sale_price: {
-					validators: {
-						notEmpty: {
-							message: 'Sale price is required'
-						}
-					}
-				},
-				opening_quantity: {
-					validators: {
-						notEmpty: {
-							message: 'Opening quantity is required'
-						}
-					}
-				}
-			},
-			plugins: {
-				trigger: new FormValidation.plugins.Trigger(),
-				submitButton: new FormValidation.plugins.SubmitButton(),
-				bootstrap: new FormValidation.plugins.Bootstrap({
-					eleInvalidClass: '',
-					eleValidClass: '',
-				})
-			}
-		}
-	).on('core.form.valid', function () {
-		// Show loading state on button
-		KTUtil.btnWait(formSubmitButton, _buttonSpinnerClasses, "Please wait");
+    const fv = FormValidation.formValidation(
+        form,
+        {
+            fields: {
+                item_name: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Item name is required'
+                        }
+                    }
+                },
+                item_code: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Item code is required'
+                        }
+                    }
+                },
+                purchase_price: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Purchase price is required'
+                        }
+                    }
+                },
+                sale_price: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Sale price is required'
+                        }
+                    }
+                },
+                opening_quantity: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Opening quantity is required'
+                        }
+                    }
+                }
+            },
+            plugins: {
+                trigger: new FormValidation.plugins.Trigger(),
+                submitButton: new FormValidation.plugins.SubmitButton(),
+                bootstrap: new FormValidation.plugins.Bootstrap({
+                    eleInvalidClass: '',
+                    eleValidClass: '',
+                })
+            }
+        }
+    ).on('core.form.valid', function () {
+        // Show loading state on button
+        KTUtil.btnWait(formSubmitButton, _buttonSpinnerClasses, "Please wait");
 
-		// Simulate Ajax request
-		setTimeout(function () {
-			KTUtil.btnRelease(formSubmitButton);
-		}, 1000);
-
-
-		var data = $('#items_form').serialize();
-		// alert(data);
-		$.ajax({
-			method: 'post',
-			url: baseFolder + 'item/addItem',
-			data: data,
-			dataType: "json",
-			beforeSend: function () {
-				$("#items_button").prop('disabled', true);
-			},
-			success: function (data) {
-				if (data.response == true) {
-					toastr.success('Successfully save');
-					$('#items_form')[0].reset();
-					$('#itemsModal').modal('toggle');
-					$('#item_datatable').KTDatatable('reload');
-				} else {
-					toastr.error("Enter Proper Data!!!!");
-				}
-				$("#items_button").prop('disabled', false);
-			},
-			error: function (xhr, status, error) {
-				var errorMessage = xhr.status + ': ' + xhr.statusText
-				switch (xhr.status) {
-					case 401:
-						toastr.error('Authontication fail...');
-						break;
-					case 422:
-						toastr.info('The user is invalid.');
-						break;
-					default:
-						toastr.error('Error - ' + errorMessage);
-				}
-				$("#items_button").prop('disabled', false);
-			}
-		});
-
-	});
+        // Simulate Ajax request
+        setTimeout(function () {
+            KTUtil.btnRelease(formSubmitButton);
+        }, 1000);
 
 
-	$('#add_item_button').on('click', function () {
-		$("[class^='fv-plugins-message-container']").text('');  //reset('empty') validation
-		$('#items_form')[0].reset();
-		fv.on('core.form.reset',function(){});
-		$('.modal-title').text('Add item');
-	});
+        var data = $('#items_form').serialize();
+        // alert(data);
+        $.ajax({
+            method: 'post',
+            url: baseFolder + 'item/addItem',
+            data: data,
+            dataType: "json",
+            beforeSend: function () {
+                $("#items_button").prop('disabled', true);
+            },
+            success: function (data) {
+                if (data.response == true) {
+                    toastr.success('Successfully save');
+                    $('#items_form')[0].reset();
+                    $('#itemsModal').modal('toggle');
+                    $('#item_datatable').KTDatatable('reload');
+                } else {
+                    toastr.error("Enter Proper Data!!!!");
+                }
+                $("#items_button").prop('disabled', false);
+            },
+            error: function (xhr, status, error) {
+                var errorMessage = xhr.status + ': ' + xhr.statusText
+                switch (xhr.status) {
+                    case 401:
+                        toastr.error('Authontication fail...');
+                        break;
+                    case 422:
+                        toastr.info('The user is invalid.');
+                        break;
+                    default:
+                        toastr.error('Error - ' + errorMessage);
+                }
+                $("#items_button").prop('disabled', false);
+            }
+        });
+
+    });
+
+
+    $('#add_item_button').on('click', function () {
+        $("[class^='fv-plugins-message-container']").text('');  //reset('empty') validation
+        $('#items_form')[0].reset();
+        $('.modal-title').text('Add item');
+    });
 
 }
 
@@ -568,15 +567,14 @@ jQuery(document).ready(function () {
                 overflow: 'visible',
                 autoHide: false,
                 template: function (data) {
-                    return '\
-	                        <div class="dropdown dropdown-inline">\
-	                        <a href="'+ baseFolder + 'sale/editSale_Page/' + data.id + '" title="Edit" >\
-							<i class="far fa-edit text-success mr-3"></i>\
-	                        </a>\
-	                        <a href="javascript:;" title="Delete" onclick="delete_sale('+ data.id + ')">\
-							<i class="fas fa-trash text-danger"></i>\
-	                        </a>\
-	                    ';
+                    var edbutton='';
+					if($.inArray(23, session_permission) !== -1) {
+						edbutton +='<a href="'+ baseFolder + 'sale/editSale_Page/' + data.id + '" title="Edit" ><i class="far fa-edit text-success mr-3"></i></a>';
+					}	
+					if($.inArray(24, session_permission) !== -1) {
+					edbutton +=' <a href="javascript:;" title="Delete" onclick="delete_sale('+ data.id + ')"><i class="fas fa-trash text-danger"></i></a>';
+					}
+					return edbutton;
                 },
             }],
     });
@@ -770,64 +768,40 @@ function saleForm() {
 
     $(document).on('click', '#addRows', function () {
 
-        $.ajax({
-            type: 'ajax',
-            url: baseFolder + 'item/itemList',
-            dataType: 'json',
-            success: function (data) {
+        count++;
+        var htmlRows = '';
+        htmlRows += '<tr>';
+        htmlRows += '<td><input class="itemRow" type="checkbox"></td>';
+        htmlRows += '<td><div class="form-group">';
+        htmlRows += '<input type="text" id="productname_' + count + '" class="form-control" placeholder="Items">';
+        htmlRows += '<input type="hidden" name="data[' + count + '][item_id]" id="productId_' + count + '">';
+        htmlRows += '</div></td>';
+        htmlRows += '<td><div class="form-group"><input type="number" name="data[' + count + '][quantity]" id="quantity_' + count + '" class="form-control " placeholder="Qty" autocomplete="off"></div></td>';
+        htmlRows += '<td><input type="number" name="data[' + count + '][price]" id="price_' + count + '"  class="form-control " placeholder="Price" autocomplete="off" readonly></td>';
+        htmlRows += '<td><input type="number" name="data[' + count + '][total]" id="total_' + count + '"  class="form-control " placeholder="Total" autocomplete="off" readonly></td>';
+        htmlRows += '<td><input type="number" name="data[' + count + '][sgst]" id="sgst_' + count + '"  class="form-control " placeholder="SGST" autocomplete="off" readonly></td>';
+        htmlRows += '<td><input type="number" name="data[' + count + '][cgst]" id="cgst_' + count + '"  class="form-control " placeholder="CGST" autocomplete="off" readonly></td>';
+        htmlRows += '<td><input type="number" name="data[' + count + '][igst]" id="igst_' + count + '"  class="form-control " placeholder="IGST" autocomplete="off" readonly></td>';
+        htmlRows += '<td><input type="number" name="data[' + count + '][total_amount]" id="amount_' + count + '"  class="form-control " placeholder="Amount" autocomplete="off" readonly></td>';
+        htmlRows += '</tr>';
+        // console.log(data);
 
-                // console.log(data["data"]);
-                count++;
-                var htmlRows = '';
-                htmlRows += '<tr>';
-                htmlRows += '<td><input class="itemRow" type="checkbox"></td>';
-                htmlRows += '<td><div class="form-group">';
-                htmlRows += '<input type="text" id="productname_' + count + '" class="form-control" placeholder="Items">';
-                htmlRows += '<input type="hidden" name="data[' + count + '][item_id]" id="productId_' + count + '">';
-                htmlRows += '</div></td>';
-                htmlRows += '<td><div class="form-group"><input type="number" name="data[' + count + '][quantity]" id="quantity_' + count + '" class="form-control " placeholder="Qty" autocomplete="off"></div></td>';
-                htmlRows += '<td><input type="number" name="data[' + count + '][price]" id="price_' + count + '"  class="form-control " placeholder="Price" autocomplete="off" readonly></td>';
-                htmlRows += '<td><input type="number" name="data[' + count + '][total]" id="total_' + count + '"  class="form-control " placeholder="Total" autocomplete="off" readonly></td>';
-                htmlRows += '<td><input type="number" name="data[' + count + '][sgst]" id="sgst_' + count + '"  class="form-control " placeholder="SGST" autocomplete="off" readonly></td>';
-                htmlRows += '<td><input type="number" name="data[' + count + '][cgst]" id="cgst_' + count + '"  class="form-control " placeholder="CGST" autocomplete="off" readonly></td>';
-                htmlRows += '<td><input type="number" name="data[' + count + '][igst]" id="igst_' + count + '"  class="form-control " placeholder="IGST" autocomplete="off" readonly></td>';
-                htmlRows += '<td><input type="number" name="data[' + count + '][total_amount]" id="amount_' + count + '"  class="form-control " placeholder="Amount" autocomplete="off" readonly></td>';
-                htmlRows += '</tr>';
-                // console.log(data);
-
-                $('#invoiceItem').append(htmlRows);
-                fv.addField('data[' + count + '][item_id]', item).addField('data[' + count + '][quantity]', {
-                    validators: {
-                        notEmpty: {
-                            message: 'Required',
-                        },
-                        greaterThan: {
-                            message: 'Minimum 1',
-                            min: 1,
-                        },
-                        integer: {
-                            message: 'Enter valid Qty',
-                            thousandsSeparator: '',
-                            decimalSeparator: '.',
-                        },
-                    },
-                });
-
-
+        $('#invoiceItem').append(htmlRows);
+        fv.addField('data[' + count + '][item_id]', item).addField('data[' + count + '][quantity]', {
+            validators: {
+                notEmpty: {
+                    message: 'Required',
+                },
+                greaterThan: {
+                    message: 'Minimum 1',
+                    min: 1,
+                },
+                integer: {
+                    message: 'Enter valid Qty',
+                    thousandsSeparator: '',
+                    decimalSeparator: '.',
+                },
             },
-            error: function (xhr, status, error) {
-                var errorMessage = xhr.status + ': ' + xhr.statusText
-                switch (xhr.status) {
-                    case 401:
-                        toastr.error('Authontication fail...');
-                        break;
-                    case 422:
-                        toastr.info('The user is invalid.');
-                        break;
-                    default:
-                        toastr.error('Error - ' + errorMessage);
-                }
-            }
         });
 
     });

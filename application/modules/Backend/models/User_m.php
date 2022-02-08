@@ -8,21 +8,22 @@ class User_m extends CI_Model
     }
 
     var $table = 'users';
-    var $select_column = array("users.*","c.Name as role_name");
-    var $column_search = array('organization_name', 'firstname', 'email', 'phone','status'); //set column field database for datatable searchable
+    var $select_column = array("*");
+    var $column_search = array('organization_name', 'firstname', 'email', 'phone', 'status'); //set column field database for datatable searchable
     var $order = array('user_id' => 'asc'); // default order
-    
+
     private function _get_datatables_query()
     {
-            $this->db->select($this->select_column);
-            $this->db->from($this->table);
-        if ($this->session->userdata['role_id'] == 1) {
-            $this->db->join('role as c', 'c.id = users.role_id');
-            $this->db->where('role_id',2);
-        }else{
-            $this->db->join('role as c', 'c.id = users.role_id');
-            $this->db->where('role_id',3);
-            $this->db->where('parent_id',$this->session->userdata['user_id']);
+        $this->db->select($this->select_column);
+        $this->db->from($this->table);
+
+        // $this->db->join('role as c', 'c.id = users.role_id');
+        if ($this->session->userdata['user_id'] != 1) {
+            if ($this->session->userdata['parent_id'] != 1) {
+                $this->db->where('parent_id', $this->session->userdata['user_id']);
+            } else {
+                $this->db->where(['company_id' => $this->session->userdata['user_id'], 'parent_id !=' => 1]);
+            }
         }
         $i = 0;
 

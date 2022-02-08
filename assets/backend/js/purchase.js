@@ -254,7 +254,7 @@ var itemForm = function () {
 		return;
 	}
 
-	const fv=FormValidation.formValidation(
+	const fv = FormValidation.formValidation(
 		form,
 		{
 			fields: {
@@ -350,14 +350,14 @@ var itemForm = function () {
 			}
 		});
 
-		fv.on('core.form.reset',function(){});
+		fv.on('core.form.reset', function () { });
 	});
 
 
 	$('#add_item_button').on('click', function () {
 		$("[class^='fv-plugins-message-container']").text('');
 		$('#items_form')[0].reset();
-		fv.on('core.form.reset',function(){});
+		fv.on('core.form.reset', function () { });
 		$('.modal-title').text('Add item');
 	});
 
@@ -551,7 +551,7 @@ jQuery(document).ready(function () {
 		});
 	});
 
-	
+
 
 	$("#app-purchse-table").on("click", "#deleteItemfield", function () {
 		$(this).closest("tr").remove();
@@ -696,15 +696,14 @@ jQuery(document).ready(function () {
 				overflow: 'visible',
 				autoHide: false,
 				template: function (data) {
-					return '\
-	                        <div class="dropdown dropdown-inline">\
-	                        <a href="'+ baseFolder + 'purchase/editpurchase/' + data.id + '" title="Edit">\
-							<i class="far fa-edit text-success mr-3"></i>\
-	                        </a>\
-	                        <a href="javascript:;" title="Delete" onclick="delete_purchase('+ data.id + ')">\
-							<i class="fas fa-trash text-danger"></i>\
-	                        </a>\
-	                    ';
+					var edbutton='';
+					if($.inArray(19, session_permission) !== -1) {
+						edbutton +='<a href="'+ baseFolder + 'purchase/editpurchase/' + data.id + '" title="Edit"><i class="far fa-edit text-success mr-3"></i></a>';
+					}	
+					if($.inArray(20, session_permission) !== -1) {
+					edbutton +='<a href="javascript:;" title="Delete" onclick="delete_purchase('+ data.id + ')"><i class="fas fa-trash text-danger"></i></a>';
+					}
+					return edbutton;
 				},
 			}],
 	});
@@ -804,57 +803,35 @@ function purchaseForm() {
 	var count = $('.item_row').length;
 	$("#app-purchse-table").on("click", ".addItemfield", function () {
 
-		$.ajax({
-			type: 'ajax',
-			url: baseFolder + 'item/itemList',
-			dataType: 'json',
-			success: function (data) {
-				count++;
-				var htmlRows = '';
-				htmlRows += '<tr class="item_row">';
-				htmlRows += '<td><div class="form-group"><input type="text" id="item_name_' + count + '" class="form-control" placeholder="Selete Item"><input type="hidden" name="data[' + count + '][item_id]" id="item_id_' + count + '"></div></td>';
-				htmlRows += '<td><div class="form-group"><input type="number" class="form-control" name="data[' + count + '][quantity]" id="quantity_' + count + '" placeholder="Qty"/></div></td>';
-				htmlRows += '<td><input type="number" class="form-control" name="data[' + count + '][rate]" id="rate_' + count + '"  placeholder="Rate" readonly/></td>';
-				htmlRows += '<td><input type="number" class="form-control" name="data[' + count + '][cgst_tax]" id="cgst_tax_' + count + '"  placeholder="CGST" readonly/></td>';
-				htmlRows += '<td><input type="number" class="form-control" name="data[' + count + '][sgst_tax]" id="sgst_tax_' + count + '"  placeholder="SGST" readonly/></td>';
-				htmlRows += '<td><input type="number" class="form-control" name="data[' + count + '][igst_tax]" id="igst_tax_' + count + '"  placeholder="IGST" readonly/> </td>';
-				htmlRows += '<td><input type="number" class="form-control" name="data[' + count + '][total_amount]" id="total_amount_' + count + '"  placeholder="Amount" readonly/></td>';
-				htmlRows += '<td><div class="row"><div class="col-4"><a href="javascript:;" id="addItemfield" class="btn btn-sm font-weight-bolder btn-light-primary addItemfield"><i class="la la-plus"></i></a></div>""<div class="col-4"><a href="javascript:;" id="deleteItemfield" class="btn btn-sm font-weight-bolder btn-light-danger"><i class="la la-trash-o"></i></a></div></div></td>';
-				htmlRows += '</tr>';
-				$('#app-purchse-table').append(htmlRows);
-				fv.addField('data[' + count + '][item_id]', item).addField('data[' + count + '][quantity]', {
-					validators: {
-						notEmpty: {
-							message: 'Required',
-						},
-						greaterThan: {
-							message: 'Minimum 1',
-							min: 1,
-						},
-						integer: {
-							message: 'Enter valid Qty',
-							thousandsSeparator: '',
-							decimalSeparator: '.',
-						},
-					},
-				});
-
+		count++;
+		var htmlRows = '';
+		htmlRows += '<tr class="item_row">';
+		htmlRows += '<td><div class="form-group"><input type="text" id="item_name_' + count + '" class="form-control" placeholder="Selete Item"><input type="hidden" name="data[' + count + '][item_id]" id="item_id_' + count + '"></div></td>';
+		htmlRows += '<td><div class="form-group"><input type="number" class="form-control" name="data[' + count + '][quantity]" id="quantity_' + count + '" placeholder="Qty"/></div></td>';
+		htmlRows += '<td><input type="number" class="form-control" name="data[' + count + '][rate]" id="rate_' + count + '"  placeholder="Rate" readonly/></td>';
+		htmlRows += '<td><input type="number" class="form-control" name="data[' + count + '][cgst_tax]" id="cgst_tax_' + count + '"  placeholder="CGST" readonly/></td>';
+		htmlRows += '<td><input type="number" class="form-control" name="data[' + count + '][sgst_tax]" id="sgst_tax_' + count + '"  placeholder="SGST" readonly/></td>';
+		htmlRows += '<td><input type="number" class="form-control" name="data[' + count + '][igst_tax]" id="igst_tax_' + count + '"  placeholder="IGST" readonly/> </td>';
+		htmlRows += '<td><input type="number" class="form-control" name="data[' + count + '][total_amount]" id="total_amount_' + count + '"  placeholder="Amount" readonly/></td>';
+		htmlRows += '<td><div class="row"><div class="col-4"><a href="javascript:;" id="addItemfield" class="btn btn-sm font-weight-bolder btn-light-primary addItemfield"><i class="la la-plus"></i></a></div>""<div class="col-4"><a href="javascript:;" id="deleteItemfield" class="btn btn-sm font-weight-bolder btn-light-danger"><i class="la la-trash-o"></i></a></div></div></td>';
+		htmlRows += '</tr>';
+		$('#app-purchse-table').append(htmlRows);
+		fv.addField('data[' + count + '][item_id]', item).addField('data[' + count + '][quantity]', {
+			validators: {
+				notEmpty: {
+					message: 'Required',
+				},
+				greaterThan: {
+					message: 'Minimum 1',
+					min: 1,
+				},
+				integer: {
+					message: 'Enter valid Qty',
+					thousandsSeparator: '',
+					decimalSeparator: '.',
+				},
 			},
-			error: function (xhr, status, error) {
-				var errorMessage = xhr.status + ': ' + xhr.statusText
-				switch (xhr.status) {
-					case 401:
-						toastr.error('Authontication fail...');
-						break;
-					case 422:
-						toastr.info('The user is invalid.');
-						break;
-					default:
-						toastr.error('Error - ' + errorMessage);
-				}
-			}
 		});
-
 	});
 }
 

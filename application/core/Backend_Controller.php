@@ -65,6 +65,7 @@ class BackendController extends MY_Controller
     {
         $this->load->view('template/header', array('load_css' => $this->data));
         if ($name == null) {
+            $this->load->model('Role_m', 'role_m');
             $this->load->view('template/menu');
         }
 
@@ -90,25 +91,6 @@ class BackendController extends MY_Controller
                     'assets/backend/css/jquery-ui.css'
                 );
                 break;
-            case 'dashboard':
-                return array(
-                    'assets/Backend/app-assets/vendors/css/extensions/unslider.css',
-                    'assets/Backend/app-assets/vendors/css/weather-icons/climacons.min.css',
-                    'assets/Backend/app-assets/fonts/meteocons/style.min.css',
-                    'assets/Backend/app-assets/vendors/css/charts/morris.css',
-                    'assets/Backend/app-assets/fonts/simple-line-icons/style.min.css',
-                    'assets/Backend/app-assets/css/pages/timeline.min.css'
-                );
-
-                break;
-            case 'login':
-                return array(
-                    'assets/Backend/app-assets/vendors/css/forms/icheck/icheck.css',
-                    'assets/Backend/app-assets/vendors/css/forms/icheck/custom.css',
-                    'assets/Backend/app-assets/css/pages/login-register.min.css',
-                    'assets/Backend/app-assets/css/plugins/forms/validation/form-validation.css'
-                );
-                break;
             case 'list':
                 return array(
                     'assets/Backend/app-assets/vendors/css/tables/datatable/datatables.min.css',
@@ -125,16 +107,10 @@ class BackendController extends MY_Controller
     public function load_grid_js($pageName = "")
     {
         switch ($pageName) {
-            case 'dashboard':
-
+            case 'role':
                 return array(
-                    'assets/Backend/app-assets/vendors/js/charts/raphael-min.js',
-                    'assets/Backend/app-assets/vendors/js/charts/morris.min.js',
-                    'assets/Backend/app-assets/vendors/js/extensions/unslider-min.js',
-                    'assets/Backend/app-assets/vendors/js/timeline/horizontal-timeline.js',
-                    'assets/Backend/app-assets/js/scripts/pages/dashboard-ecommerce.min.js'
+                    'assets/backend/js/role.js'
                 );
-
                 break;
             case 'login':
                 return array(
@@ -144,18 +120,6 @@ class BackendController extends MY_Controller
             case 'forgot':
                 return array(
                     'assets/backend/js/forgot.js'
-                );
-                break;
-            case 'list':
-                return array(
-                    'assets/Backend/app-assets/vendors/js/tables/datatable/datatables.min.js',
-                    'assets/Backend/app-assets/vendors/js/tables/datatable/datatables.checkboxes.min.js',
-                    'assets/Backend/app-assets/vendors/js/tables/datatable/dataTables.responsive.min.js',
-                    'assets/Backend/app-assets/vendors/js/tables/datatable/dataTables.bootstrap4.min.js',
-                    'assets/Backend/app-assets/vendors/js/extensions/sweetalert2.all.min.js',
-                    'assets/Backend/app-assets/js/scripts/parsleyjs/parsley.min.js',
-                    'assets/Backend/js/common.js'
-                    //    'assets/Backend/app-assets/js/scripts/pages/app-invoice.min.js'
                 );
                 break;
             case 'item':

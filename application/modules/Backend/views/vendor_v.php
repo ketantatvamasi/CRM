@@ -1,3 +1,6 @@
+<?php
+  $userPermissionArr =$this->session->userdata('permission');
+?>
 <!--begin::Content-->
 <div class="content  d-flex flex-column flex-column-fluid" id="kt_content">
 
@@ -19,9 +22,11 @@
 
                     <div class="card-toolbar">
                         <!--begin::Button-->
+                        <?php if (in_array(6, $userPermissionArr)) { ?>
                         <button type="button" class="btn btn-primary font-weight-bolder " id="add_vendor_button">
                             <i class="fas fa-user-plus"></i> Add <?= ucfirst($load_data['site_title']) ?>
                         </button>
+                        <?php }?>
                         <!--end::Button-->
 
                         <!--begin::Button-->

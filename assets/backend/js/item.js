@@ -117,7 +117,7 @@ jQuery(document).ready(function () {
 					};
 					return `<span class="label label-lg font-weight-bold   ${status[row.status].class}   label-inline" onclick="statusChange( ${row.id} ,${row.status} ,'items','id','item','#item_datatable')">${status[row.status].title}</span>`;
 				},
-			}, 
+			},
 			{
 				field: 'Action',
 				title: 'Action',
@@ -126,7 +126,14 @@ jQuery(document).ready(function () {
 				overflow: 'visible',
 				autoHide: false,
 				template: function (data) {
-					return '<div class="dropdown dropdown-inline"><a href="javascript:;" title="Edit" onclick="edit_item('+ data.id + ')"><i class="far fa-edit text-success mr-3"></i></a><a href="javascript:;" title="Delete" onclick="delete_item('+ data.id + ')"><i class="fas fa-trash text-danger"></i></a>';
+					var edbutton = '';
+					if ($.inArray(15, session_permission) !== -1) {
+						edbutton += '<a href="javascript:;" title="Edit" onclick="edit_item(' + data.id + ')"><i class="far fa-edit text-success mr-3"></i></a>';
+					}
+					if ($.inArray(16, session_permission) !== -1) {
+						edbutton += '<a href="javascript:;" title="Delete" onclick="delete_item(' + data.id + ')"><i class="fas fa-trash text-danger"></i></a>';
+					}
+					return edbutton;
 				},
 			}],
 	});
@@ -141,7 +148,7 @@ var itemForm = function () {
 		return;
 	}
 
-	const fv=FormValidation.formValidation(
+	const fv = FormValidation.formValidation(
 		form,
 		{
 			fields: {
@@ -243,7 +250,7 @@ var itemForm = function () {
 	$('#add_item_button').on('click', function () {
 		$("[class^='fv-plugins-message-container']").text('');  //reset('empty') validation
 		$('#items_form')[0].reset();
-		fv.on('core.form.reset',function(){});
+		fv.on('core.form.reset', function () { });
 		$('.modal-title').text('Add item');
 	});
 

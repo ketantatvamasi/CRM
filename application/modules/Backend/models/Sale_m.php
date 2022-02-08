@@ -16,12 +16,22 @@ class Sale_m extends CI_Model
     {
         $this->db->select($this->select_column);
         $this->db->from($this->table);
+        $this->db->join('customers as cm', 'cm.id = sale.customer_id');
 
-        if ($this->session->userdata('role_id') == 2) {
-            $this->db->join('customers as cm', 'cm.id = sale.customer_id');
-            $this->db->where('sale.company_id', $this->session->userdata['user_id']);
-        } else if ($this->session->userdata('role_id') == 3) {
-            $this->db->where('user_id', $this->session->userdata['user_id']);
+        // if ($this->session->userdata('role_id') == 2) {
+        //     $this->db->join('customers as cm', 'cm.id = sale.customer_id');
+        //     $this->db->where('sale.company_id', $this->session->userdata['user_id']);
+        // } else if ($this->session->userdata('role_id') == 3) {
+        //     $this->db->where('user_id', $this->session->userdata['user_id']);
+        // }
+        
+
+        if ($this->session->userdata['user_id'] != 1) {
+            if ($this->session->userdata['parent_id'] != 1) {
+                $this->db->where('sale.user_id', $this->session->userdata['user_id']);
+            } else {
+                $this->db->where('sale.company_id', $this->session->userdata['company_id']);
+            }
         }
         $i = 0;
         foreach ($this->column_search as $purchase) // loop column

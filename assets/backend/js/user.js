@@ -27,9 +27,17 @@ var KTWizard3 = function () {
 				if (status == 'Valid') {
 					_wizard.goNext();
 					KTUtil.scrollTop();
-
 				}
 			});
+		});
+		$('#listuser').on('click', function () {
+			_wizard.goTo(1);
+		});
+		$('#adduser').on('click', function () {
+			_wizard.goTo(1);
+		});
+		$('#users_form_submit_button').on('click', function () {
+			_wizard.goTo(1);
 		});
 
 		// Change event
@@ -88,6 +96,13 @@ var KTWizard3 = function () {
 						validators: {
 							notEmpty: {
 								message: 'Password is required'
+							}
+						}
+					},
+					role_id: {
+						validators: {
+							notEmpty: {
+								message: 'Role is required'
 							}
 						}
 					}
@@ -159,15 +174,15 @@ var KTWizard3 = function () {
 		var x = $('input[name=firstname]').val();
 		var y = $('input[name=lastname]').val();
 		var z = $('input[name=email]').val();
-		var p = $('input[name=number]').val();
+		var p = $('input[name=phone]').val();
 		var q = $('input[name=password]').val();
-		var r = $('input[name=organization]').val();
+		var r = $('input[name=organization_name]').val();
 		var a = $('input[name=address]').val();
 		var b = $('input[name=city]').val();
 		var c = $('input[name=state]').val();
 		var d = $('input[name=pincode]').val();
 		var e = $('select[name=country] option:selected').text();
-		document.getElementById('information').innerHTML = `<h5>${x + " " + y} <br> ${z} <br> ${p} <br> ${r} <br> ${q}</h5>`;
+		document.getElementById('information').innerHTML = `<h5>${x + " " + y} <br> ${z} <br> ${q} <br> ${r} <br> ${p}</h5>`;
 		document.getElementById('addressdetails').innerHTML = `<h5>${a} <br> ${b}, ${c} <br> ${e}<br> ${d}</h5>`;
 	}
 	return {
@@ -189,10 +204,10 @@ var KTWizard3 = function () {
 
 jQuery(document).ready(function () {
 	KTWizard3.init();
-
-
+	select2_dropdown();
 	var datatable = $('#userlist').KTDatatable({
 		// datasource definition
+		
 		data: {
 			type: 'remote',
 			source: {
@@ -243,7 +258,7 @@ jQuery(document).ready(function () {
 				template: function (row) {
 					var output = '';
 					output += '<span class="font-weight-bolder">' + row.firstname + '</span>';
-					output += '<div class="font-weight-bold text-muted" style="font-size:11px;">(' + row.role_name + ')</div>';
+					// output += '<div class="font-weight-bold text-muted" style="font-size:11px;">(' + row.role_name + ')</div>';
 					return output;
 					// return row.firstname;
 				}
@@ -289,10 +304,14 @@ jQuery(document).ready(function () {
 				overflow: 'visible',
 				autoHide: false,
 				template: function (row) {
-					return '\
-						<a href="javascript:;" title="Edit" onclick="user_edit(' + row.user_id + ')"><i class="far fa-edit text-success mr-3"></i></a>\
-						<a href="javascript:;" title="Delete" onclick="user_delete(' + row.user_id + ')"><i class="fas fa-trash text-danger"></i></a>\
-					';
+					var edbutton='';
+					if($.inArray(3, session_permission) !== -1) {
+						edbutton +='<a href="javascript:;" title="Edit" onclick="user_edit(' + row.user_id + ')"><i class="far fa-edit text-success mr-3"></i></a>';
+					}	
+					if($.inArray(4, session_permission) !== -1) {
+					edbutton +='<a href="javascript:;" title="Delete" onclick="user_delete(' + row.user_id + ')"><i class="fas fa-trash text-danger"></i></a>';
+					}
+					return edbutton;
 				},
 			}
 		],
@@ -308,9 +327,9 @@ jQuery(document).ready(function () {
 	});
 	$('#listuser').on('click', function () {
 		$("[class^='fv-plugins-message-container']").text('');
+		// location.reload(true);
 		datatableshow(title);
 	});
-
 
 	$('#users_form_submit_button').on('click', function () {
 		var data = $('#user_add_form').serialize();
@@ -331,6 +350,7 @@ jQuery(document).ready(function () {
 				} else {
 					toastr.error("Enter Proper Data!!!!");
 				}
+				$("#users_form_submit_button").prop('disabled', false);
 			},
 			error: function (xhr, status, error) {
 				var errorMessage = xhr.status + ': ' + xhr.statusText
@@ -352,13 +372,13 @@ jQuery(document).ready(function () {
 
 function modelshow(subtitle) {
 	$('#user_add_form')[0].reset();
+	$("#role_id").select2("val",0);
 	$("#kt_wizard_v3").removeClass("d-none");
 	$("#listuser").removeClass("d-none");
 	$('#userlist').hide();
 	$('#adduser').hide();
 	$('#user_dynamic_title').text('Add User');
 	$('#user_dynamic_subtitle_span').text(subtitle);
-	$('#user_add_form')[0].reset();
 }
 function datatableshow(title) {
 	$("#kt_wizard_v3").addClass("d-none");
@@ -369,13 +389,8 @@ function datatableshow(title) {
 }
 function user_edit(user_id) {
 	var subtitle = $('#user_dynamic_subtitle_span').text();
-	$("#listuser").removeClass("d-none");
-	$("#kt_wizard_v3").removeClass("d-none");
-	$('#userlist').hide();
-	$('#kt_wizard_v3').show();
-	$('#adduser').hide();
+	modelshow(subtitle);
 	$('#user_dynamic_title').text('Edit User');
-	$('#user_dynamic_subtitle_span').text(subtitle);
 
 	$.ajax({
 		type: "POST",
@@ -383,7 +398,7 @@ function user_edit(user_id) {
 		data: { user_id: user_id },
 		dataType: "json",
 		success: function (data) {
-			// console.log(data);
+			console.log(data.roledata[0].role_id);
 			$('#user_id').val(data.user_id);
 			$('#firstname').val(data.firstname);
 			$('#lastname').val(data.lastname);
@@ -391,6 +406,13 @@ function user_edit(user_id) {
 			$('#email').val(data.email);
 			$('#phone').val(data.phone);
 			$('#password').val(data.password);
+			
+			if (data.roledata != "") {
+				$("#role_id").val(data.roledata[0].role_id).select2();
+				data.roledata.forEach(function (element) {
+					$("input[value='" + element.permission_id + "']").prop('checked', true);
+				});
+			}
 			$('#address').val(data.address);
 			$('#pincode').val(data.pincode);
 			$('#city').val(data.city);
@@ -431,3 +453,31 @@ function user_delete(user_id) {
 	});
 }
 
+$('#SelectAll').on('click', function () {
+	$('input:checkbox').not(this).prop('checked', this.checked);
+});
+
+function roleSelection() {
+	$("input[type='checkbox']").prop('checked', false);
+	var id = $('#role_id').val();
+	$.ajax({
+		type: "POST",
+		url: baseFolder + 'role/editRole',
+		data: { id: id },
+		dataType: "json",
+		success: function (data) {
+			data.permission.forEach(function (element) {
+				// console.log(element.permission_id);
+				$("input[value='" + element.permission_id + "']").prop('checked', true);
+			});
+		}
+	});
+
+}
+
+var select2_dropdown = function () {
+	$('#role_id').select2({
+		placeholder: "Select role",
+		width: "100%"
+	});
+}

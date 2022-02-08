@@ -15,7 +15,6 @@ class Login extends BackendController
 	{
 		user_is_session_login();
 		$this->data['site_title'] = ucfirst('User Login');
-		// $this->data['taplate_css']=$this->load_grid_css('login');
 		$this->data['template_js'] = $this->load_grid_js('login');
 		$this->render_page($this->data['sitename_folder'] . 'login', $this->data, 1);
 	}
@@ -29,7 +28,7 @@ class Login extends BackendController
 		$data['email'] = $this->input->post('email');
 		$data['password'] = $this->input->post('password');
 		$data['status']= 0;
-		// print_r($data); exit;
+		
 		$this->form_validation->set_rules('email', 'Email address', 'trim|required|valid_email');
 		$this->form_validation->set_rules('password', 'Password', 'trim|required');
 		$this->form_validation->set_error_delimiters('<div class="text-danger">', '</div>');
@@ -47,21 +46,20 @@ class Login extends BackendController
 			$query = $this->login_m->login($data);
 		
 			if ($query) {
-                if ($query[0]->role_id == 3) {
-                    $company_id = $query[0]->parent_id;
-                } else {
-                    $company_id = $query[0]->user_id;
-                }
+				$permission =  $this->common_m->getPermission($query[0]->user_id);	
+        
                 $user = array(
                     'response' => 'success',
                     'user_id' => $query[0]->user_id,
                     'parent_id' => $query[0]->parent_id,
-                    'company_id' => $company_id,
+                    'company_id' => $query[0]->company_id,
                     'user_name' => $query[0]->firstname,
                     'email' => $query[0]->email,
-                    'role_id' => $query[0]->role_id
+                    'role_id' => array_unique(array_column($permission,'role_id'))[0],
+					'permission' => array_column($permission,'permission_id')
                 );
-                $this->session->set_userdata($user);
+				$this->session->set_userdata($user);
+
                 echo json_encode($user);
             } else {
 				$data_e['token'] = 'false';

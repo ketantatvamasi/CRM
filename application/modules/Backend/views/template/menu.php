@@ -1,4 +1,9 @@
-<?php $session = $this->session->userdata() ?>
+<?php
+$userPermissionArr =  $this->session->userdata('permission');
+?>
+<script>
+    var session_permission = [<?= implode(',',$userPermissionArr) ?>];
+</script>
 <!--begin::Main-->
 <!--begin::Header Mobile-->
 <div id="kt_header_mobile" class="header-mobile align-items-center  header-mobile-fixed d-print-none">
@@ -75,64 +80,106 @@
                                     <!--end::Svg Icon-->
                                 </span><span class="menu-text">Dashboard</span></a>
                         </li>
-                        <li class="menu-section">
-                            <h4 class="menu-text">Buyers & Sellers</h4>
-                            <i class="menu-icon ki ki-bold-more-hor icon-md"></i>
-                        </li>
-                        <li class="menu-item" aria-haspopup="true"><a href="<?= base_url('backend/users'); ?>" class="menu-link ">
-                                <span class="svg-icon menu-icon">
-                                    <!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\themes\metronic\theme\html\demo1\dist/../src/media/svg/icons\General\User.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-                                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                            <polygon points="0 0 24 0 24 24 0 24" />
-                                            <path d="M12,11 C9.790861,11 8,9.209139 8,7 C8,4.790861 9.790861,3 12,3 C14.209139,3 16,4.790861 16,7 C16,9.209139 14.209139,11 12,11 Z" fill="#000000" fill-rule="nonzero" opacity="0.3" />
-                                            <path d="M3.00065168,20.1992055 C3.38825852,15.4265159 7.26191235,13 11.9833413,13 C16.7712164,13 20.7048837,15.2931929 20.9979143,20.2 C21.0095879,20.3954741 20.9979143,21 20.2466999,21 C16.541124,21 11.0347247,21 3.72750223,21 C3.47671215,21 2.97953825,20.45918 3.00065168,20.1992055 Z" fill="#000000" fill-rule="nonzero" />
-                                        </g>
-                                    </svg>
+
+                        <?php
+                        if (in_array(1, $userPermissionArr) || in_array(5, $userPermissionArr) || in_array(9, $userPermissionArr)) { ?>
+                            <li class="menu-section">
+                                <h4 class="menu-text">Buyers & Sellers</h4>
+                                <i class="menu-icon ki ki-bold-more-hor icon-md"></i>
+                            </li>
+                        <?php }
+
+                        if (in_array(1, $userPermissionArr)) { ?>
+                            <li class="menu-item" aria-haspopup="true"><a href="<?= base_url('backend/users'); ?>" class="menu-link ">
+                                    <span class="svg-icon menu-icon">
+                                        <!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\themes\metronic\theme\html\demo1\dist/../src/media/svg/icons\General\User.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                <polygon points="0 0 24 0 24 24 0 24" />
+                                                <path d="M12,11 C9.790861,11 8,9.209139 8,7 C8,4.790861 9.790861,3 12,3 C14.209139,3 16,4.790861 16,7 C16,9.209139 14.209139,11 12,11 Z" fill="#000000" fill-rule="nonzero" opacity="0.3" />
+                                                <path d="M3.00065168,20.1992055 C3.38825852,15.4265159 7.26191235,13 11.9833413,13 C16.7712164,13 20.7048837,15.2931929 20.9979143,20.2 C21.0095879,20.3954741 20.9979143,21 20.2466999,21 C16.541124,21 11.0347247,21 3.72750223,21 C3.47671215,21 2.97953825,20.45918 3.00065168,20.1992055 Z" fill="#000000" fill-rule="nonzero" />
+                                            </g>
+                                        </svg>
+                                        <!--end::Svg Icon-->
+                                    </span><span class="menu-text">Users</span></a>
+                            </li>
+                        <?php
+                        }
+                        if (in_array(5, $userPermissionArr)) { ?>
+
+                            <li class="menu-item" aria-haspopup="true"><a href="<?= base_url('backend/vendor'); ?>" class="menu-link ">
+                                    <span class="svg-icon menu-icon">
+                                        <!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\themes\metronic\theme\html\demo1\dist/../src/media/svg/icons\Shopping\Box3.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                <rect x="0" y="0" width="24" height="24" />
+                                                <path d="M20.4061385,6.73606154 C20.7672665,6.89656288 21,7.25468437 21,7.64987309 L21,16.4115967 C21,16.7747638 20.8031081,17.1093844 20.4856429,17.2857539 L12.4856429,21.7301984 C12.1836204,21.8979887 11.8163796,21.8979887 11.5143571,21.7301984 L3.51435707,17.2857539 C3.19689188,17.1093844 3,16.7747638 3,16.4115967 L3,7.64987309 C3,7.25468437 3.23273352,6.89656288 3.59386153,6.73606154 L11.5938615,3.18050598 C11.8524269,3.06558805 12.1475731,3.06558805 12.4061385,3.18050598 L20.4061385,6.73606154 Z" fill="#000000" opacity="0.3" />
+                                                <polygon fill="#000000" points="14.9671522 4.22441676 7.5999999 8.31727912 7.5999999 12.9056825 9.5999999 13.9056825 9.5999999 9.49408582 17.25507 5.24126912" />
+                                            </g>
+                                        </svg>
+                                        <!--end::Svg Icon-->
+                                    </span><span class="menu-text">Vendors</span></a>
+                            </li>
+                        <?php
+                        }
+                        if (in_array(9, $userPermissionArr)) { ?>
+                            <li class="menu-item" aria-haspopup="true"><a href="<?= base_url('backend/customer'); ?>" class="menu-link ">
+                                    <i class="menu-icon flaticon-users icon-lg"></i>
                                     <!--end::Svg Icon-->
-                                </span><span class="menu-text">Users</span></a>
-                        </li>
-                        <li class="menu-item" aria-haspopup="true"><a href="<?= base_url('backend/vendor'); ?>" class="menu-link ">
-                                <span class="svg-icon menu-icon">
-                                    <!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\themes\metronic\theme\html\demo1\dist/../src/media/svg/icons\Shopping\Box3.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-                                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                            <rect x="0" y="0" width="24" height="24" />
-                                            <path d="M20.4061385,6.73606154 C20.7672665,6.89656288 21,7.25468437 21,7.64987309 L21,16.4115967 C21,16.7747638 20.8031081,17.1093844 20.4856429,17.2857539 L12.4856429,21.7301984 C12.1836204,21.8979887 11.8163796,21.8979887 11.5143571,21.7301984 L3.51435707,17.2857539 C3.19689188,17.1093844 3,16.7747638 3,16.4115967 L3,7.64987309 C3,7.25468437 3.23273352,6.89656288 3.59386153,6.73606154 L11.5938615,3.18050598 C11.8524269,3.06558805 12.1475731,3.06558805 12.4061385,3.18050598 L20.4061385,6.73606154 Z" fill="#000000" opacity="0.3" />
-                                            <polygon fill="#000000" points="14.9671522 4.22441676 7.5999999 8.31727912 7.5999999 12.9056825 9.5999999 13.9056825 9.5999999 9.49408582 17.25507 5.24126912" />
-                                        </g>
-                                    </svg>
-                                    <!--end::Svg Icon-->
-                                </span><span class="menu-text">Vendors</span></a>
-                        </li>
-                        <li class="menu-item" aria-haspopup="true"><a href="<?= base_url('backend/customer'); ?>" class="menu-link ">
-                                <i class="menu-icon flaticon-users icon-lg"></i>
-                                <!--end::Svg Icon-->
-                                </span><span class="menu-text">Customers</span>
-                            </a>
-                        </li>
-                        <li class="menu-section">
-                            <h4 class="menu-text">Items Inventory</h4>
-                            <i class="menu-icon ki ki-bold-more-hor icon-md"></i>
-                        </li>
-                        <li class="menu-item" aria-haspopup="true"><a href="<?= base_url('backend/item'); ?>" class="menu-link ">
-                                <span class="svg-icon menu-icon">
-                                    <!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\themes\metronic\theme\html\demo1\dist/../src/media/svg/icons\Shopping\Gift.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-                                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                            <rect x="0" y="0" width="24" height="24" />
-                                            <path d="M4,6 L20,6 C20.5522847,6 21,6.44771525 21,7 L21,8 C21,8.55228475 20.5522847,9 20,9 L4,9 C3.44771525,9 3,8.55228475 3,8 L3,7 C3,6.44771525 3.44771525,6 4,6 Z M5,11 L10,11 C10.5522847,11 11,11.4477153 11,12 L11,19 C11,19.5522847 10.5522847,20 10,20 L5,20 C4.44771525,20 4,19.5522847 4,19 L4,12 C4,11.4477153 4.44771525,11 5,11 Z M14,11 L19,11 C19.5522847,11 20,11.4477153 20,12 L20,19 C20,19.5522847 19.5522847,20 19,20 L14,20 C13.4477153,20 13,19.5522847 13,19 L13,12 C13,11.4477153 13.4477153,11 14,11 Z" fill="#000000" />
-                                            <path d="M14.4452998,2.16794971 C14.9048285,1.86159725 15.5256978,1.98577112 15.8320503,2.4452998 C16.1384028,2.90482849 16.0142289,3.52569784 15.5547002,3.83205029 L12,6.20185043 L8.4452998,3.83205029 C7.98577112,3.52569784 7.86159725,2.90482849 8.16794971,2.4452998 C8.47430216,1.98577112 9.09517151,1.86159725 9.5547002,2.16794971 L12,3.79814957 L14.4452998,2.16794971 Z" fill="#000000" fill-rule="nonzero" opacity="0.3" />
-                                        </g>
-                                    </svg>
-                                    <!--end::Svg Icon-->
-                                </span><span class="menu-text">Items</span></a>
-                        </li>
-                        <li class="menu-item" aria-haspopup="true"><a href="<?= base_url('backend/purchase'); ?>" class="menu-link ">
-                                <i class="menu-icon icon-md fas fa-cart-arrow-down"></i>
-                                <span class="menu-text"> Purchase</span></a>
-                        </li>
-                        <li class="menu-item" aria-haspopup="true"><a href="<?= base_url('backend/sale'); ?>" class="menu-link ">
-                                <i class="menu-icon flaticon-coins icon-lg"></i>
-                                <span class="menu-text">Sell</span></a>
-                        </li>
+                                    </span><span class="menu-text">Customers</span>
+                                </a>
+                            </li>
+                        <?php }
+                        if (in_array(13, $userPermissionArr) || in_array(17, $userPermissionArr) || in_array(21, $userPermissionArr)) { ?>
+                            <li class="menu-section">
+                                <h4 class="menu-text">Items Inventory</h4>
+                                <i class="menu-icon ki ki-bold-more-hor icon-md"></i>
+                            </li>
+                        <?php }
+                        if (in_array(13, $userPermissionArr)) { ?>
+                            <li class="menu-item" aria-haspopup="true"><a href="<?= base_url('backend/item'); ?>" class="menu-link ">
+                                    <span class="svg-icon menu-icon">
+                                        <!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\themes\metronic\theme\html\demo1\dist/../src/media/svg/icons\Shopping\Gift.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                <rect x="0" y="0" width="24" height="24" />
+                                                <path d="M4,6 L20,6 C20.5522847,6 21,6.44771525 21,7 L21,8 C21,8.55228475 20.5522847,9 20,9 L4,9 C3.44771525,9 3,8.55228475 3,8 L3,7 C3,6.44771525 3.44771525,6 4,6 Z M5,11 L10,11 C10.5522847,11 11,11.4477153 11,12 L11,19 C11,19.5522847 10.5522847,20 10,20 L5,20 C4.44771525,20 4,19.5522847 4,19 L4,12 C4,11.4477153 4.44771525,11 5,11 Z M14,11 L19,11 C19.5522847,11 20,11.4477153 20,12 L20,19 C20,19.5522847 19.5522847,20 19,20 L14,20 C13.4477153,20 13,19.5522847 13,19 L13,12 C13,11.4477153 13.4477153,11 14,11 Z" fill="#000000" />
+                                                <path d="M14.4452998,2.16794971 C14.9048285,1.86159725 15.5256978,1.98577112 15.8320503,2.4452998 C16.1384028,2.90482849 16.0142289,3.52569784 15.5547002,3.83205029 L12,6.20185043 L8.4452998,3.83205029 C7.98577112,3.52569784 7.86159725,2.90482849 8.16794971,2.4452998 C8.47430216,1.98577112 9.09517151,1.86159725 9.5547002,2.16794971 L12,3.79814957 L14.4452998,2.16794971 Z" fill="#000000" fill-rule="nonzero" opacity="0.3" />
+                                            </g>
+                                        </svg>
+                                        <!--end::Svg Icon-->
+                                    </span><span class="menu-text">Items</span></a>
+                            </li>
+                        <?php
+                        }
+                        if (in_array(17, $userPermissionArr)) { ?>
+                            <li class="menu-item" aria-haspopup="true"><a href="<?= base_url('backend/purchase'); ?>" class="menu-link ">
+                                    <i class="menu-icon icon-md fas fa-cart-arrow-down"></i>
+                                    <span class="menu-text"> Purchase</span></a>
+                            </li>
+                        <?php
+                        }
+                        if (in_array(21, $userPermissionArr)) { ?>
+                            <li class="menu-item" aria-haspopup="true"><a href="<?= base_url('backend/sale'); ?>" class="menu-link ">
+                                    <i class="menu-icon flaticon-coins icon-lg"></i>
+                                    <span class="menu-text">Sale</span></a>
+                            </li>
+                        <?php
+                        } ?>
+
+                        <?php
+
+                        if (in_array(25, $userPermissionArr)) { ?>
+
+                            <li class="menu-section">
+                                <h4 class="menu-text">Roles & Permissions</h4>
+                                <i class="menu-icon ki ki-bold-more-hor icon-md"></i>
+                            </li>
+                            <li class="menu-item" aria-haspopup="true"><a href="<?= base_url('backend/role'); ?>" class="menu-link ">
+                                    <i class="menu-icon flaticon-coins icon-lg"></i>
+                                    <span class="menu-text">Role</span></a>
+                            </li>
+
+                        <?php
+                        }
+                        ?>
                     </ul>
                     <!--end::Menu Nav-->
                 </div>
@@ -158,9 +205,9 @@
                             <div class="topbar-item" data-toggle="dropdown" data-offset="0px,0px">
                                 <div class="btn btn-icon btn-icon-mobile w-auto btn-clean d-flex align-items-center btn-lg px-2">
                                     <span class="text-muted font-weight-bold font-size-base d-none d-md-inline mr-1">Hi,</span>
-                                    <span class="text-dark-50 font-weight-bolder font-size-base d-none d-md-inline mr-3"><?= ucfirst($session['user_name']) ?></span>
+                                    <span class="text-dark-50 font-weight-bolder font-size-base d-none d-md-inline mr-3"><?= ucfirst($this->session->userdata('user_name')) ?></span>
                                     <span class="symbol symbol-lg-35 symbol-25 symbol-light-success">
-                                        <span class="symbol-label font-size-h5 font-weight-bold"><?= ucfirst($session['user_name'][0]) ?></span>
+                                        <span class="symbol-label font-size-h5 font-weight-bold"><?= ucfirst($this->session->userdata('user_name')[0]) ?></span>
                                     </span>
                                 </div>
                             </div>
@@ -175,7 +222,7 @@
                                     </div>
                                     <!--end::Symbol-->
                                     <!--begin::Text-->
-                                    <div class="text-dark m-0 flex-grow-1 mr-3 font-size-h5"><?= ucfirst($session['user_name']) ?></div>
+                                    <div class="text-dark m-0 flex-grow-1 mr-3 font-size-h5"><?= ucfirst($this->session->userdata('user_name')) ?></div>
                                     <span class="label label-light-success label-lg font-weight-bold label-inline">3 messages</span>
                                     <!--end::Text-->
                                 </div>

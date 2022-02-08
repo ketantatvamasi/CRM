@@ -13,6 +13,11 @@ class Purchase extends BackendController
   public function index()
   {
     user_is_logged_in();
+    $session = $this->session->userdata();
+    $userPermissionArr = $session['permission'];
+    if (!in_array(17, $userPermissionArr)) {
+      return $this->error();
+    }
     $this->data['site_title'] = ucfirst('Purchase');
     $this->data['template_css'] = $this->load_grid_css('sale_purchase');   //wizard3
     $this->data['template_js'] = $this->load_grid_js('purchase');
@@ -51,19 +56,29 @@ class Purchase extends BackendController
   }
   public function addpurchase_page()
   {
-    $session = $this->session->userdata['company_id'];
+    // $session = $this->session->userdata['company_id'];
     user_is_logged_in();
+    $session = $this->session->userdata();
+    $userPermissionArr = $session['permission'];
+    if (!in_array(17, $userPermissionArr)) {
+      return $this->error();
+    }
     $this->data['site_title'] = ucfirst('Purchase');
     $this->data['template_css'] = $this->load_grid_css('sale_purchase');   //wizard3
     $this->data['template_js'] = $this->load_grid_js('purchase');
-    $this->data['record']['vendor_list'] = $this->common_m->get_common_master('vendors', array("id", "contact_person_name", "company_name"), array("company_id" => $session), "contact_person_name ASC");
-    $this->data['record']['item_list'] = $this->common_m->get_common_master('items', array("id", "item_name"), array("company_id" => $session), "item_name ASC");
+    // $this->data['record']['vendor_list'] = $this->common_m->get_common_master('vendors', array("id", "contact_person_name", "company_name"), array("company_id" => $session), "contact_person_name ASC");
+    // $this->data['record']['item_list'] = $this->common_m->get_common_master('items', array("id", "item_name"), array("company_id" => $session), "item_name ASC");
     $this->render_page($this->data['sitename_folder'] . 'addpurchase_v', $this->data);
   }
 
   public function editpurchase()
   {
     user_is_logged_in();
+    $session = $this->session->userdata();
+    $userPermissionArr = $session['permission'];
+    if (!in_array(17, $userPermissionArr)) {
+      return $this->error();
+    }
     $this->data['site_title'] = ucfirst('purchase');
     $this->data['template_css'] = $this->load_grid_css('sale_purchase');
     $this->data['template_js'] = $this->load_grid_js('purchase');
@@ -422,5 +437,4 @@ class Purchase extends BackendController
 
     echo json_encode($data);
   }
- 
 }

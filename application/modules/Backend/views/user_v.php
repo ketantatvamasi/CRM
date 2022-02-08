@@ -1,3 +1,6 @@
+<?php
+$userPermissionArr = $this->session->userdata('permission');
+?>
 <!--begin::Content-->
 <div class="content  d-flex flex-column flex-column-fluid" id="kt_content">
     <!--begin::Entry-->
@@ -21,9 +24,11 @@
                             </div>
                             <div class="card-toolbar">
                                 <!--begin::Button-->
-                                <button type="button" class="btn btn-primary font-weight-bolder " id="adduser">
-                                    <i class="fas fa-user-plus"></i> Add <?= $load_data['site_title']; ?>
-                                </button>
+                                <?php if (in_array(2, $userPermissionArr)) { ?>
+                                    <button type="button" class="btn btn-primary font-weight-bolder " id="adduser">
+                                        <i class="fas fa-user-plus"></i> Add <?= $load_data['site_title']; ?>
+                                    </button>
+                                <?php } ?>
                                 <!--end::Button-->
                                 <!--begin::Button-->
                                 <button type="button" class="btn btn-primary font-weight-bolder d-none" id="listuser">
@@ -130,6 +135,43 @@
                                                     <input type="password" class="form-control" name="password" id="password" placeholder="Enter your password" />
                                                 </div>
                                                 <!--end::Input-->
+                                                <!--begin::Input-->
+                                                <label>Role</label><span class="text-danger">*</span>
+                                                <div class="form-group">
+
+                                                    <select class="form-control" name="role_id" id="role_id" onchange="roleSelection()">
+                                                        <option value=""></option>
+                                                        <?php foreach ($load_data['record']['role_list'] as $val) {
+                                                            echo "<option value='" . $val->id . "'>" . $val->role_name . "</option>";
+                                                        }
+                                                        ?>
+                                                    </select>
+                                                </div>
+                                                <div class="form-check mt-13">
+                                                    <input type="checkbox" class="form-check-input" id="SelectAll">
+                                                    <label class="form-check-label" for="SelectAll">Select All</label>
+                                                </div>
+                                                <!--end::Input-->
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <div class="tab-content">
+                                                            <div class="row">
+                                                                <?php
+                                                                foreach ($load_data['record']['permission'] as $key => $value) {
+                                                                    echo '<div class="col-lg-3">
+                                                                            <div class="mt-3">
+                                                                                <div class="form-check">
+                                                                                    <input type="checkbox" name="permissions[]" class="form-check-input" id="customCheck' . $value['permission_name'] . '" value="' . $value['id'] . '">
+                                                                                    <label class="form-check-label" for="customCheck' . $value['permission_name'] . '">' . $value['permission_name'] . '</label>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>';
+                                                                }
+                                                                ?>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
 
                                             <!--end: Wizard Step 1-->
