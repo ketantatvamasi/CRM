@@ -117,4 +117,11 @@ class Common_m extends CI_Model
         $query = $this->db->get();
         return $query->result();
     }
+
+    public function getPermission($user_id){
+        $this->db->select('role_id,permission_id');
+        $this->db->where('user_id',$user_id);
+         $query= $this->db->get('user_role_permission');
+         return $query->result_array();
+    }
 }

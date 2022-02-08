@@ -148,7 +148,7 @@ jQuery(document).ready(function () {
 				overflow: 'visible',
 				template: function (row) {
 					return '\
-					<div class="dropdown dropdown-inline"><a href="javascript:;" title="Edit" onclick="role_edit(' + row.role_id + ')"><i class="icon-lg fa fa-cog text-warning mr-3"></i></a>\
+					<div class="dropdown dropdown-inline"><a href="javascript:;" title="Edit" onclick="role_edit(' + row.role_id + ')"><i class="far fa-edit text-success mr-3"></i></a>\
 						<a href="javascript:;" title="Delete" onclick="role_delete(' + row.role_id + ')"><i class="fas fa-trash text-danger"></i></a></div>';
 				},
 			}

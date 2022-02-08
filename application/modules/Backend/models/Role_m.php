@@ -68,4 +68,9 @@ class Role_m extends CI_Model
         $this->db->from($this->table);
         return $this->db->count_all_results();
     }
+
+    public function getPermission(){
+       return  $this->db->get('permission_menus')->result_array();
+    }
+
 }
