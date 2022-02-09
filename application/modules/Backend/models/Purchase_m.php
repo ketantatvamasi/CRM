@@ -68,6 +68,19 @@ class Purchase_m extends CI_Model
         return $this->db->count_all_results();
     }
 
+    public function get_purchaseTotal(){
+        $this->db->select_sum('total_amount');
+        $this->db->from($this->table);
+        if ($this->session->userdata['user_id'] != 1) {
+            if ($this->session->userdata['parent_id'] != 1) {
+                $this->db->where('user_id', $this->session->userdata['user_id']);
+            } else {
+                $this->db->where('company_id', $this->session->userdata['company_id']);
+            }
+        }
+        $query = $this->db->get()->row();
+        return $query->total_amount;
+    }
     public function getitem($id)
     {
         $this->db->select('*');

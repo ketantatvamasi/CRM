@@ -17,15 +17,6 @@ class Sale_m extends CI_Model
         $this->db->select($this->select_column);
         $this->db->from($this->table);
         $this->db->join('customers as cm', 'cm.id = sale.customer_id');
-
-        // if ($this->session->userdata('role_id') == 2) {
-        //     $this->db->join('customers as cm', 'cm.id = sale.customer_id');
-        //     $this->db->where('sale.company_id', $this->session->userdata['user_id']);
-        // } else if ($this->session->userdata('role_id') == 3) {
-        //     $this->db->where('user_id', $this->session->userdata['user_id']);
-        // }
-        
-
         if ($this->session->userdata['user_id'] != 1) {
             if ($this->session->userdata['parent_id'] != 1) {
                 $this->db->where('sale.user_id', $this->session->userdata['user_id']);
@@ -77,6 +68,19 @@ class Sale_m extends CI_Model
     {
         $this->db->from($this->table);
         return $this->db->count_all_results();
+    }
+    public function get_saleTotal(){
+        $this->db->select_sum('total_amount');
+        $this->db->from($this->table);
+        if ($this->session->userdata['user_id'] != 1) {
+            if ($this->session->userdata['parent_id'] != 1) {
+                $this->db->where('user_id', $this->session->userdata['user_id']);
+            } else {
+                $this->db->where('company_id', $this->session->userdata['company_id']);
+            }
+        }
+        $query = $this->db->get()->row();
+        return $query->total_amount;
     }
 
     public function getitem($id)

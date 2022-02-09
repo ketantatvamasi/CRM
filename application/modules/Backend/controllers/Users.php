@@ -70,8 +70,6 @@ class Users extends BackendController
         }
         $data = $this->input->post();
         $userdata = array(
-            // 'role_id'=>$data['role_id'],
-            'company_id' => $this->session->userdata('company_id'),
             'firstname' => $data['firstname'],
             'lastname' => $data['lastname'],
             'organization_name' => $data['organization_name'],
@@ -87,8 +85,15 @@ class Users extends BackendController
 
         if ($data['user_id'] == "") {
             $userdata['parent_id'] = $_SESSION['user_id'];
+
             $this->db->trans_begin();
             $user_id = $this->common_m->last_insert_id('users', $userdata);
+            if ($this->session->userdata('user_id') != 1) {
+                $userdata['company_id'] = $this->session->userdata('company_id');
+            } else {
+                $userdata['company_id'] = $user_id;
+            }
+            $this->common_m->update_record('users', $userdata, array('user_id' => $user_id));
             foreach ($permissions as  $key => $value) {
                 $roledata[$key]['permission_id'] = $value;
                 $roledata[$key]['role_id'] = $data['role_id'];
