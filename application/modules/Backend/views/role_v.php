@@ -59,7 +59,7 @@ $userPermissionArr = $this->session->userdata('permission');
                                     <div class="col-lg-3">
                                         <div class="form-check mt-13">
                                             <input type="checkbox" class="form-check-input" id="SelectAll">
-                                            <label class="form-check-label" for="SelectAll">Select All</label>
+                                            <label class="form-check-label" for="SelectAll">&nbsp Select All</label>
                                         </div>
                                     </div>
                                 </div>
@@ -74,7 +74,7 @@ $userPermissionArr = $this->session->userdata('permission');
                                                             <div class="mt-3">
                                                                 <div class="form-check">
                                                                     <input type="checkbox" name="permissions[]" class="form-check-input" id="customCheck' . $value['permission_name'] . '" value="' . $value['id'] . '">
-                                                                    <label class="form-check-label" for="customCheck' . $value['permission_name'] . '">' . $value['permission_name'] . '</label>
+                                                                    <label class="form-check-label" for="customCheck' . $value['permission_name'] . '"> &nbsp' . $value['permission_name'] . '</label>
                                                                 </div>
                                                             </div>
                                                         </div>';
