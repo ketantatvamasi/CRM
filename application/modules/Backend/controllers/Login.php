@@ -22,13 +22,13 @@ class Login extends BackendController
 	public function login()
 	{
 		if (!$this->input->is_ajax_request()) {
-            $this->error();
-            return false;
-        }
+			$this->error();
+			return false;
+		}
 		$data['email'] = $this->input->post('email');
 		$data['password'] = $this->input->post('password');
-		$data['status']= 0;
-		
+		$data['status'] = 0;
+
 		$this->form_validation->set_rules('email', 'Email address', 'trim|required|valid_email');
 		$this->form_validation->set_rules('password', 'Password', 'trim|required');
 		$this->form_validation->set_error_delimiters('<div class="text-danger">', '</div>');
@@ -44,24 +44,25 @@ class Login extends BackendController
 		} else {
 
 			$query = $this->login_m->login($data);
-		
-			if ($query) {
-				$permission =  $this->common_m->getPermission($query[0]->user_id);	
-        
-                $user = array(
-                    'response' => 'success',
-                    'user_id' => $query[0]->user_id,
-                    'parent_id' => $query[0]->parent_id,
-                    'company_id' => $query[0]->company_id,
-                    'user_name' => $query[0]->firstname,
-                    'email' => $query[0]->email,
-                    'role_id' => array_unique(array_column($permission,'role_id'))[0],
-					'permission' => array_column($permission,'permission_id')
-                );
-				$this->session->set_userdata($user);
 
-                echo json_encode($user);
-            } else {
+			if ($query) {
+				$permission =  $this->common_m->getPermission($query[0]->user_id);
+
+				$user = array(
+					'response' => 'success',
+					'user_id' => $query[0]->user_id,
+					'parent_id' => $query[0]->parent_id,
+					'company_id' => $query[0]->company_id,
+					'user_name' => $query[0]->firstname,
+					'email' => $query[0]->email,
+					'ip_address' => $this->input->ip_address(),
+					'role_id' => array_unique(array_column($permission, 'role_id'))[0],
+					'permission' => array_column($permission, 'permission_id')
+				);
+				$this->session->set_userdata($user);
+				$this->activityLog('Login','Login by '.$this->session->userdata('user_name')); // Used only in login component 
+				echo json_encode($user);
+			} else {
 				$data_e['token'] = 'false';
 				return $this->output
 					->set_content_type('application/json')
@@ -82,19 +83,19 @@ class Login extends BackendController
 	}
 
 	public function statusChange()
-    {
-        if (!$this->input->is_ajax_request()) {
-            $this->error();
-            return false;
-        }
-        $user_id = $this->input->post('user_id');
-        if ($this->input->post('status') == '0') {
-            $status = 1;
-        } else {
-            $status = 0;
-        }
-        $response = $this->common_m->update_record($this->input->post('table'), array("status" => $status), array($this->input->post('id') => $user_id));
-        $data['response'] = $response;
-        echo json_encode($data);
-    }
+	{
+		if (!$this->input->is_ajax_request()) {
+			$this->error();
+			return false;
+		}
+		$user_id = $this->input->post('user_id');
+		if ($this->input->post('status') == '0') {
+			$status = 1;
+		} else {
+			$status = 0;
+		}
+		$response = $this->common_m->update_record($this->input->post('table'), array("status" => $status), array($this->input->post('id') => $user_id));
+		$data['response'] = $response;
+		echo json_encode($data);
+	}
 }

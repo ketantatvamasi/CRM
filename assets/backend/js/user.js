@@ -207,7 +207,7 @@ jQuery(document).ready(function () {
 	select2_dropdown();
 	var datatable = $('#userlist').KTDatatable({
 		// datasource definition
-		
+
 		data: {
 			type: 'remote',
 			source: {
@@ -304,12 +304,12 @@ jQuery(document).ready(function () {
 				overflow: 'visible',
 				autoHide: false,
 				template: function (row) {
-					var edbutton='';
-					if($.inArray(3, session_permission) !== -1) {
-						edbutton +='<a href="javascript:;" title="Edit" onclick="user_edit(' + row.user_id + ')"><i class="far fa-edit text-success mr-3"></i></a>';
-					}	
-					if($.inArray(4, session_permission) !== -1) {
-					edbutton +='<a href="javascript:;" title="Delete" onclick="user_delete(' + row.user_id + ')"><i class="fas fa-trash text-danger"></i></a>';
+					var edbutton = '';
+					if ($.inArray(3, session_permission) !== -1) {
+						edbutton += '<a href="javascript:;" title="Edit" onclick="user_edit(' + row.user_id + ')"><i class="far fa-edit text-success mr-3"></i></a>';
+					}
+					if ($.inArray(4, session_permission) !== -1) {
+						edbutton += '<a href="javascript:;" title="Delete" onclick="user_delete(' + row.user_id + ')"><i class="fas fa-trash text-danger"></i></a>';
 					}
 					return edbutton;
 				},
@@ -331,14 +331,29 @@ jQuery(document).ready(function () {
 		datatableshow(title);
 	});
 
-	$('#users_form_submit_button').on('click', function () {
-		var data = $('#user_add_form').serialize();
+	$("#user_image").change(function () {
+
+		let filename = this.files[0].name;
+		$('#show_name').val(filename);
+		// console.log(filename);
+	});
+
+	// $('#users_form_submit_button').on('click', function () {
+	$('#user_add_form').on('submit', function (e) {
+		e.preventDefault();
+		// var data = $('#user_add_form').serialize();
+
 
 		$.ajax({
-			method: 'post',
+			// method: 'post',
+			type: 'POST',
 			url: baseFolder + 'Users/adduser',
-			data: data,
+			// data: data,
 			dataType: "json",
+			data: new FormData(this),
+			contentType: false,
+			cache: false,
+			processData: false,
 			beforeSend: function () {
 				$("#users_form_submit_button").prop('disabled', true);
 			},
@@ -347,6 +362,7 @@ jQuery(document).ready(function () {
 					datatableshow(title);
 					toastr.success('Successfully save');
 					$('#userlist').KTDatatable('reload');
+					$('#user_id').val("");
 				} else {
 					toastr.error("Enter Proper Data!!!!");
 				}
@@ -369,10 +385,22 @@ jQuery(document).ready(function () {
 		});
 	});
 });
+// Image Show Section 
+function readURL(input) {
+	$('#onImageSelect').removeClass('d-none');
+	if (input.files && input.files[0]) {
+		var reader = new FileReader();
 
+		reader.onload = function (e) {
+			$('#imageShow').attr('src', e.target.result).width(150).height(150);
+		};
+
+		reader.readAsDataURL(input.files[0]);
+	}
+}
 function modelshow(subtitle) {
 	$('#user_add_form')[0].reset();
-	$("#role_id").select2("val",0);
+	select2_dropdown();
 	$("#kt_wizard_v3").removeClass("d-none");
 	$("#listuser").removeClass("d-none");
 	$('#userlist').hide();
@@ -386,6 +414,7 @@ function datatableshow(title) {
 	$('#userlist').show();
 	$('#adduser').show();
 	$('#user_dynamic_title').text(title);
+	$('#onImageSelect').addClass('d-none');
 }
 function user_edit(user_id) {
 	var subtitle = $('#user_dynamic_subtitle_span').text();
@@ -398,7 +427,12 @@ function user_edit(user_id) {
 		data: { user_id: user_id },
 		dataType: "json",
 		success: function (data) {
-			console.log(data.roledata[0].role_id);
+			// console.log(data.roledata[0].role_id);
+			if (data.user_image != null) {
+				$('#onImageSelect').removeClass('d-none');
+			}
+
+			$('#imageShow').attr('src', data.user_image).width(150).height(150);
 			$('#user_id').val(data.user_id);
 			$('#firstname').val(data.firstname);
 			$('#lastname').val(data.lastname);
@@ -406,7 +440,7 @@ function user_edit(user_id) {
 			$('#email').val(data.email);
 			$('#phone').val(data.phone);
 			$('#password').val(data.password);
-			
+
 			if (data.roledata != "") {
 				$("#role_id").val(data.roledata[0].role_id).select2();
 				data.roledata.forEach(function (element) {
@@ -472,7 +506,6 @@ function roleSelection() {
 			});
 		}
 	});
-
 }
 
 var select2_dropdown = function () {

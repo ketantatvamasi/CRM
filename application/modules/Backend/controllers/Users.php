@@ -68,7 +68,21 @@ class Users extends BackendController
             $this->error();
             return false;
         }
+        $config = [
+            'upload_path' => './userimage/',
+            'allowed_types' => 'jpg|png|jpeg|svg',
+        ];
+
+        $this->load->library('upload', $config);
+        $this->upload->do_upload('user_image');
         $data = $this->input->post();
+        $data['image_data'] = $this->upload->data();
+
+        // print_r($data);
+        // exit;
+        $image_path = base_url("userimage/" . $data['image_data']['raw_name'] . $data['image_data']['file_ext']);
+
+
         $userdata = array(
             'firstname' => $data['firstname'],
             'lastname' => $data['lastname'],
@@ -82,10 +96,12 @@ class Users extends BackendController
             'country' => $data['country']
         );
         $permissions = $data['permissions'];
+        if ($data['image_data']['raw_name'] != "") {
+            $userdata['user_image'] = $image_path;
+        }
 
         if ($data['user_id'] == "") {
             $userdata['parent_id'] = $_SESSION['user_id'];
-
             $this->db->trans_begin();
             $user_id = $this->common_m->last_insert_id('users', $userdata);
             if ($this->session->userdata('user_id') != 1) {
@@ -109,6 +125,8 @@ class Users extends BackendController
         } else {
 
             $this->db->trans_begin();
+            
+
             $this->common_m->update_record('users', $userdata, array('user_id' => $data['user_id']));
             foreach ($permissions as  $key => $value) {
                 $roledata[$key]['permission_id'] = $value;

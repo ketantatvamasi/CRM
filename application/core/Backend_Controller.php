@@ -164,6 +164,17 @@ class BackendController extends MY_Controller
         $this->load->view('backend/template/error');
     }
 
+    public function activityLog($title,$description)
+    {
+        $logData = array(
+            'user_id' => $_SESSION['user_id'],
+            'company_id' => $_SESSION['company_id'],
+            'ip_address' => $this->input->ip_address(),
+            'title' => $title,
+            'description' => $description
+        );
+        $this->common_m->insert_record('activity_log', $logData);
+    }
 
     public function SendEmail($to_email, $subject, $data)
     {

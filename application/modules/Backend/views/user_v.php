@@ -92,11 +92,26 @@ $userPermissionArr = $this->session->userdata('permission');
                                 <div class="row justify-content-center py-10 px-8 py-lg-12 px-lg-10">
                                     <div class="col-xl-12 col-xxl-7">
                                         <!--begin: Wizard Form-->
-                                        <form class="form" id="user_add_form">
+                                        <form class="form" id="user_add_form" enctype="multipart/form-data">
                                             <input type="hidden" name="user_id" id="user_id">
                                             <!--begin: Wizard Step 1-->
                                             <div class="pb-5" data-wizard-type="step-content" data-wizard-state="current">
                                                 <h4 class="mb-10 font-weight-bold text-dark">User Information</h4>
+                                                <div class="form-group">
+                                                    <input style="visibility:hidden;" type="file" name="user_image" id="user_image" onchange="readURL(this);" />
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Profile Picture</label>
+                                                    <div class="input-group mb-3">
+                                                        <label for="user_image" class="input-group-text"><i class="fas fa-upload"></i></label>
+                                                        <input type="text" id="show_name" class="form-control">
+                                                    </div>
+                                                </div>
+                                                <div align=center class="d-none" id="onImageSelect" style="margin-top: 3%;">
+                                                    <img id="imageShow" src="#" alt="Upload File" width="150" height="150">
+                                                </div>
+
+
                                                 <!--begin::Input-->
                                                 <div class="form-group">
                                                     <label>First name</label><span class="text-danger">*</span>
@@ -544,7 +559,7 @@ $userPermissionArr = $this->session->userdata('permission');
                                                     </button>
                                                 </div>
                                                 <div>
-                                                    <button type="button" id="users_form_submit_button" class="btn btn-success font-weight-bold text-uppercase px-9 py-4" data-wizard-type="action-submit">
+                                                    <button type="submit" id="users_form_submit_button" class="btn btn-success font-weight-bold text-uppercase px-9 py-4" data-wizard-type="action-submit">
                                                         Submit
                                                     </button>
                                                     <button type="button" id="nextbutton" class="btn btn-primary font-weight-bold text-uppercase px-9 py-4" data-wizard-type="action-next">
